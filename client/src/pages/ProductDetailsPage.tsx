@@ -109,6 +109,12 @@ function ProductDetailsPage() {
       <PageHeader
         title={product.title}
         description={product.description}
+        eyebrow="Product Detail"
+        metaItems={[
+          { label: 'Category', value: formatCategoryLabel(product.category) },
+          { label: 'Rating', value: formatRating(product.rating) },
+          { label: 'In stock', value: `${product.stock} units` },
+        ]}
         action={
           <Link
             to="/products"
@@ -160,6 +166,13 @@ function ProductDetailsPage() {
               <p className="mt-2 inline-flex items-center gap-2 text-2xl font-semibold text-slate-950">
                 <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                 {formatRating(product.rating)}
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-slate-50 p-4">
+              <p className="text-sm text-slate-500">Discount</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-950">
+                {formatRating(product.discountPercentage)}%
               </p>
             </div>
           </div>
@@ -219,6 +232,22 @@ function ProductDetailsPage() {
               </>
             ) : null}
           </div>
+
+          {product.tags && product.tags.length > 0 ? (
+            <div className="mt-6">
+              <p className="text-sm font-semibold text-slate-900">Tags</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {product.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </article>
       </section>
     </>

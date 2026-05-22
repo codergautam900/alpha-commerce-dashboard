@@ -9,7 +9,7 @@ type InfoCardProps = {
 
 function InfoCard({ title, value, description, icon }: InfoCardProps) {
   return (
-    <article className="relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-35px_rgba(15,23,42,0.4)]">
+    <article className="page-reveal relative overflow-hidden rounded-[28px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-35px_rgba(15,23,42,0.4)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_80px_-38px_rgba(15,23,42,0.42)]">
       <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#0f172a_0%,#1d4ed8_55%,#f59e0b_100%)]" />
       <div className="flex items-start justify-between gap-4">
         <div>

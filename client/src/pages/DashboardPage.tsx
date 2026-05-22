@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import CategoryDistributionChart from '../components/analytics/CategoryDistributionChart'
 import InfoCard from '../components/ui/InfoCard'
 import LiveUpdatesFeed from '../components/ui/LiveUpdatesFeed'
+import OperationsPulsePanel from '../components/ui/OperationsPulsePanel'
 import PageHeader from '../components/ui/PageHeader'
 import PageLoader from '../components/ui/PageLoader'
 import StatePanel from '../components/ui/StatePanel'
@@ -98,6 +99,15 @@ function DashboardPage() {
       <PageHeader
         title="Overview"
         description="Live analytics from the DummyJSON product catalog, including inventory value, average rating, and category distribution."
+        eyebrow="Alpha Control Room"
+        metaItems={[
+          { label: 'Catalog size', value: formatNumber(analytics.totalProducts) },
+          { label: 'Category leader', value: analytics.largestCategoryLabel },
+          {
+            label: 'Healthy stock',
+            value: `${formatRating(analytics.healthyInventoryRate)}%`,
+          },
+        ]}
         action={
           <Link
             to="/products"
@@ -108,6 +118,8 @@ function DashboardPage() {
           </Link>
         }
       />
+
+      <OperationsPulsePanel analytics={analytics} />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {overviewCards.map((card) => (

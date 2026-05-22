@@ -6,7 +6,7 @@ function LiveUpdatesFeed() {
   const { connectionStatus, recentEvents } = useLiveUpdates()
 
   return (
-    <article className="rounded-[28px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-28px_rgba(15,23,42,0.35)] backdrop-blur">
+    <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-28px_rgba(15,23,42,0.35)] backdrop-blur">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">
@@ -15,12 +15,22 @@ function LiveUpdatesFeed() {
           <h2 className="mt-2 text-xl font-semibold text-slate-950">
             Live activity stream
           </h2>
+          <p className="mt-2 text-sm text-slate-600">
+            {recentEvents.length > 0
+              ? `${recentEvents.length} recent events are being surfaced in real time.`
+              : 'The stream will populate as simulated catalog events arrive.'}
+          </p>
         </div>
 
-        <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
-          {connectionStatus}
-        </span>
+        <div className="space-y-2 text-right">
+          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            {connectionStatus}
+          </span>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            Buffer {recentEvents.length}/6
+          </p>
+        </div>
       </div>
 
       <div className="mt-5 space-y-3">

@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 
 type ProductGalleryProps = {
@@ -10,6 +11,19 @@ function ProductGallery({ images, title }: ProductGalleryProps) {
   const galleryImages = images.length > 0 ? images : ['']
 
   const activeImage = galleryImages[activeImageIndex] ?? galleryImages[0]
+  const totalImages = galleryImages.length
+
+  const showPreviousImage = () => {
+    setActiveImageIndex((currentIndex) =>
+      currentIndex === 0 ? totalImages - 1 : currentIndex - 1,
+    )
+  }
+
+  const showNextImage = () => {
+    setActiveImageIndex((currentIndex) =>
+      currentIndex === totalImages - 1 ? 0 : currentIndex + 1,
+    )
+  }
 
   return (
     <div className="grid gap-4 sm:grid-cols-[92px_1fr]">
@@ -39,6 +53,36 @@ function ProductGallery({ images, title }: ProductGalleryProps) {
       </div>
 
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
+        <div className="flex items-center justify-between border-b border-slate-200/80 bg-white/80 px-4 py-3 backdrop-blur">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+              Gallery
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-900">
+              {activeImageIndex + 1} of {totalImages}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={showPreviousImage}
+              className="rounded-2xl border border-slate-200 bg-white p-2 text-slate-700 transition hover:bg-slate-100"
+              aria-label="Show previous image"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={showNextImage}
+              className="rounded-2xl border border-slate-200 bg-white p-2 text-slate-700 transition hover:bg-slate-100"
+              aria-label="Show next image"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+
         {activeImage ? (
           <img
             src={activeImage}

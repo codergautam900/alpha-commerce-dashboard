@@ -117,6 +117,12 @@ function ProductsPage() {
       <PageHeader
         title="Products"
         description="This screen now uses the DummyJSON products API with URL-synced search, multi-category filters, sorting, and client-side pagination."
+        eyebrow="Catalog Workspace"
+        metaItems={[
+          { label: 'Catalog size', value: `${totalProducts} products` },
+          { label: 'Categories', value: `${categories.length} available` },
+          { label: 'Page size', value: `${PRODUCT_PAGE_SIZE} per page` },
+        ]}
         action={
           <Link
             to={`/products/${paginatedProducts.items[0]?.id ?? 1}`}
