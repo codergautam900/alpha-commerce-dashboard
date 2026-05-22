@@ -7,8 +7,13 @@ export type Product = {
   discountPercentage: number
   rating: number
   stock: number
+  availabilityStatus?: string
   brand?: string
   sku?: string
+  minimumOrderQuantity?: number
+  shippingInformation?: string
+  warrantyInformation?: string
+  tags?: string[]
   thumbnail: string
   images: string[]
 }
@@ -28,3 +33,17 @@ export type ProductListParams = {
   order?: 'asc' | 'desc'
   category?: string
 }
+
+export type ProductCategory = {
+  slug: string
+  name: string
+  url: string
+}
+
+export type ProductSortValue =
+  | 'title-asc'
+  | 'title-desc'
+  | 'price-asc'
+  | 'price-desc'
+  | 'rating-asc'
+  | 'rating-desc'

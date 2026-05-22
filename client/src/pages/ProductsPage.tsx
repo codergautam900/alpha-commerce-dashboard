@@ -1,104 +1,185 @@
-import { ArrowUpDown, Filter, Search } from 'lucide-react'
+import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import ProductCard from '../components/products/ProductCard'
+import ProductFilters from '../components/products/ProductFilters'
+import ProductTable from '../components/products/ProductTable'
+import PageLoader from '../components/ui/PageLoader'
 import PageHeader from '../components/ui/PageHeader'
-
-const sampleRows = [
-  {
-    id: 1,
-    name: 'Wireless Headphones',
-    category: 'Audio',
-    price: '$129.00',
-    stock: 'In Stock',
-    rating: '4.7',
-  },
-  {
-    id: 2,
-    name: 'Smart Desk Lamp',
-    category: 'Home',
-    price: '$59.00',
-    stock: 'Low Stock',
-    rating: '4.3',
-  },
-  {
-    id: 3,
-    name: 'Portable Speaker',
-    category: 'Audio',
-    price: '$89.00',
-    stock: 'In Stock',
-    rating: '4.5',
-  },
-]
+import PaginationControls from '../components/ui/PaginationControls'
+import StatePanel from '../components/ui/StatePanel'
+import { useProductFilters } from '../hooks/useProductFilters'
+import { useProductsCatalog } from '../hooks/useProductsCatalog'
+import {
+  PRODUCT_PAGE_SIZE,
+  filterProducts,
+  paginateProducts,
+  sortProducts,
+} from '../utils/products'
 
 function ProductsPage() {
+  const {
+    activeFilterCount,
+    changePage,
+    changeSort,
+    clearFilters,
+    currentPage,
+    debouncedSearch,
+    searchInput,
+    selectedCategories,
+    setSearchInput,
+    sortValue,
+    toggleCategory,
+  } = useProductFilters()
+
+  const { categories, error, isError, isLoading, products, refetchAll, totalProducts } =
+    useProductsCatalog()
+
+  // Filtering, sorting, and pagination are memoized so the full catalog is not recalculated on every render.
+  const filteredProducts = useMemo(
+    () => filterProducts(products, debouncedSearch, selectedCategories),
+    [products, debouncedSearch, selectedCategories],
+  )
+
+  const sortedProducts = useMemo(
+    () => sortProducts(filteredProducts, sortValue),
+    [filteredProducts, sortValue],
+  )
+
+  const paginatedProducts = useMemo(
+    () => paginateProducts(sortedProducts, currentPage, PRODUCT_PAGE_SIZE),
+    [sortedProducts, currentPage],
+  )
+
+  useEffect(() => {
+    if (paginatedProducts.safePage !== currentPage) {
+      changePage(paginatedProducts.safePage)
+    }
+  }, [changePage, currentPage, paginatedProducts.safePage])
+
+  if (isLoading) {
+    return (
+      <>
+        <PageHeader
+          title="Products"
+          description="Loading the product catalog, categories, and URL-linked filters."
+        />
+        <PageLoader message="Fetching products..." />
+      </>
+    )
+  }
+
+  if (isError) {
+    return (
+      <>
+        <PageHeader
+          title="Products"
+          description="The product listing could not be loaded right now."
+        />
+        <StatePanel
+          title="Unable to load products"
+          description={
+            error instanceof Error
+              ? error.message
+              : 'Something went wrong while contacting the products API.'
+          }
+          tone="error"
+          action={
+            <button
+              type="button"
+              onClick={refetchAll}
+              className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+              Try again
+            </button>
+          }
+        />
+      </>
+    )
+  }
+
   return (
     <>
       <PageHeader
         title="Products"
-        description="This page structure is ready for the DummyJSON product API. Next we will replace placeholder data with live search, filters, sorting, pagination, and URL state synchronization."
+        description="This screen now uses the DummyJSON products API with URL-synced search, multi-category filters, sorting, and client-side pagination."
         action={
-          <button
-            type="button"
+          <Link
+            to={`/products/${paginatedProducts.items[0]?.id ?? 1}`}
             className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
           >
-            <Filter className="h-4 w-4" />
-            Filter panel
-          </button>
+            Preview first product
+          </Link>
         }
       />
 
+      <ProductFilters
+        activeFilterCount={activeFilterCount}
+        categories={categories}
+        onClearFilters={clearFilters}
+        onSearchChange={setSearchInput}
+        onSortChange={changeSort}
+        onToggleCategory={toggleCategory}
+        searchValue={searchInput}
+        selectedCategories={selectedCategories}
+        sortValue={sortValue}
+      />
+
       <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
-        <div className="grid gap-4 lg:grid-cols-[1.4fr_0.8fr_0.8fr]">
-          <label className="relative block">
-            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            <input
-              type="search"
-              placeholder="Search products..."
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:bg-white focus:ring-4 focus:ring-slate-200"
+        <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-950">Catalog listing</h2>
+            <p className="mt-2 text-sm text-slate-600">
+              Showing {paginatedProducts.totalItems} filtered products from a total
+              catalog of {totalProducts}.
+            </p>
+          </div>
+
+          <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
+            {searchInput !== debouncedSearch
+              ? 'Updating search...'
+              : 'Filters in sync with URL'}
+          </div>
+        </div>
+
+        {paginatedProducts.items.length === 0 ? (
+          <div className="pt-5">
+            <StatePanel
+              title="No products matched your filters"
+              description="Try removing one or two category filters, or search with a broader keyword."
+              action={
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                >
+                  Reset filters
+                </button>
+              }
             />
-          </label>
-
-          <button
-            type="button"
-            className="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-          >
-            Categories
-            <Filter className="h-4 w-4" />
-          </button>
-
-          <button
-            type="button"
-            className="inline-flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"
-          >
-            Sort by
-            <ArrowUpDown className="h-4 w-4" />
-          </button>
-        </div>
-
-        <div className="mt-5 overflow-hidden rounded-3xl border border-slate-200">
-          <div className="grid grid-cols-[1.8fr_1fr_0.9fr_0.9fr_0.8fr] gap-3 bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            <span>Product</span>
-            <span>Category</span>
-            <span>Price</span>
-            <span>Stock</span>
-            <span>Rating</span>
           </div>
+        ) : (
+          <>
+            <div className="mt-5">
+              <ProductTable products={paginatedProducts.items} />
+            </div>
 
-          <div className="divide-y divide-slate-200">
-            {sampleRows.map((row) => (
-              <Link
-                key={row.id}
-                to={`/products/${row.id}`}
-                className="grid grid-cols-[1.8fr_1fr_0.9fr_0.9fr_0.8fr] gap-3 px-4 py-4 text-sm transition hover:bg-slate-50"
-              >
-                <span className="font-medium text-slate-900">{row.name}</span>
-                <span className="text-slate-600">{row.category}</span>
-                <span className="text-slate-900">{row.price}</span>
-                <span className="text-slate-600">{row.stock}</span>
-                <span className="text-slate-900">{row.rating}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
+            <div className="mt-5 grid gap-4 lg:hidden">
+              {paginatedProducts.items.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            <div className="mt-5">
+              <PaginationControls
+                currentPage={paginatedProducts.safePage}
+                onPageChange={changePage}
+                pageSize={PRODUCT_PAGE_SIZE}
+                totalItems={paginatedProducts.totalItems}
+                totalPages={paginatedProducts.totalPages}
+              />
+            </div>
+          </>
+        )}
       </section>
     </>
   )

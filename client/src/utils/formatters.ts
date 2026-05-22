@@ -9,3 +9,10 @@ export function formatCurrency(value: number) {
 export function formatRating(value: number) {
   return value.toFixed(1)
 }
+
+export function formatCategoryLabel(value: string) {
+  return value
+    .split('-')
+    .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1))
+    .join(' ')
+}
