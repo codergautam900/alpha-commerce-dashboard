@@ -1,12 +1,14 @@
 import { useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/products/ProductCard'
+import ProductColumnCustomizer from '../components/products/ProductColumnCustomizer'
 import ProductFilters from '../components/products/ProductFilters'
 import ProductTable from '../components/products/ProductTable'
 import PageLoader from '../components/ui/PageLoader'
 import PageHeader from '../components/ui/PageHeader'
 import PaginationControls from '../components/ui/PaginationControls'
 import StatePanel from '../components/ui/StatePanel'
+import { useProductColumns } from '../hooks/useProductColumns'
 import { useProductFilters } from '../hooks/useProductFilters'
 import { useProductsCatalog } from '../hooks/useProductsCatalog'
 import {
@@ -30,6 +32,7 @@ function ProductsPage() {
     sortValue,
     toggleCategory,
   } = useProductFilters()
+  const { resetColumns, toggleColumn, visibleColumns } = useProductColumns()
 
   const { categories, error, isError, isLoading, products, refetchAll, totalProducts } =
     useProductsCatalog()
@@ -141,6 +144,14 @@ function ProductsPage() {
           </div>
         </div>
 
+        <div className="mt-5">
+          <ProductColumnCustomizer
+            onReset={resetColumns}
+            onToggleColumn={toggleColumn}
+            visibleColumns={visibleColumns}
+          />
+        </div>
+
         {paginatedProducts.items.length === 0 ? (
           <div className="pt-5">
             <StatePanel
@@ -160,7 +171,10 @@ function ProductsPage() {
         ) : (
           <>
             <div className="mt-5">
-              <ProductTable products={paginatedProducts.items} />
+              <ProductTable
+                products={paginatedProducts.items}
+                visibleColumns={visibleColumns}
+              />
             </div>
 
             <div className="mt-5 grid gap-4 lg:hidden">

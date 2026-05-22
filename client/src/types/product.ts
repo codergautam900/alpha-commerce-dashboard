@@ -47,3 +47,10 @@ export type ProductSortValue =
   | 'price-desc'
   | 'rating-asc'
   | 'rating-desc'
+
+export type ProductColumnId =
+  | 'product'
+  | 'category'
+  | 'price'
+  | 'stock'
+  | 'rating'
