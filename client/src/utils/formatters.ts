@@ -10,6 +10,13 @@ export function formatNumber(value: number) {
   return new Intl.NumberFormat('en-US').format(value)
 }
 
+export function formatTime(value: number) {
+  return new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(value)
+}
+
 export function formatRating(value: number) {
   return value.toFixed(1)
 }

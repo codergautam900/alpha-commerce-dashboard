@@ -5,6 +5,7 @@ import InfoCard from '../components/ui/InfoCard'
 import PageHeader from '../components/ui/PageHeader'
 import PageLoader from '../components/ui/PageLoader'
 import StatePanel from '../components/ui/StatePanel'
+import SyncStatus from '../components/ui/SyncStatus'
 import { useDashboardAnalytics } from '../hooks/useDashboardAnalytics'
 import {
   formatCurrency,
@@ -13,7 +14,15 @@ import {
 } from '../utils/formatters'
 
 function DashboardPage() {
-  const { analytics, error, isError, isLoading, refetchAll } = useDashboardAnalytics()
+  const {
+    analytics,
+    error,
+    isError,
+    isLoading,
+    isRefreshing,
+    lastUpdatedAt,
+    refetchAll,
+  } = useDashboardAnalytics()
 
   if (isLoading) {
     return (
@@ -104,6 +113,12 @@ function DashboardPage() {
           <InfoCard key={card.title} {...card} />
         ))}
       </section>
+
+      <SyncStatus
+        isRefreshing={isRefreshing}
+        lastUpdatedAt={lastUpdatedAt}
+        onRefresh={refetchAll}
+      />
 
       <section className="grid gap-6 xl:grid-cols-[1.5fr_0.9fr]">
         <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">

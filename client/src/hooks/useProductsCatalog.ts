@@ -5,10 +5,15 @@ import {
   productQueryKeys,
 } from '../services/products'
 
+const AUTO_REFRESH_INTERVAL_MS = 60_000
+
 export function useProductsCatalog() {
   const productsQuery = useQuery({
     queryKey: productQueryKeys.catalog,
     queryFn: fetchAllProducts,
+    // Polling gives the dashboard a lightweight real-time feel for the bonus requirement.
+    refetchInterval: AUTO_REFRESH_INTERVAL_MS,
+    refetchIntervalInBackground: true,
   })
 
   const categoriesQuery = useQuery({
@@ -21,6 +26,8 @@ export function useProductsCatalog() {
     error: productsQuery.error ?? categoriesQuery.error,
     isError: productsQuery.isError || categoriesQuery.isError,
     isLoading: productsQuery.isLoading || categoriesQuery.isLoading,
+    isRefreshing: productsQuery.isRefetching,
+    lastUpdatedAt: productsQuery.dataUpdatedAt,
     products: productsQuery.data?.products ?? [],
     refetchAll: () => {
       void productsQuery.refetch()

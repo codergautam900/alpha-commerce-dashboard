@@ -8,6 +8,7 @@ import PageLoader from '../components/ui/PageLoader'
 import PageHeader from '../components/ui/PageHeader'
 import PaginationControls from '../components/ui/PaginationControls'
 import StatePanel from '../components/ui/StatePanel'
+import SyncStatus from '../components/ui/SyncStatus'
 import { useProductColumns } from '../hooks/useProductColumns'
 import { useProductFilters } from '../hooks/useProductFilters'
 import { useProductsCatalog } from '../hooks/useProductsCatalog'
@@ -34,8 +35,17 @@ function ProductsPage() {
   } = useProductFilters()
   const { resetColumns, toggleColumn, visibleColumns } = useProductColumns()
 
-  const { categories, error, isError, isLoading, products, refetchAll, totalProducts } =
-    useProductsCatalog()
+  const {
+    categories,
+    error,
+    isError,
+    isLoading,
+    isRefreshing,
+    lastUpdatedAt,
+    products,
+    refetchAll,
+    totalProducts,
+  } = useProductsCatalog()
 
   // Filtering, sorting, and pagination are memoized so the full catalog is not recalculated on every render.
   const filteredProducts = useMemo(
@@ -125,6 +135,12 @@ function ProductsPage() {
         searchValue={searchInput}
         selectedCategories={selectedCategories}
         sortValue={sortValue}
+      />
+
+      <SyncStatus
+        isRefreshing={isRefreshing}
+        lastUpdatedAt={lastUpdatedAt}
+        onRefresh={refetchAll}
       />
 
       <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
