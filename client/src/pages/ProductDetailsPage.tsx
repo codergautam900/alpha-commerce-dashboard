@@ -126,7 +126,7 @@ function ProductDetailsPage() {
       />
 
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">
+        <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
           <ProductGallery
             key={product.id}
             images={galleryImages}
@@ -134,7 +134,7 @@ function ProductDetailsPage() {
           />
         </article>
 
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">
+        <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
             Details
           </p>
@@ -153,7 +153,7 @@ function ProductDetailsPage() {
             />
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
             <div className="rounded-2xl bg-slate-50 p-4">
               <p className="text-sm text-slate-500">Price</p>
               <p className="mt-2 text-2xl font-semibold text-slate-950">

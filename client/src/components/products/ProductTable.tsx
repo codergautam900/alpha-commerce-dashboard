@@ -28,7 +28,7 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
     .join(' ')
 
   return (
-    <div className="hidden overflow-hidden rounded-[28px] border border-slate-200/80 lg:block">
+    <div className="page-reveal hidden overflow-hidden rounded-[28px] border border-slate-200/80 lg:block">
       <div
         className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
         style={{ gridTemplateColumns }}

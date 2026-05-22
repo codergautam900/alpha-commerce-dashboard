@@ -27,7 +27,7 @@ function ProductFilters({
   sortValue,
 }: ProductFiltersProps) {
   return (
-    <section className="rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)]">
+    <section className="page-reveal rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)]">
       <div className="grid gap-4 xl:grid-cols-[1.5fr_0.8fr]">
         <label className="relative block">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
