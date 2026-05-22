@@ -7,8 +7,14 @@ function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900">
-      <div className="flex min-h-screen">
+    <div className="relative min-h-screen overflow-hidden text-slate-900">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-8rem] top-[-6rem] h-64 w-64 rounded-full bg-sky-300/25 blur-3xl" />
+        <div className="absolute right-[-5rem] top-20 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
+        <div className="absolute bottom-[-8rem] left-1/3 h-80 w-80 rounded-full bg-indigo-200/25 blur-3xl" />
+      </div>
+
+      <div className="relative flex min-h-screen">
         <div
           className={`fixed inset-y-0 left-0 z-40 w-72 transform transition duration-300 md:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'

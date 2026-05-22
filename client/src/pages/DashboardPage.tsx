@@ -2,6 +2,7 @@ import { Boxes, CircleDollarSign, PackageSearch, Shapes, Star } from 'lucide-rea
 import { Link } from 'react-router-dom'
 import CategoryDistributionChart from '../components/analytics/CategoryDistributionChart'
 import InfoCard from '../components/ui/InfoCard'
+import LiveUpdatesFeed from '../components/ui/LiveUpdatesFeed'
 import PageHeader from '../components/ui/PageHeader'
 import PageLoader from '../components/ui/PageLoader'
 import StatePanel from '../components/ui/StatePanel'
@@ -121,7 +122,7 @@ function DashboardPage() {
       />
 
       <section className="grid gap-6 xl:grid-cols-[1.5fr_0.9fr]">
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">
+        <article className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
           <div className="flex flex-col gap-2 border-b border-slate-200 pb-5">
             <h2 className="text-xl font-semibold text-slate-950">
               Category distribution
@@ -139,42 +140,46 @@ function DashboardPage() {
           </div>
         </article>
 
-        <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/60">
-          <h2 className="text-xl font-semibold text-slate-950">
-            Operational snapshot
-          </h2>
+        <div className="grid gap-6">
+          <LiveUpdatesFeed />
 
-          <div className="mt-5 space-y-4">
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Average Price</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-950">
-                {formatCurrency(analytics.averagePrice)}
-              </p>
+          <article className="rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
+            <h2 className="text-xl font-semibold text-slate-950">
+              Operational snapshot
+            </h2>
+
+            <div className="mt-5 space-y-4">
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-500">Average Price</p>
+                <p className="mt-2 text-2xl font-semibold text-slate-950">
+                  {formatCurrency(analytics.averagePrice)}
+                </p>
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-500">Low Stock Products</p>
+                <p className="mt-2 text-2xl font-semibold text-slate-950">
+                  {formatNumber(analytics.lowStockCount)}
+                </p>
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="text-sm text-slate-500">Top Rated Product</p>
+                <p className="mt-2 text-lg font-semibold leading-7 text-slate-950">
+                  {analytics.topRatedProductTitle}
+                </p>
+              </div>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Low Stock Products</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-950">
-                {formatNumber(analytics.lowStockCount)}
+            <div className="mt-6 rounded-2xl border border-slate-200 p-4">
+              <p className="text-sm font-semibold text-slate-900">Why this helps</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                These summary cards give a quick read on catalog health, while the
+                distribution chart shows where most of the inventory is concentrated.
               </p>
             </div>
-
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Top Rated Product</p>
-              <p className="mt-2 text-lg font-semibold leading-7 text-slate-950">
-                {analytics.topRatedProductTitle}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-slate-200 p-4">
-            <p className="text-sm font-semibold text-slate-900">Why this helps</p>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              These summary cards give a quick read on catalog health, while the
-              distribution chart shows where most of the inventory is concentrated.
-            </p>
-          </div>
-        </article>
+          </article>
+        </div>
       </section>
     </>
   )

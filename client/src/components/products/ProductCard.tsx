@@ -17,7 +17,7 @@ function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       to={`/products/${product.id}`}
-      className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-200/60 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/80"
+      className="rounded-[28px] border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_26px_80px_-36px_rgba(15,23,42,0.45)]"
     >
       <div className="flex items-start gap-4">
         <img
@@ -37,7 +37,7 @@ function ProductCard({ product }: ProductCardProps) {
               </h3>
             </div>
 
-            <p className="text-base font-semibold text-slate-950">
+            <p className="rounded-full bg-slate-100 px-3 py-1 text-base font-semibold text-slate-950">
               {formatCurrency(product.price)}
             </p>
           </div>

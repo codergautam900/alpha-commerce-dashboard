@@ -59,7 +59,7 @@ function CategoryDistributionChart({
         {categories.map((category, index) => (
           <div
             key={category.slug}
-            className="flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3"
+            className="flex items-center justify-between rounded-2xl bg-slate-50/90 px-4 py-3"
           >
             <div className="flex items-center gap-3">
               <span

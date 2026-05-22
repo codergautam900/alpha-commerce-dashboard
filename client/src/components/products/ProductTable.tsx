@@ -28,9 +28,9 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
     .join(' ')
 
   return (
-    <div className="hidden overflow-hidden rounded-3xl border border-slate-200 lg:block">
+    <div className="hidden overflow-hidden rounded-[28px] border border-slate-200/80 lg:block">
       <div
-        className="grid gap-3 bg-slate-50 px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
+        className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
         style={{ gridTemplateColumns }}
       >
         {selectedColumnDefinitions.map((column) => (
@@ -43,7 +43,7 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
           <Link
             key={product.id}
             to={`/products/${product.id}`}
-            className="grid gap-3 px-5 py-4 text-sm transition hover:bg-slate-50"
+            className="grid gap-3 px-5 py-4 text-sm transition hover:bg-sky-50/50"
             style={{ gridTemplateColumns }}
           >
             {selectedColumnDefinitions.map((column) => (

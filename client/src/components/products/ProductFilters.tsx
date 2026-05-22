@@ -27,7 +27,7 @@ function ProductFilters({
   sortValue,
 }: ProductFiltersProps) {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
+    <section className="rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)]">
       <div className="grid gap-4 xl:grid-cols-[1.5fr_0.8fr]">
         <label className="relative block">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -59,7 +59,10 @@ function ProductFilters({
       <div className="mt-5 flex flex-col gap-4 border-t border-slate-200 pt-5">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-slate-950">Category filters</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+              Filter Studio
+            </p>
+            <h2 className="mt-2 text-lg font-semibold text-slate-950">Category filters</h2>
             <p className="mt-1 text-sm text-slate-600">
               Select one or more categories to narrow the list.
             </p>
@@ -91,7 +94,7 @@ function ProductFilters({
                 key={category}
                 type="button"
                 onClick={() => onToggleCategory(category)}
-                className="rounded-full bg-slate-900 px-3 py-1 text-sm font-medium text-white transition hover:bg-slate-800"
+                className="rounded-full bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_100%)] px-3 py-1 text-sm font-medium text-white transition hover:brightness-110"
               >
                 {formatCategoryLabel(category)}
               </button>
@@ -108,7 +111,7 @@ function ProductFilters({
                 key={category.slug}
                 className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-sm transition ${
                   checked
-                    ? 'border-slate-900 bg-slate-900 text-white'
+                    ? 'border-slate-900 bg-slate-950 text-white shadow-[0_10px_30px_-20px_rgba(15,23,42,0.8)]'
                     : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-white'
                 }`}
               >

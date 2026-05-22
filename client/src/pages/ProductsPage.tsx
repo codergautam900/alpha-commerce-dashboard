@@ -4,6 +4,7 @@ import ProductCard from '../components/products/ProductCard'
 import ProductColumnCustomizer from '../components/products/ProductColumnCustomizer'
 import ProductFilters from '../components/products/ProductFilters'
 import ProductTable from '../components/products/ProductTable'
+import LiveUpdatesFeed from '../components/ui/LiveUpdatesFeed'
 import PageLoader from '../components/ui/PageLoader'
 import PageHeader from '../components/ui/PageHeader'
 import PaginationControls from '../components/ui/PaginationControls'
@@ -33,7 +34,8 @@ function ProductsPage() {
     sortValue,
     toggleCategory,
   } = useProductFilters()
-  const { resetColumns, toggleColumn, visibleColumns } = useProductColumns()
+  const { moveColumn, orderedColumns, resetColumns, toggleColumn, visibleColumns } =
+    useProductColumns()
 
   const {
     categories,
@@ -137,13 +139,16 @@ function ProductsPage() {
         sortValue={sortValue}
       />
 
-      <SyncStatus
-        isRefreshing={isRefreshing}
-        lastUpdatedAt={lastUpdatedAt}
-        onRefresh={refetchAll}
-      />
+      <section className="grid gap-6 xl:grid-cols-[1.35fr_0.95fr]">
+        <SyncStatus
+          isRefreshing={isRefreshing}
+          lastUpdatedAt={lastUpdatedAt}
+          onRefresh={refetchAll}
+        />
+        <LiveUpdatesFeed />
+      </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
+      <section className="rounded-[32px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
         <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <h2 className="text-xl font-semibold text-slate-950">Catalog listing</h2>
@@ -162,8 +167,10 @@ function ProductsPage() {
 
         <div className="mt-5">
           <ProductColumnCustomizer
+            onMoveColumn={moveColumn}
             onReset={resetColumns}
             onToggleColumn={toggleColumn}
+            orderedColumns={orderedColumns}
             visibleColumns={visibleColumns}
           />
         </div>

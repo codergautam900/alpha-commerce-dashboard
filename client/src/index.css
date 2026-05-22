@@ -2,13 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
 @layer base {
   html {
-    font-family: Inter, system-ui, sans-serif;
+    font-family: 'Manrope', 'Segoe UI', sans-serif;
   }
 
   body {
-    @apply m-0 min-h-screen bg-slate-50 text-slate-900 antialiased;
+    @apply m-0 min-h-screen bg-[#f5f7fb] text-slate-900 antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(56, 189, 248, 0.16), transparent 22rem),
+      radial-gradient(circle at top right, rgba(251, 191, 36, 0.14), transparent 20rem),
+      linear-gradient(180deg, #f8fbff 0%, #f5f7fb 52%, #eef2f9 100%);
   }
 
   #root {
