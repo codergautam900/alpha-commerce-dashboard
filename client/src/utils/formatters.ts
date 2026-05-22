@@ -6,6 +6,10 @@ export function formatCurrency(value: number) {
   }).format(value)
 }
 
+export function formatNumber(value: number) {
+  return new Intl.NumberFormat('en-US').format(value)
+}
+
 export function formatRating(value: number) {
   return value.toFixed(1)
 }
