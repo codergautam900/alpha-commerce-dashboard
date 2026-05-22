@@ -1,8 +1,9 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/products/ProductCard'
 import ProductColumnCustomizer from '../components/products/ProductColumnCustomizer'
 import ProductFilters from '../components/products/ProductFilters'
+import ProductInsightsBar from '../components/products/ProductInsightsBar'
 import ProductTable from '../components/products/ProductTable'
 import LiveUpdatesFeed from '../components/ui/LiveUpdatesFeed'
 import PageLoader from '../components/ui/PageLoader'
@@ -13,6 +14,8 @@ import SyncStatus from '../components/ui/SyncStatus'
 import { useProductColumns } from '../hooks/useProductColumns'
 import { useProductFilters } from '../hooks/useProductFilters'
 import { useProductsCatalog } from '../hooks/useProductsCatalog'
+import { useSavedProductViews } from '../hooks/useSavedProductViews'
+import { downloadProductsCsv } from '../utils/productExport'
 import {
   PRODUCT_PAGE_SIZE,
   filterProducts,
@@ -21,21 +24,31 @@ import {
 } from '../utils/products'
 
 function ProductsPage() {
+  const [copyStatusLabel, setCopyStatusLabel] = useState('Copy view link')
   const {
     activeFilterCount,
+    applyQueryString,
     changePage,
     changeSort,
     clearFilters,
     currentPage,
     debouncedSearch,
+    hasActiveFilters,
     searchInput,
+    savedViewQueryString,
     selectedCategories,
     setSearchInput,
     sortValue,
     toggleCategory,
   } = useProductFilters()
-  const { moveColumn, orderedColumns, resetColumns, toggleColumn, visibleColumns } =
-    useProductColumns()
+  const {
+    moveColumn,
+    orderedColumns,
+    resetColumns,
+    selectedColumnDefinitions,
+    toggleColumn,
+    visibleColumns,
+  } = useProductColumns()
 
   const {
     categories,
@@ -48,6 +61,8 @@ function ProductsPage() {
     refetchAll,
     totalProducts,
   } = useProductsCatalog()
+  const { activeViewId, deleteView, saveView, savedViews } =
+    useSavedProductViews(savedViewQueryString)
 
   // Filtering, sorting, and pagination are memoized so the full catalog is not recalculated on every render.
   const filteredProducts = useMemo(
@@ -65,11 +80,52 @@ function ProductsPage() {
     [sortedProducts, currentPage],
   )
 
+  const filteredInsights = useMemo(() => {
+    if (filteredProducts.length === 0) {
+      return {
+        averagePrice: 0,
+        averageRating: 0,
+        categoryCount: 0,
+        lowStockCount: 0,
+      }
+    }
+
+    return {
+      averagePrice:
+        filteredProducts.reduce((total, product) => total + product.price, 0) /
+        filteredProducts.length,
+      averageRating:
+        filteredProducts.reduce((total, product) => total + product.rating, 0) /
+        filteredProducts.length,
+      categoryCount: new Set(filteredProducts.map((product) => product.category)).size,
+      lowStockCount: filteredProducts.filter((product) => product.stock <= 10).length,
+    }
+  }, [filteredProducts])
+
   useEffect(() => {
     if (paginatedProducts.safePage !== currentPage) {
       changePage(paginatedProducts.safePage)
     }
   }, [changePage, currentPage, paginatedProducts.safePage])
+
+  const handleExportCsv = () => {
+    downloadProductsCsv(sortedProducts, selectedColumnDefinitions)
+  }
+
+  const handleCopyViewLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      setCopyStatusLabel('Link copied')
+      window.setTimeout(() => {
+        setCopyStatusLabel('Copy view link')
+      }, 2000)
+    } catch {
+      setCopyStatusLabel('Copy unavailable')
+      window.setTimeout(() => {
+        setCopyStatusLabel('Copy view link')
+      }, 2000)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -135,11 +191,17 @@ function ProductsPage() {
 
       <ProductFilters
         activeFilterCount={activeFilterCount}
+        activeViewId={activeViewId}
+        canSaveCurrentView={hasActiveFilters}
         categories={categories}
+        onApplySavedView={applyQueryString}
         onClearFilters={clearFilters}
+        onDeleteSavedView={deleteView}
         onSearchChange={setSearchInput}
+        onSaveCurrentView={saveView}
         onSortChange={changeSort}
         onToggleCategory={toggleCategory}
+        savedViews={savedViews}
         searchValue={searchInput}
         selectedCategories={selectedCategories}
         sortValue={sortValue}
@@ -153,6 +215,19 @@ function ProductsPage() {
         />
         <LiveUpdatesFeed />
       </section>
+
+      <ProductInsightsBar
+        averagePrice={filteredInsights.averagePrice}
+        averageRating={filteredInsights.averageRating}
+        categoryCount={filteredInsights.categoryCount}
+        copyStatusLabel={copyStatusLabel}
+        lowStockCount={filteredInsights.lowStockCount}
+        onCopyViewLink={() => {
+          void handleCopyViewLink()
+        }}
+        onExportCsv={handleExportCsv}
+        totalResults={filteredProducts.length}
+      />
 
       <section className="rounded-[32px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
         <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">

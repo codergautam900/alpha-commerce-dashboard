@@ -35,8 +35,11 @@ npm run lint
 - URL-synced filters and search params
 - Product details page with image gallery
 - Analytics dashboard with category distribution chart
+- Command palette for quick page and catalog navigation
+- Saved product views built on top of URL-synced filters
+- CSV export and shareable links for the active catalog view
 - Polling-based live refresh status
-- Product table column customization
+- Product table column customization and live activity stream
 
 ## Deployment
 

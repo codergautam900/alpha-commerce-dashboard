@@ -30,6 +30,13 @@ export function useProductFilters() {
     [searchParams],
   )
 
+  const savedViewQueryString = useMemo(() => {
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.delete('page')
+
+    return buildNormalizedQueryString(nextParams)
+  }, [searchParams])
+
   const updateParams = useCallback(
     (updates: Record<string, string | null>) => {
       const nextParams = new URLSearchParams(searchParams)
@@ -98,6 +105,15 @@ export function useProductFilters() {
     setSearchParams(new URLSearchParams())
   }, [setSearchParams])
 
+  const applyQueryString = useCallback(
+    (queryString: string) => {
+      const nextParams = new URLSearchParams(queryString)
+      setSearchInput(nextParams.get('search') ?? '')
+      setSearchParams(nextParams)
+    },
+    [setSearchParams],
+  )
+
   const activeFilterCount =
     (searchFromUrl ? 1 : 0) +
     selectedCategories.length +
@@ -110,10 +126,21 @@ export function useProductFilters() {
     clearFilters,
     currentPage,
     debouncedSearch: debouncedSearch.trim(),
+    hasActiveFilters: activeFilterCount > 0,
+    applyQueryString,
+    savedViewQueryString,
     searchInput,
     selectedCategories,
     setSearchInput,
     sortValue,
     toggleCategory,
   }
+}
+
+function buildNormalizedQueryString(searchParams: URLSearchParams) {
+  return new URLSearchParams(
+    Array.from(searchParams.entries()).sort(([firstKey], [secondKey]) =>
+      firstKey.localeCompare(secondKey),
+    ),
+  ).toString()
 }

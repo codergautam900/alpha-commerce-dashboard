@@ -54,3 +54,10 @@ export type ProductColumnId =
   | 'price'
   | 'stock'
   | 'rating'
+
+export type ProductSavedView = {
+  id: string
+  name: string
+  queryString: string
+  createdAt: number
+}

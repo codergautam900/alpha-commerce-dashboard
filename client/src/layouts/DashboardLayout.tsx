@@ -1,10 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import SidebarNav from '../components/layout/SidebarNav'
 import TopNavBar from '../components/layout/TopNavBar'
+import CommandPalette from '../components/ui/CommandPalette'
 
 function DashboardLayout() {
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault()
+        setCommandPaletteOpen(true)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   return (
     <div className="relative min-h-screen overflow-hidden text-slate-900">
@@ -33,7 +50,10 @@ function DashboardLayout() {
         ) : null}
 
         <div className="flex min-h-screen flex-1 flex-col md:pl-72">
-          <TopNavBar onMenuClick={() => setSidebarOpen(true)} />
+          <TopNavBar
+            onMenuClick={() => setSidebarOpen(true)}
+            onOpenCommandPalette={() => setCommandPaletteOpen(true)}
+          />
           <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
               <Outlet />
@@ -41,6 +61,11 @@ function DashboardLayout() {
           </main>
         </div>
       </div>
+
+      <CommandPalette
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+      />
     </div>
   )
 }

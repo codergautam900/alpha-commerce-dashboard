@@ -1,15 +1,26 @@
 import { ArrowUpDown, Search, X } from 'lucide-react'
-import type { ProductCategory, ProductSortValue } from '../../types/product'
+import type {
+  ProductCategory,
+  ProductSavedView,
+  ProductSortValue,
+} from '../../types/product'
 import { formatCategoryLabel } from '../../utils/formatters'
 import { PRODUCT_SORT_OPTIONS } from '../../utils/products'
+import ProductSavedViewsPanel from './ProductSavedViewsPanel'
 
 type ProductFiltersProps = {
   activeFilterCount: number
+  activeViewId: string | null
+  canSaveCurrentView: boolean
   categories: ProductCategory[]
+  onApplySavedView: (queryString: string) => void
   onClearFilters: () => void
+  onDeleteSavedView: (viewId: string) => void
   onSearchChange: (value: string) => void
+  onSaveCurrentView: (name: string) => void
   onSortChange: (value: ProductSortValue) => void
   onToggleCategory: (slug: string) => void
+  savedViews: ProductSavedView[]
   searchValue: string
   selectedCategories: string[]
   sortValue: ProductSortValue
@@ -17,11 +28,17 @@ type ProductFiltersProps = {
 
 function ProductFilters({
   activeFilterCount,
+  activeViewId,
+  canSaveCurrentView,
   categories,
+  onApplySavedView,
   onClearFilters,
+  onDeleteSavedView,
   onSearchChange,
+  onSaveCurrentView,
   onSortChange,
   onToggleCategory,
+  savedViews,
   searchValue,
   selectedCategories,
   sortValue,
@@ -126,6 +143,15 @@ function ProductFilters({
             )
           })}
         </div>
+
+        <ProductSavedViewsPanel
+          activeViewId={activeViewId}
+          canSaveCurrentView={canSaveCurrentView}
+          onApplyView={onApplySavedView}
+          onDeleteView={onDeleteSavedView}
+          onSaveView={onSaveCurrentView}
+          savedViews={savedViews}
+        />
       </div>
     </section>
   )
