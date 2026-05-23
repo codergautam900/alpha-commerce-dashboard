@@ -1,10 +1,9 @@
 import clsx from 'clsx'
-import { PanelLeftClose, Sparkles } from 'lucide-react'
+import { PanelLeftClose } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { navigationItems } from '../../data/navigation'
 import BrandMark from '../ui/BrandMark'
 import ChromeButton from '../ui/ChromeButton'
-import StatusBadge from '../ui/StatusBadge'
 
 type SidebarNavProps = {
   onNavigate?: () => void
@@ -19,22 +18,9 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
       </div>
 
       <div className="relative flex items-center justify-between border-b border-white/10 px-5 py-5">
-        <div className="space-y-4">
+        <div className="space-y-3">
           <BrandMark size="lg" tone="dark" subtitle="Premium Ops" />
-
-          <div className="flex flex-wrap gap-2">
-            <StatusBadge className="text-[11px] tracking-[0.22em]" tone="sky">
-              Live catalog
-            </StatusBadge>
-            <StatusBadge className="text-[11px] tracking-[0.22em]" tone="amber">
-              Premium UI
-            </StatusBadge>
-          </div>
-
-          <p className="max-w-[15rem] text-sm leading-6 text-slate-400">
-            Commerce analytics, saved views, live activity, and stock-aware product
-            operations in one polished workspace.
-          </p>
+          <p className="text-sm text-slate-400">Dashboard navigation</p>
         </div>
 
         <ChromeButton
@@ -96,35 +82,6 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
           ))}
         </ul>
       </nav>
-
-      <div className="relative border-t border-white/10 px-5 py-5">
-        <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-4 backdrop-blur">
-          <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-white/10 p-2 text-amber-200">
-              <Sparkles className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-white">Delivery checklist</p>
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Final polish active
-              </p>
-            </div>
-          </div>
-
-          <p className="mt-3 text-sm leading-6 text-slate-300">
-            Core flows, analytics, URL sync, live updates, column controls, and
-            checkout math are wired into one cohesive experience.
-          </p>
-
-          <div className="mt-4 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-            <span>Readiness</span>
-            <span>88%</span>
-          </div>
-          <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[88%] rounded-full bg-[linear-gradient(90deg,#38bdf8_0%,#60a5fa_45%,#f59e0b_100%)]" />
-          </div>
-        </div>
-      </div>
     </aside>
   )
 }
