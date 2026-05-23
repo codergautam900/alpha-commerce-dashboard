@@ -9,6 +9,7 @@ import { AppErrorBoundary } from './app/AppErrorBoundary'
 import { CartProvider } from './app/CartProvider'
 import { LiveUpdatesProvider } from './app/LiveUpdatesProvider'
 import { ScrollToTop } from './app/ScrollToTop'
+import { ThemeProvider } from './app/ThemeProvider'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,16 +39,18 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <LiveUpdatesProvider>
-          <CartProvider>
-            <BrowserRouter>
-              <ScrollToTop />
-              <App />
-            </BrowserRouter>
-          </CartProvider>
-        </LiveUpdatesProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <LiveUpdatesProvider>
+            <CartProvider>
+              <BrowserRouter>
+                <ScrollToTop />
+                <App />
+              </BrowserRouter>
+            </CartProvider>
+          </LiveUpdatesProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </AppErrorBoundary>
   </StrictMode>,
 )

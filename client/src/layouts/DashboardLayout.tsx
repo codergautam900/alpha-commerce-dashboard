@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import LayoutFooter from '../components/layout/LayoutFooter'
 import SidebarNav from '../components/layout/SidebarNav'
 import CartDrawer from '../components/ui/CartDrawer'
 import TopNavBar from '../components/layout/TopNavBar'
@@ -91,6 +92,7 @@ function DashboardLayout() {
               <Outlet />
             </div>
           </main>
+          <LayoutFooter />
         </div>
       </div>
 

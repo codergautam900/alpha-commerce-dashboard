@@ -1,6 +1,7 @@
-import { Bell, Menu, Search, ShoppingCart } from 'lucide-react'
+import { Bell, Menu, MoonStar, Search, ShoppingCart, SunMedium } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 import { useCart } from '../../app/useCart'
+import { useTheme } from '../../app/useTheme'
 import { useLiveUpdates } from '../../app/useLiveUpdates'
 import { navigationItems } from '../../data/navigation'
 import BrandMark from '../ui/BrandMark'
@@ -15,18 +16,19 @@ type TopNavBarProps = {
 function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
   const location = useLocation()
   const { cartSummary, openCart } = useCart()
+  const { isDarkMode, toggleTheme } = useTheme()
   const { connectionStatus } = useLiveUpdates()
   const activeItem =
     navigationItems.find((item) => location.pathname.startsWith(item.to))?.label ??
     'Workspace'
 
   return (
-    <header className="sticky top-0 z-20 border-b border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,255,255,0.62))] backdrop-blur-2xl">
+    <header className="sticky top-0 z-20 border-b border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,255,255,0.62))] backdrop-blur-2xl dark:border-slate-800/70 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.88),rgba(15,23,42,0.76))]">
       <div className="mx-auto flex max-w-[92rem] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={onMenuClick}
-          className="rounded-2xl border border-slate-200 p-2 text-slate-700 transition hover:bg-slate-100 md:hidden"
+          className="rounded-2xl border border-slate-200 p-2 text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
           aria-label="Open sidebar"
         >
           <Menu className="h-5 w-5" />
@@ -35,8 +37,10 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
         <div className="hidden min-w-0 items-center gap-3 xl:flex">
           <BrandMark size="sm" showWordmark={false} />
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-slate-950">Alpha Dashboard</p>
-            <p className="truncate text-xs uppercase tracking-[0.22em] text-slate-500">
+            <p className="truncate text-sm font-semibold text-slate-950 dark:text-slate-100">
+              Alpha Dashboard
+            </p>
+            <p className="truncate text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
               {activeItem} workspace
             </p>
           </div>
@@ -45,18 +49,34 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
         <button
           type="button"
           onClick={onOpenCommandPalette}
-          className="hidden flex-1 items-center justify-between rounded-[24px] border border-white/70 bg-white/75 px-4 py-3 text-left text-sm text-slate-500 shadow-[0_16px_38px_-24px_rgba(15,23,42,0.42)] transition hover:bg-white md:flex"
+          className="hidden flex-1 items-center justify-between rounded-[24px] border border-white/70 bg-white/75 px-4 py-3 text-left text-sm text-slate-500 shadow-[0_16px_38px_-24px_rgba(15,23,42,0.42)] transition hover:bg-white dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-300 dark:shadow-[0_18px_40px_-30px_rgba(2,6,23,0.9)] dark:hover:bg-slate-900 md:flex"
         >
           <span className="flex items-center gap-3">
-            <Search className="h-4 w-4 text-slate-400" />
+            <Search className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             Search pages, views, or quick actions
           </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:bg-slate-800 dark:text-slate-400">
             Ctrl K
           </span>
         </button>
 
         <div className="ml-auto flex items-center gap-3">
+          <ChromeButton
+            onClick={toggleTheme}
+            aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
+          >
+            <span className="flex items-center gap-2">
+              {isDarkMode ? (
+                <SunMedium className="h-4 w-4" />
+              ) : (
+                <MoonStar className="h-4 w-4" />
+              )}
+              <span className="hidden text-sm font-semibold sm:inline">
+                {isDarkMode ? 'Light' : 'Dark'}
+              </span>
+            </span>
+          </ChromeButton>
+
           <ChromeButton
             onClick={onOpenCommandPalette}
             className="bg-white/75 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] md:hidden"
@@ -96,13 +116,13 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
             <Bell className="h-4 w-4" />
           </ChromeButton>
 
-          <div className="flex items-center gap-3 rounded-[22px] border border-white/80 bg-white/80 px-3 py-2 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.5)]">
+          <div className="flex items-center gap-3 rounded-[22px] border border-white/80 bg-white/80 px-3 py-2 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.5)] dark:border-slate-800 dark:bg-slate-950/65 dark:shadow-[0_18px_38px_-30px_rgba(2,6,23,0.88)]">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_78%,#60a5fa_100%)] text-sm font-semibold text-white shadow-[0_12px_24px_-16px_rgba(29,78,216,0.85)]">
               GS
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-semibold text-slate-900">Gautam</p>
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Gautam</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                 Product Operations
               </p>
             </div>

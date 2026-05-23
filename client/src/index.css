@@ -30,6 +30,13 @@
     isolation: isolate;
   }
 
+  html.dark {
+    --alpha-ink: #e2e8f0;
+    --alpha-muted: #94a3b8;
+    --alpha-canvas: #020617;
+    --alpha-line: rgba(148, 163, 184, 0.1);
+  }
+
   #root {
     @apply min-h-screen;
   }
@@ -38,6 +45,15 @@
     background: rgba(14, 165, 233, 0.2);
     color: #0f172a;
   }
+}
+
+html.dark body {
+  color-scheme: dark;
+  background-image:
+    radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.18), transparent 24rem),
+    radial-gradient(circle at 86% 10%, rgba(96, 165, 250, 0.12), transparent 22rem),
+    radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.08), transparent 26rem),
+    linear-gradient(180deg, #020617 0%, #07101f 46%, #0f172a 100%);
 }
 
 body::before {
@@ -68,6 +84,62 @@ body::before {
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
   }
+}
+
+html.dark .glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.92) 0%,
+    rgba(8, 15, 31, 0.86) 52%,
+    rgba(15, 23, 42, 0.76) 100%
+  );
+}
+
+html.dark .text-slate-950,
+html.dark .text-slate-900 {
+  color: #e5eefb !important;
+}
+
+html.dark .text-slate-700 {
+  color: #c9d5e8 !important;
+}
+
+html.dark .text-slate-600,
+html.dark .text-slate-500 {
+  color: #98a8bf !important;
+}
+
+html.dark .text-slate-400 {
+  color: #75859e !important;
+}
+
+html.dark .bg-white,
+html.dark .bg-white\/90,
+html.dark .bg-white\/80,
+html.dark .bg-white\/75,
+html.dark .bg-white\/70,
+html.dark .bg-slate-50,
+html.dark .bg-slate-50\/90,
+html.dark .bg-slate-100 {
+  background-color: rgba(15, 23, 42, 0.82) !important;
+}
+
+html.dark .border-slate-200,
+html.dark .border-slate-200\/80,
+html.dark .border-white\/70,
+html.dark .border-white\/75,
+html.dark .border-white\/80 {
+  border-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-white:hover {
+  background-color: rgba(30, 41, 59, 0.92) !important;
+}
+
+html.dark ::selection {
+  background: rgba(96, 165, 250, 0.28);
+  color: #f8fafc;
 }
 
 @keyframes page-reveal {

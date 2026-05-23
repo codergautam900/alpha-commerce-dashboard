@@ -1,9 +1,10 @@
 import clsx from 'clsx'
-import { PanelLeftClose } from 'lucide-react'
+import { PanelLeftClose, Sparkles } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { navigationItems } from '../../data/navigation'
 import BrandMark from '../ui/BrandMark'
 import ChromeButton from '../ui/ChromeButton'
+import StatusBadge from '../ui/StatusBadge'
 
 type SidebarNavProps = {
   onNavigate?: () => void
@@ -82,6 +83,34 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
           ))}
         </ul>
       </nav>
+
+      <div className="relative border-t border-white/10 px-4 py-4">
+        <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 backdrop-blur">
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-white/10 p-2 text-sky-200">
+              <Sparkles className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">Workspace ready</p>
+              <p className="text-xs text-slate-400">Clean, focused navigation</p>
+            </div>
+          </div>
+
+          <p className="mt-3 text-sm leading-6 text-slate-300">
+            Jump between dashboard insights and products without losing the premium
+            app feel.
+          </p>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <StatusBadge className="text-[11px] tracking-[0.2em]" tone="sky">
+              Fast nav
+            </StatusBadge>
+            <StatusBadge className="text-[11px] tracking-[0.2em]" tone="amber">
+              Smooth UI
+            </StatusBadge>
+          </div>
+        </div>
+      </div>
     </aside>
   )
 }
