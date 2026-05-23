@@ -162,7 +162,7 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
               }
             }}
             placeholder="Jump to a page or quick catalog action"
-            className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
+            className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-slate-100 dark:placeholder:text-slate-600"
           />
 
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -191,7 +191,7 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                     className={`flex w-full items-start justify-between gap-4 rounded-[24px] px-4 py-4 text-left transition ${
                       isSelected
                         ? 'bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_100%)] text-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.7)]'
-                        : 'bg-slate-50 text-slate-900 hover:bg-slate-100'
+                        : 'bg-slate-50 text-slate-900 hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700'
                     }`}
                   >
                     <div>

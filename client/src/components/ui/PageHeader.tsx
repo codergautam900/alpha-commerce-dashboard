@@ -30,7 +30,7 @@ function PageHeader({
           <p className="inline-flex rounded-full bg-slate-950 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-[0_14px_32px_-22px_rgba(15,23,42,0.8)]">
             {eyebrow}
           </p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100 sm:text-4xl">
             {title}
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
@@ -47,7 +47,7 @@ function PageHeader({
                   <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
                     {item.label}
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-slate-950">
+                  <p className="mt-1 text-sm font-semibold text-slate-950 dark:text-slate-100">
                     {item.value}
                   </p>
                 </div>

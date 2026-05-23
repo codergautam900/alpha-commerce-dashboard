@@ -46,8 +46,8 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
                   clsx(
                     'group flex items-center justify-between rounded-[22px] px-4 py-3 text-sm font-medium transition duration-300',
                     isActive
-                      ? 'bg-[linear-gradient(135deg,rgba(255,255,255,0.98)_0%,rgba(219,234,254,0.96)_54%,rgba(254,249,195,0.94)_100%)] text-slate-950 shadow-[0_22px_40px_-26px_rgba(15,23,42,0.9)]'
-                      : 'text-slate-300 hover:bg-white/8 hover:text-white',
+                      ? 'bg-[linear-gradient(135deg,rgba(255,255,255,0.98)_0%,rgba(219,234,254,0.96)_54%,rgba(254,249,195,0.94)_100%)] text-slate-950 shadow-[0_22px_40px_-26px_rgba(15,23,42,0.9)] dark:bg-[linear-gradient(135deg,rgba(30,41,59,0.92)_0%,rgba(30,58,138,0.88)_54%,rgba(120,90,40,0.85)_100%)] dark:text-slate-100'
+                      : 'text-slate-300 hover:bg-white/8 hover:text-white dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-slate-100',
                   )
                 }
               >
@@ -58,8 +58,8 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
                         className={clsx(
                           'h-4 w-4 transition',
                           isActive
-                            ? 'text-slate-950'
-                            : 'text-slate-400 group-hover:text-white',
+                            ? 'text-slate-950 dark:text-slate-100'
+                            : 'text-slate-400 group-hover:text-white dark:text-slate-600 dark:group-hover:text-slate-300',
                         )}
                       />
                       {label}
@@ -69,8 +69,8 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
                         className={clsx(
                           'rounded-full px-2 py-0.5 text-xs',
                           isActive
-                            ? 'bg-slate-100 text-slate-700'
-                            : 'bg-slate-800/90 text-slate-300',
+                            ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200'
+                            : 'bg-slate-800/90 text-slate-300 dark:bg-slate-700/60 dark:text-slate-400',
                         )}
                       >
                         {badge}

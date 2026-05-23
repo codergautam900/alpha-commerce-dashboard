@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import PageLoader from '../components/ui/PageLoader'
+import WelcomePage from '../pages/WelcomePage'
 
 // Route-level lazy loading keeps the initial dashboard bundle lighter.
 const DashboardLayout = lazy(() => import('../layouts/DashboardLayout'))
@@ -14,7 +15,8 @@ export function AppRouter() {
   return (
     <Suspense fallback={<PageLoader message="Loading route..." />}>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route element={<DashboardLayout />}>

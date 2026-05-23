@@ -59,7 +59,7 @@ function CategoryDistributionChart({
         {categories.map((category, index) => (
           <div
             key={category.slug}
-            className="flex items-center justify-between rounded-2xl bg-slate-50/90 px-4 py-3"
+            className="flex items-center justify-between rounded-2xl bg-slate-50/90 px-4 py-3 dark:bg-slate-800/70"
           >
             <div className="flex items-center gap-3">
               <span
@@ -70,13 +70,13 @@ function CategoryDistributionChart({
                 <p className="text-sm font-semibold text-slate-900">
                   {category.label}
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {formatNumber(category.value)} products
                 </p>
               </div>
             </div>
 
-            <span className="text-sm font-medium text-slate-700">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
               {formatRating(category.share)}%
             </span>
           </div>

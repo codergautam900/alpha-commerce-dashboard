@@ -42,19 +42,19 @@ function LiveUpdatesFeed() {
           recentEvents.map((event) => (
             <div
               key={event.id}
-              className="flex items-start gap-3 rounded-2xl bg-slate-50/90 p-4"
+              className="flex items-start gap-3 rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-800/70"
             >
-              <div className="rounded-2xl bg-white p-2 text-slate-700 shadow-sm shadow-slate-200/80">
+              <div className="rounded-2xl bg-white p-2 text-slate-700 shadow-sm shadow-slate-200/80 dark:bg-slate-900 dark:text-slate-300 dark:shadow-slate-900">
                 {getEventIcon(event.kind)}
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-slate-900">
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                   {event.productTitle}
                 </p>
-                <p className="mt-1 text-sm leading-6 text-slate-600">
+                <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
                   {event.message}
                 </p>
-                <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">
+                <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500">
                   {formatTime(event.occurredAt)}
                 </p>
               </div>

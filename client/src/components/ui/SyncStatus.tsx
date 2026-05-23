@@ -32,7 +32,7 @@ function SyncStatus({
             </StatusBadge>
           </div>
 
-          <p className="mt-3 text-base font-semibold text-slate-950">Live refresh</p>
+          <p className="mt-3 text-base font-semibold text-slate-950 dark:text-slate-100">Live refresh</p>
           <p className="mt-1 text-sm text-slate-600">
             {isRefreshing ? 'Refreshing catalog data...' : syncLabel}
           </p>

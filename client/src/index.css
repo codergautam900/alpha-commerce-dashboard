@@ -30,6 +30,17 @@
     isolation: isolate;
   }
 
+  html.dark body {
+    @apply text-slate-100;
+    color-scheme: dark;
+    background-color: var(--alpha-canvas);
+    background-image:
+      radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.18), transparent 24rem),
+      radial-gradient(circle at 86% 10%, rgba(96, 165, 250, 0.12), transparent 22rem),
+      radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.08), transparent 26rem),
+      linear-gradient(180deg, #020617 0%, #07101f 46%, #0f172a 100%);
+  }
+
   html.dark {
     --alpha-ink: #e2e8f0;
     --alpha-muted: #94a3b8;
@@ -45,15 +56,6 @@
     background: rgba(14, 165, 233, 0.2);
     color: #0f172a;
   }
-}
-
-html.dark body {
-  color-scheme: dark;
-  background-image:
-    radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.18), transparent 24rem),
-    radial-gradient(circle at 86% 10%, rgba(96, 165, 250, 0.12), transparent 22rem),
-    radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.08), transparent 26rem),
-    linear-gradient(180deg, #020617 0%, #07101f 46%, #0f172a 100%);
 }
 
 body::before {
@@ -84,52 +86,125 @@ body::before {
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
   }
+
+  html.dark .glass-panel {
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.92) 0%,
+      rgba(8, 15, 31, 0.86) 52%,
+      rgba(15, 23, 42, 0.76) 100%
+    );
+  }
 }
 
-html.dark .glass-panel {
-  background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.92) 0%,
-    rgba(8, 15, 31, 0.86) 52%,
-    rgba(15, 23, 42, 0.76) 100%
-  );
+/* ====== DARK MODE COMPREHENSIVE FIX ====== */
+
+/* Base text colors for dark mode */
+html.dark {
+  color-scheme: dark;
 }
 
-/* Dark mode background overrides - map light backgrounds to dark equivalents */
+html.dark body,
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark li,
+html.dark a,
+html.dark button,
+html.dark label,
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6 {
+  @apply text-slate-100;
+}
+
+/* Override specific text colors to light tones */
+html.dark .text-slate-950,
+html.dark .text-slate-900 {
+  @apply text-slate-50;
+}
+
+html.dark .text-slate-800 {
+  @apply text-slate-100;
+}
+
+html.dark .text-slate-700 {
+  @apply text-slate-200;
+}
+
+html.dark .text-slate-600 {
+  @apply text-slate-300;
+}
+
+html.dark .text-slate-500 {
+  @apply text-slate-400;
+}
+
+html.dark .text-slate-400 {
+  @apply text-slate-500;
+}
+
+/* Dark mode background overrides */
 html.dark .bg-white,
 html.dark .bg-white\/90,
 html.dark .bg-white\/80,
 html.dark .bg-white\/75,
-html.dark .bg-white\/70 {
-  @apply bg-slate-900/70;
-}
-
+html.dark .bg-white\/70,
 html.dark .bg-slate-50,
 html.dark .bg-slate-50\/90,
 html.dark .bg-slate-100 {
-  @apply bg-slate-800/50;
+  @apply bg-slate-900/80 !important;
 }
 
-/* Dark mode hover states */
-html.dark .hover\:bg-slate-100:hover,
-html.dark .hover\:bg-white:hover {
-  @apply hover:bg-slate-800/90;
-}
-
-/* Dark mode borders */
+/* Dark mode border colors */
 html.dark .border-slate-200,
 html.dark .border-slate-200\/80,
 html.dark .border-white\/70,
 html.dark .border-white\/75,
 html.dark .border-white\/80 {
-  @apply border-slate-700/60;
+  @apply border-slate-700/70;
 }
 
+/* Dark mode hover states */
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-white:hover {
+  @apply bg-slate-800/90 !important;
+}
+
+html.dark .hover\:text-slate-900:hover {
+  @apply text-slate-100 !important;
+}
+
+/* Selection colors */
 html.dark ::selection {
-  background: rgba(96, 165, 250, 0.28);
-  color: #f8fafc;
+  background: rgba(96, 165, 250, 0.3);
+  color: #f1f5f9;
 }
 
+/* Dark mode for input fields */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  @apply bg-slate-900/60 text-slate-100 border-slate-700;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  @apply text-slate-500;
+}
+
+/* Dark mode for cards and panels */
+html.dark .card,
+html.dark [class*="card"],
+html.dark .panel,
+html.dark [class*="panel"] {
+  @apply bg-slate-900/70;
+}
+
+/* Animation */
 @keyframes page-reveal {
   from {
     opacity: 0;

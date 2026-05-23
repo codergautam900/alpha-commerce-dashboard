@@ -88,11 +88,11 @@ function renderCell(
         <div className="min-w-0 flex-1">
           <Link
             to={`/products/${product.id}`}
-            className="truncate font-semibold text-slate-950 transition hover:text-sky-700"
+            className="truncate font-semibold text-slate-950 transition hover:text-sky-700 dark:text-slate-100 dark:hover:text-sky-400"
           >
             {product.title}
           </Link>
-          <p className="truncate text-sm text-slate-500">
+          <p className="truncate text-sm text-slate-500 dark:text-slate-400">
             {product.brand || 'Independent Brand'}
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-2">

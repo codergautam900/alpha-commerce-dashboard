@@ -108,7 +108,7 @@ function CartDrawer() {
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-3xl bg-white text-slate-700 shadow-sm">
                 <ShoppingCart className="h-6 w-6" />
               </div>
-              <h3 className="mt-5 text-lg font-semibold text-slate-950">
+              <h3 className="mt-5 text-lg font-semibold text-slate-950 dark:text-slate-100">
                 Your cart is empty
               </h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">

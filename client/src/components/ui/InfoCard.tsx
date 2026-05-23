@@ -13,20 +13,20 @@ function InfoCard({ title, value, description, icon }: InfoCardProps) {
       <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#0f172a_0%,#1d4ed8_55%,#f59e0b_100%)]" />
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-slate-500">{title}</p>
-          <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-950">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{title}</p>
+          <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 dark:text-slate-100">
             {value}
           </p>
         </div>
 
         {icon ? (
-          <div className="rounded-2xl bg-slate-100 p-3 text-slate-700 shadow-inner shadow-white">
+          <div className="rounded-2xl bg-slate-100 p-3 text-slate-700 shadow-inner shadow-white dark:bg-slate-800 dark:text-slate-300 dark:shadow-slate-900">
             {icon}
           </div>
         ) : null}
       </div>
 
-      <p className="mt-4 text-sm text-slate-600">{description}</p>
+      <p className="mt-4 text-sm text-slate-600 dark:text-slate-400">{description}</p>
     </article>
   )
 }
