@@ -1,18 +1,22 @@
 import { Link } from 'react-router-dom'
+import BrandMark from '../components/ui/BrandMark'
 
 function NotFoundPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4">
-      <div className="w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm shadow-slate-200/60">
-        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
+    <main className="flex min-h-screen items-center justify-center px-4 py-10">
+      <div className="glass-panel w-full max-w-xl rounded-[36px] border border-white/75 p-8 text-center shadow-[0_28px_80px_-40px_rgba(15,23,42,0.48)]">
+        <div className="flex justify-center">
+          <BrandMark size="md" subtitle="Premium Ops" />
+        </div>
+        <p className="mt-6 text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
           404
         </p>
         <h1 className="mt-3 text-3xl font-semibold text-slate-950">
           Page not found
         </h1>
         <p className="mt-3 text-sm leading-6 text-slate-600">
-          The route you opened does not exist yet. Head back to the dashboard
-          and continue building the assignment.
+          The route you opened does not exist or is no longer available. Head back
+          to the dashboard and continue with the product workspace.
         </p>
         <Link
           to="/dashboard"
