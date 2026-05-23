@@ -95,46 +95,34 @@ html.dark .glass-panel {
   );
 }
 
-html.dark .text-slate-950,
-html.dark .text-slate-900 {
-  color: #e5eefb !important;
-}
-
-html.dark .text-slate-700 {
-  color: #c9d5e8 !important;
-}
-
-html.dark .text-slate-600,
-html.dark .text-slate-500 {
-  color: #98a8bf !important;
-}
-
-html.dark .text-slate-400 {
-  color: #75859e !important;
-}
-
+/* Dark mode background overrides - map light backgrounds to dark equivalents */
 html.dark .bg-white,
 html.dark .bg-white\/90,
 html.dark .bg-white\/80,
 html.dark .bg-white\/75,
-html.dark .bg-white\/70,
+html.dark .bg-white\/70 {
+  @apply bg-slate-900/70;
+}
+
 html.dark .bg-slate-50,
 html.dark .bg-slate-50\/90,
 html.dark .bg-slate-100 {
-  background-color: rgba(15, 23, 42, 0.82) !important;
+  @apply bg-slate-800/50;
 }
 
+/* Dark mode hover states */
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-white:hover {
+  @apply hover:bg-slate-800/90;
+}
+
+/* Dark mode borders */
 html.dark .border-slate-200,
 html.dark .border-slate-200\/80,
 html.dark .border-white\/70,
 html.dark .border-white\/75,
 html.dark .border-white\/80 {
-  border-color: rgba(148, 163, 184, 0.18) !important;
-}
-
-html.dark .hover\:bg-slate-100:hover,
-html.dark .hover\:bg-white:hover {
-  background-color: rgba(30, 41, 59, 0.92) !important;
+  @apply border-slate-700/60;
 }
 
 html.dark ::selection {
