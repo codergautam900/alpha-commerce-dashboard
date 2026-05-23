@@ -6,16 +6,16 @@ function LiveUpdatesFeed() {
   const { connectionStatus, recentEvents } = useLiveUpdates()
 
   return (
-    <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-28px_rgba(15,23,42,0.35)] backdrop-blur">
+    <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-28px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92)_0%,rgba(2,6,23,0.94)_100%)] dark:shadow-[0_18px_60px_-28px_rgba(2,6,23,0.86)]">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-700">
             Mock Socket
           </p>
-          <h2 className="mt-2 text-xl font-semibold text-slate-950">
+          <h2 className="mt-2 text-xl font-semibold text-slate-950 dark:text-slate-100">
             Live activity stream
           </h2>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             {recentEvents.length > 0
               ? `${recentEvents.length} recent events are being surfaced in real time.`
               : 'The stream will populate as simulated catalog events arrive.'}
@@ -35,7 +35,7 @@ function LiveUpdatesFeed() {
 
       <div className="mt-5 space-y-3">
         {recentEvents.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+          <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-400">
             Waiting for the first simulated live update event.
           </div>
         ) : (

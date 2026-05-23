@@ -21,13 +21,13 @@ function ProductCard({ product }: ProductCardProps) {
   const isPurchasable = canPurchaseProduct(product)
 
   return (
-    <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_26px_80px_-36px_rgba(15,23,42,0.45)]">
+    <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_26px_80px_-36px_rgba(15,23,42,0.45)] dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-[0_18px_60px_-32px_rgba(2,6,23,0.82)]">
       <Link to={`/products/${product.id}`} className="block">
         <div className="flex items-start gap-4">
           <img
             src={product.thumbnail}
             alt={product.title}
-            className="h-20 w-20 rounded-2xl bg-slate-100 object-cover"
+            className="h-20 w-20 rounded-2xl bg-slate-100 object-cover dark:bg-slate-800"
           />
 
           <div className="min-w-0 flex-1">
@@ -36,17 +36,17 @@ function ProductCard({ product }: ProductCardProps) {
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   {formatCategoryLabel(product.category)}
                 </p>
-                <h3 className="mt-2 line-clamp-2 text-base font-semibold text-slate-950">
+                <h3 className="mt-2 line-clamp-2 text-base font-semibold text-slate-950 dark:text-slate-100">
                   {product.title}
                 </h3>
               </div>
 
-              <p className="rounded-full bg-slate-100 px-3 py-1 text-base font-semibold text-slate-950">
+              <p className="rounded-full bg-slate-100 px-3 py-1 text-base font-semibold text-slate-950 dark:bg-slate-800 dark:text-slate-100">
                 {formatCurrency(product.price)}
               </p>
             </div>
 
-            <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600">
+            <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
               {product.description}
             </p>
 
@@ -56,7 +56,7 @@ function ProductCard({ product }: ProductCardProps) {
                 tone={getStockTone(product)}
               />
 
-              <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-700">
+              <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-300">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                 {formatRating(product.rating)}
               </span>
@@ -65,7 +65,7 @@ function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
-      <div className="mt-4 border-t border-slate-200 pt-4">
+      <div className="mt-4 border-t border-slate-200 pt-4 dark:border-slate-700/80">
         {quantityInCart > 0 ? (
           <p className="mb-3 text-sm font-medium text-sky-700">
             {quantityInCart} unit{quantityInCart > 1 ? 's' : ''} already in cart
@@ -86,7 +86,7 @@ function ProductCard({ product }: ProductCardProps) {
             type="button"
             onClick={() => buyNow(product)}
             disabled={!isPurchasable}
-            className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             Buy now
           </button>

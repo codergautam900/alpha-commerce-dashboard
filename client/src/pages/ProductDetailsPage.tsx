@@ -62,7 +62,7 @@ function ProductDetailsPage() {
           action={
             <Link
               to="/products"
-              className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+              className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
             >
               Back to products
             </Link>
@@ -82,7 +82,7 @@ function ProductDetailsPage() {
           action={
             <Link
               to="/products"
-              className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+              className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
             >
               Back to products
             </Link>
@@ -129,7 +129,7 @@ function ProductDetailsPage() {
         action={
           <Link
             to="/products"
-            className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+            className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             Back to products
           </Link>
@@ -137,7 +137,7 @@ function ProductDetailsPage() {
       />
 
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
+        <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-[0_18px_60px_-30px_rgba(2,6,23,0.82)]">
           <ProductGallery
             key={product.id}
             images={galleryImages}
@@ -145,12 +145,12 @@ function ProductDetailsPage() {
           />
         </article>
 
-        <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
+        <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-[0_18px_60px_-30px_rgba(2,6,23,0.82)]">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">
             Details
           </p>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-950">{product.title}</h2>
-          <p className="mt-4 text-sm leading-6 text-slate-600">
+          <h2 className="mt-3 text-2xl font-semibold text-slate-950 dark:text-slate-100">{product.title}</h2>
+          <p className="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">
             {product.description}
           </p>
 
@@ -165,24 +165,24 @@ function ProductDetailsPage() {
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
               <p className="text-sm text-slate-500">Price</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-950">
+              <p className="mt-2 text-2xl font-semibold text-slate-950 dark:text-slate-100">
                 {formatCurrency(product.price)}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
               <p className="text-sm text-slate-500">Rating</p>
-              <p className="mt-2 inline-flex items-center gap-2 text-2xl font-semibold text-slate-950">
+              <p className="mt-2 inline-flex items-center gap-2 text-2xl font-semibold text-slate-950 dark:text-slate-100">
                 <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                 {formatRating(product.rating)}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
+            <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
               <p className="text-sm text-slate-500">Discount</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-950">
+              <p className="mt-2 text-2xl font-semibold text-slate-950 dark:text-slate-100">
                 {formatRating(product.discountPercentage)}%
               </p>
             </div>
@@ -193,11 +193,11 @@ function ProductDetailsPage() {
           </div>
 
           <div className="mt-6 grid gap-4">
-            <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700 dark:bg-slate-950/40">
               <Package className="mt-0.5 h-5 w-5 text-slate-500" />
               <div>
-                <p className="text-sm font-semibold text-slate-900">Inventory</p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Inventory</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                   {product.stock} units available
                   {product.minimumOrderQuantity
                     ? ` | minimum order ${product.minimumOrderQuantity}`
@@ -206,35 +206,35 @@ function ProductDetailsPage() {
               </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700 dark:bg-slate-950/40">
               <Truck className="mt-0.5 h-5 w-5 text-slate-500" />
               <div>
-                <p className="text-sm font-semibold text-slate-900">Shipping</p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Shipping</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                   {product.shippingInformation || 'Shipping details unavailable'}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4">
+            <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4 dark:border-slate-700 dark:bg-slate-950/40">
               <ShieldCheck className="mt-0.5 h-5 w-5 text-slate-500" />
               <div>
-                <p className="text-sm font-semibold text-slate-900">Warranty</p>
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Warranty</p>
+                <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
                   {product.warrantyInformation || 'Warranty information unavailable'}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
+          <div className="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-800/70 dark:text-slate-400">
             Product id:
             <span className="ml-2 font-semibold text-slate-900">{product.id}</span>
             {product.brand ? (
               <>
                 <span className="mx-2 text-slate-400">|</span>
                 Brand:
-                <span className="ml-2 font-semibold text-slate-900">
+                <span className="ml-2 font-semibold text-slate-900 dark:text-slate-100">
                   {product.brand}
                 </span>
               </>
@@ -255,7 +255,7 @@ function ProductDetailsPage() {
                 {product.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600"
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-300"
                   >
                     {tag}
                   </span>
@@ -292,16 +292,16 @@ function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
   ])
 
   return (
-    <section className="rounded-[30px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(248,250,252,0.95)_0%,rgba(255,255,255,0.98)_100%)] p-5 shadow-[0_18px_50px_-34px_rgba(15,23,42,0.32)]">
+    <section className="rounded-[30px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(248,250,252,0.95)_0%,rgba(255,255,255,0.98)_100%)] p-5 shadow-[0_18px_50px_-34px_rgba(15,23,42,0.32)] dark:border-slate-700/80 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.94)_0%,rgba(2,6,23,0.96)_100%)] dark:shadow-[0_18px_50px_-34px_rgba(2,6,23,0.86)]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
             Purchase Planner
           </p>
-          <h3 className="mt-2 text-xl font-semibold text-slate-950">
+          <h3 className="mt-2 text-xl font-semibold text-slate-950 dark:text-slate-100">
             Build the order before checkout
           </h3>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
             Adjust quantity and see the full payable amount update with discount,
             shipping, and tax.
           </p>
@@ -315,21 +315,21 @@ function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-[24px] border border-slate-200 bg-white p-4">
-          <p className="text-sm font-semibold text-slate-900">Select quantity</p>
-          <div className="mt-4 inline-flex items-center rounded-2xl border border-slate-200 bg-slate-50 p-1">
+        <div className="rounded-[24px] border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900/80">
+          <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Select quantity</p>
+          <div className="mt-4 inline-flex items-center rounded-2xl border border-slate-200 bg-slate-50 p-1 dark:border-slate-700 dark:bg-slate-800/80">
             <button
               type="button"
               onClick={() =>
                 setDesiredPurchaseQuantity((currentQuantity) => currentQuantity - 1)
               }
               disabled={!isPurchasable || purchaseQuantity === minimumQuantity}
-              className="rounded-xl p-2 text-slate-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-xl p-2 text-slate-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 dark:text-slate-300 dark:hover:bg-slate-700"
               aria-label="Decrease purchase quantity"
             >
               <Minus className="h-4 w-4" />
             </button>
-            <span className="min-w-12 px-4 text-center text-base font-semibold text-slate-950">
+            <span className="min-w-12 px-4 text-center text-base font-semibold text-slate-950 dark:text-slate-100">
               {purchaseQuantity}
             </span>
             <button
@@ -338,14 +338,14 @@ function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
                 setDesiredPurchaseQuantity((currentQuantity) => currentQuantity + 1)
               }
               disabled={!isPurchasable || purchaseQuantity >= maxQuantity}
-              className="rounded-xl p-2 text-slate-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-xl p-2 text-slate-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 dark:text-slate-300 dark:hover:bg-slate-700"
               aria-label="Increase purchase quantity"
             >
               <Plus className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="mt-4 space-y-2 text-sm text-slate-600">
+          <div className="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-400">
             <p>Available stock: {product.stock} units</p>
             <p>
               Minimum order:{' '}
@@ -372,7 +372,7 @@ function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
               type="button"
               onClick={() => buyNow(product, purchaseQuantity)}
               disabled={!isPurchasable}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               Buy now
             </button>

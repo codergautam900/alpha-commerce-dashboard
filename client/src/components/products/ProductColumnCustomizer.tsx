@@ -18,16 +18,16 @@ function ProductColumnCustomizer({
   visibleColumns,
 }: ProductColumnCustomizerProps) {
   return (
-    <div className="page-reveal rounded-[28px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.95))] p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.4)]">
+    <div className="page-reveal rounded-[28px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.95))] p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.4)] dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.9),rgba(2,6,23,0.94))] dark:shadow-[0_18px_40px_-30px_rgba(2,6,23,0.86)]">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-sky-700">
             Table Controls
           </p>
-          <p className="mt-2 text-base font-semibold text-slate-950">
+          <p className="mt-2 text-base font-semibold text-slate-950 dark:text-slate-100">
             Visible columns and order
           </p>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             Show, hide, and reorder the desktop table columns.
           </p>
         </div>
@@ -35,7 +35,7 @@ function ProductColumnCustomizer({
         <button
           type="button"
           onClick={onReset}
-          className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+          className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
         >
           Reset columns
         </button>
@@ -59,7 +59,7 @@ function ProductColumnCustomizer({
               className={`rounded-2xl border px-4 py-3 transition ${
                 checked
                   ? 'border-slate-900 bg-slate-950 text-white'
-                  : 'border-slate-200 bg-white text-slate-700'
+                  : 'border-slate-200 bg-white text-slate-700 dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200'
               }`}
             >
               <div className="flex items-start justify-between gap-4">
@@ -81,7 +81,7 @@ function ProductColumnCustomizer({
                   className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition ${
                     checked
                       ? 'bg-white/10 text-white'
-                      : 'bg-slate-100 text-slate-700'
+                      : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                   } ${!column.hideable ? 'cursor-not-allowed opacity-70' : ''}`}
                 >
                   {checked ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
@@ -91,7 +91,7 @@ function ProductColumnCustomizer({
 
               <div className="mt-4 flex items-center justify-between gap-3">
                 <p
-                  className={`text-sm ${checked ? 'text-slate-300' : 'text-slate-500'}`}
+                  className={`text-sm ${checked ? 'text-slate-300' : 'text-slate-500 dark:text-slate-400'}`}
                 >
                   {column.hideable
                     ? 'Use arrows to reorder this column.'

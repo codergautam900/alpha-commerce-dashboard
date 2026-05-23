@@ -42,7 +42,7 @@ function PageHeader({
               {metaItems.map((item) => (
                 <div
                   key={`${item.label}-${item.value}`}
-                  className="rounded-2xl border border-white/70 bg-white/70 px-4 py-3 shadow-[0_14px_32px_-24px_rgba(15,23,42,0.35)] backdrop-blur"
+                  className="rounded-2xl border border-white/70 bg-white/70 px-4 py-3 shadow-[0_14px_32px_-24px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/70 dark:shadow-[0_14px_32px_-24px_rgba(2,6,23,0.86)]"
                 >
                   <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
                     {item.label}
@@ -57,7 +57,7 @@ function PageHeader({
         </div>
 
         <div className="flex flex-col items-start gap-4 lg:items-end">
-          <div className="rounded-[26px] border border-white/70 bg-white/75 p-3 shadow-[0_18px_38px_-26px_rgba(15,23,42,0.42)]">
+          <div className="rounded-[26px] border border-white/70 bg-white/75 p-3 shadow-[0_18px_38px_-26px_rgba(15,23,42,0.42)] dark:border-slate-700/80 dark:bg-slate-900/70 dark:shadow-[0_18px_38px_-26px_rgba(2,6,23,0.88)]">
             <BrandMark size="sm" subtitle="Premium Ops" />
           </div>
           {action ? <div className="relative">{action}</div> : null}

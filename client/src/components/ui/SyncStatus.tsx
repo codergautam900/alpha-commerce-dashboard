@@ -20,7 +20,7 @@ function SyncStatus({
     lastUpdatedAt > 0 ? `Last synced at ${formatTime(lastUpdatedAt)}` : 'Waiting for first sync'
 
   return (
-    <div className="page-reveal rounded-[28px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.94)_0%,rgba(236,253,245,0.96)_100%)] p-5 shadow-[0_18px_50px_-32px_rgba(15,23,42,0.45)]">
+    <div className="page-reveal rounded-[28px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.94)_0%,rgba(236,253,245,0.96)_100%)] p-5 shadow-[0_18px_50px_-32px_rgba(15,23,42,0.45)] dark:border-slate-700/80 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.94)_0%,rgba(2,6,23,0.96)_100%)] dark:shadow-[0_18px_50px_-32px_rgba(2,6,23,0.86)]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
@@ -41,7 +41,7 @@ function SyncStatus({
               ? `Last live event at ${formatTime(lastEventAt)}`
               : 'Waiting for the first simulated event'}
           </p>
-          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/80">
+          <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/80 dark:bg-slate-800">
             <div
               className={`h-full rounded-full bg-[linear-gradient(90deg,#10b981_0%,#0ea5e9_100%)] transition-all duration-500 ${
                 isRefreshing ? 'w-11/12' : 'w-3/4'

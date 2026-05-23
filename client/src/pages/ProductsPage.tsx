@@ -232,17 +232,17 @@ function ProductsPage() {
         totalResults={filteredProducts.length}
       />
 
-      <section className="rounded-[32px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur">
-        <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between">
+      <section className="rounded-[32px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92)_0%,rgba(2,6,23,0.94)_100%)] dark:shadow-[0_18px_60px_-30px_rgba(2,6,23,0.86)]">
+        <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between dark:border-slate-700/80">
           <div>
-            <h2 className="text-xl font-semibold text-slate-950">Catalog listing</h2>
-            <p className="mt-2 text-sm text-slate-600">
+            <h2 className="text-xl font-semibold text-slate-950 dark:text-slate-100">Catalog listing</h2>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
               Showing {paginatedProducts.totalItems} filtered products from a total
               catalog of {totalProducts}.
             </p>
           </div>
 
-          <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
+          <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-300">
             Filters in sync with URL
           </div>
         </div>

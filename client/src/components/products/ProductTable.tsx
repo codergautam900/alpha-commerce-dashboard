@@ -31,9 +31,9 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
     .join(' ')
 
   return (
-    <div className="page-reveal hidden overflow-hidden rounded-[28px] border border-slate-200/80 lg:block">
+    <div className="page-reveal hidden overflow-hidden rounded-[28px] border border-slate-200/80 lg:block dark:border-slate-700/80">
       <div
-        className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
+        className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:bg-[linear-gradient(180deg,rgba(30,41,59,0.92)_0%,rgba(15,23,42,0.98)_100%)] dark:text-slate-400"
         style={{ gridTemplateColumns }}
       >
         {selectedColumnDefinitions.map((column) => (
@@ -41,11 +41,11 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
         ))}
       </div>
 
-      <div className="divide-y divide-slate-200">
+      <div className="divide-y divide-slate-200 dark:divide-slate-700/80">
         {products.map((product) => (
           <div
             key={product.id}
-            className="grid gap-3 px-5 py-4 text-sm transition hover:bg-sky-50/50"
+            className="grid gap-3 px-5 py-4 text-sm transition hover:bg-sky-50/50 dark:hover:bg-slate-800/50"
             style={{ gridTemplateColumns }}
           >
             {selectedColumnDefinitions.map((column) => (
@@ -83,7 +83,7 @@ function renderCell(
         <img
           src={product.thumbnail}
           alt={product.title}
-          className="h-14 w-14 rounded-2xl bg-slate-100 object-cover"
+          className="h-14 w-14 rounded-2xl bg-slate-100 object-cover dark:bg-slate-800"
         />
         <div className="min-w-0 flex-1">
           <Link
@@ -109,12 +109,12 @@ function renderCell(
               type="button"
               onClick={() => cartActions.buyNow(product)}
               disabled={!isPurchasable}
-              className="inline-flex rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               Buy
             </button>
             {cartActions.quantityInCart > 0 ? (
-              <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-700">
+              <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-700 dark:bg-sky-950/50 dark:text-sky-300">
                 {cartActions.quantityInCart} in cart
               </span>
             ) : null}
@@ -126,7 +126,7 @@ function renderCell(
 
   if (column.id === 'category') {
     return (
-      <span className="self-center text-slate-600">
+      <span className="self-center text-slate-600 dark:text-slate-400">
         {formatCategoryLabel(product.category)}
       </span>
     )
@@ -134,7 +134,7 @@ function renderCell(
 
   if (column.id === 'price') {
     return (
-      <span className="self-center font-medium text-slate-950">
+      <span className="self-center font-medium text-slate-950 dark:text-slate-100">
         {formatCurrency(product.price)}
       </span>
     )
@@ -152,7 +152,7 @@ function renderCell(
   }
 
   return (
-    <span className="inline-flex items-center gap-1 self-center text-slate-700">
+    <span className="inline-flex items-center gap-1 self-center text-slate-700 dark:text-slate-300">
       <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
       {formatRating(product.rating)}
     </span>

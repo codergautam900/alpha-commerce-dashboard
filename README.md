@@ -12,6 +12,8 @@ Built with React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, Axios, and 
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-0f172a?style=for-the-badge&logo=tailwindcss&logoColor=38b2ac)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-0f172a?style=for-the-badge)](./LICENSE)
 
+[Live Demo](https://alpha-commerce-dashboard.vercel.app/) | [GitHub Repository](https://github.com/codergautam900/alpha-commerce-dashboard)
+
 [Overview](#overview) | [Showcase](#showcase) | [Feature Matrix](#feature-matrix) | [Architecture](#architecture) | [Getting Started](#getting-started) | [Author](#author)
 
 </div>
@@ -230,6 +232,7 @@ Recommended settings:
 
 ## Repository
 
+- Live Demo: `https://alpha-commerce-dashboard.vercel.app/`
 - GitHub: `https://github.com/codergautam900/alpha-commerce-dashboard`
 
 ## Author

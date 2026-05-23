@@ -41,16 +41,16 @@ function ProductSavedViewsPanel({
   }
 
   return (
-    <div className="rounded-[28px] border border-slate-200/80 bg-white/80 p-4 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)] backdrop-blur">
+    <div className="rounded-[28px] border border-slate-200/80 bg-white/80 p-4 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/70 dark:shadow-[0_18px_44px_-34px_rgba(2,6,23,0.82)]">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
             Saved Views
           </p>
-          <h3 className="mt-2 text-base font-semibold text-slate-950">
+          <h3 className="mt-2 text-base font-semibold text-slate-950 dark:text-slate-100">
             Reopen common catalog setups instantly
           </h3>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             Saved views are built directly from the current URL-synced filters.
           </p>
         </div>
@@ -59,7 +59,7 @@ function ProductSavedViewsPanel({
           type="button"
           onClick={() => setIsComposerOpen((currentValue) => !currentValue)}
           disabled={!canSaveCurrentView}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
         >
           <BookmarkPlus className="h-4 w-4" />
           Save current view
@@ -67,14 +67,14 @@ function ProductSavedViewsPanel({
       </div>
 
       {isComposerOpen ? (
-        <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4">
+        <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-950/60">
           <div className="flex flex-col gap-3 lg:flex-row">
             <input
               type="text"
               value={draftName}
               onChange={(event) => setDraftName(event.target.value)}
               placeholder="Example: Top-rated beauty products"
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:ring-4 focus:ring-slate-200"
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:ring-4 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:focus:border-sky-400 dark:focus:ring-slate-800"
             />
 
             <div className="flex items-center gap-2">
@@ -92,7 +92,7 @@ function ProductSavedViewsPanel({
                   setDraftName('')
                   setIsComposerOpen(false)
                 }}
-                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
               >
                 Cancel
               </button>
@@ -103,7 +103,7 @@ function ProductSavedViewsPanel({
 
       <div className="mt-4 grid gap-3 xl:grid-cols-3">
         {savedViews.length === 0 ? (
-          <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-600 xl:col-span-3">
+          <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-600 xl:col-span-3 dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-400">
             Save one or two smart filter combinations here so reviewers can see
             thoughtful workflows, not just a raw table.
           </div>
@@ -117,7 +117,7 @@ function ProductSavedViewsPanel({
                 className={`rounded-[24px] border p-4 transition ${
                   isActive
                     ? 'border-slate-900 bg-slate-950 text-white shadow-[0_16px_36px_-24px_rgba(15,23,42,0.75)]'
-                    : 'border-slate-200 bg-slate-50 text-slate-900'
+                    : 'border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-100'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -145,7 +145,7 @@ function ProductSavedViewsPanel({
                     className={`rounded-full p-2 transition ${
                       isActive
                         ? 'text-slate-300 hover:bg-white/10 hover:text-white'
-                        : 'text-slate-400 hover:bg-white hover:text-slate-700'
+                        : 'text-slate-400 hover:bg-white hover:text-slate-700 dark:text-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-200'
                     }`}
                     aria-label={`Delete ${view.name}`}
                   >
@@ -159,7 +159,7 @@ function ProductSavedViewsPanel({
                   className={`mt-4 inline-flex items-center gap-2 rounded-2xl px-4 py-2 text-sm font-medium transition ${
                     isActive
                       ? 'bg-white/10 text-white hover:bg-white/15'
-                      : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-100'
+                      : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800'
                   }`}
                 >
                   <Star className="h-4 w-4" />

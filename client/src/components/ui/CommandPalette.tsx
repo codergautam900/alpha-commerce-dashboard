@@ -114,9 +114,9 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         aria-label="Close command palette"
       />
 
-      <div className="page-reveal relative z-10 w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/70 bg-white/95 shadow-[0_30px_80px_-36px_rgba(15,23,42,0.55)] backdrop-blur">
-        <div className="flex items-center gap-3 border-b border-slate-200/80 px-5 py-4">
-          <div className="rounded-2xl bg-slate-100 p-2 text-slate-700">
+      <div className="page-reveal relative z-10 w-full max-w-2xl overflow-hidden rounded-[32px] border border-white/70 bg-white/95 shadow-[0_30px_80px_-36px_rgba(15,23,42,0.55)] backdrop-blur dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.96)_0%,rgba(15,23,42,0.98)_100%)] dark:shadow-[0_30px_80px_-36px_rgba(2,6,23,0.9)]">
+        <div className="flex items-center gap-3 border-b border-slate-200/80 px-5 py-4 dark:border-slate-700/80">
+          <div className="rounded-2xl bg-slate-100 p-2 text-slate-700 dark:bg-slate-800 dark:text-slate-300">
             <Search className="h-4 w-4" />
           </div>
 
@@ -165,14 +165,14 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
             className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-slate-100 dark:placeholder:text-slate-600"
           />
 
-          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:bg-slate-800 dark:text-slate-400">
             Esc
           </span>
         </div>
 
         <div className="max-h-[420px] overflow-y-auto p-3">
           {filteredActions.length === 0 ? (
-            <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-center text-sm text-slate-600">
+            <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-center text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-400">
               No matching commands found. Try searching for dashboard, products, or
               rating.
             </div>
@@ -210,7 +210,7 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                         className={`rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] ${
                           isSelected
                             ? 'bg-white/10 text-white'
-                            : 'bg-white text-slate-500'
+                            : 'bg-white text-slate-500 dark:bg-slate-800 dark:text-slate-400'
                         }`}
                       >
                         Current
