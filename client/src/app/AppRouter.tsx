@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import PageLoader from '../components/ui/PageLoader'
 import WelcomePage from '../pages/WelcomePage'
 

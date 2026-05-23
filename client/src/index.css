@@ -128,23 +128,23 @@ html.dark .text-slate-900 {
 }
 
 html.dark .text-slate-800 {
-  @apply text-slate-100;
+  color: #e2e8f0;
 }
 
 html.dark .text-slate-700 {
-  @apply text-slate-200;
+  color: #cbd5e1;
 }
 
 html.dark .text-slate-600 {
-  @apply text-slate-300;
+  color: #94a3b8;
 }
 
 html.dark .text-slate-500 {
-  @apply text-slate-400;
+  color: #64748b;
 }
 
 html.dark .text-slate-400 {
-  @apply text-slate-500;
+  color: #475569;
 }
 
 /* Dark mode background overrides */
@@ -156,7 +156,7 @@ html.dark .bg-white\/70,
 html.dark .bg-slate-50,
 html.dark .bg-slate-50\/90,
 html.dark .bg-slate-100 {
-  @apply bg-slate-900/80 !important;
+  background-color: rgb(15 23 42 / 0.8) !important;
 }
 
 /* Dark mode border colors */
@@ -165,17 +165,17 @@ html.dark .border-slate-200\/80,
 html.dark .border-white\/70,
 html.dark .border-white\/75,
 html.dark .border-white\/80 {
-  @apply border-slate-700/70;
+  border-color: rgb(51 65 85 / 0.7);
 }
 
 /* Dark mode hover states */
 html.dark .hover\:bg-slate-100:hover,
 html.dark .hover\:bg-white:hover {
-  @apply bg-slate-800/90 !important;
+  background-color: rgb(30 41 59 / 0.9) !important;
 }
 
 html.dark .hover\:text-slate-900:hover {
-  @apply text-slate-100 !important;
+  color: #f1f5f9 !important;
 }
 
 /* Selection colors */
@@ -188,12 +188,14 @@ html.dark ::selection {
 html.dark input,
 html.dark textarea,
 html.dark select {
-  @apply bg-slate-900/60 text-slate-100 border-slate-700;
+  background-color: rgb(15 23 42 / 0.6);
+  color: #f1f5f9;
+  border-color: #334155;
 }
 
 html.dark input::placeholder,
 html.dark textarea::placeholder {
-  @apply text-slate-500;
+  color: #64748b;
 }
 
 /* Dark mode for cards and panels */
@@ -201,7 +203,7 @@ html.dark .card,
 html.dark [class*="card"],
 html.dark .panel,
 html.dark [class*="panel"] {
-  @apply bg-slate-900/70;
+  background-color: rgb(15 23 42 / 0.7);
 }
 
 /* Animation */
