@@ -12,12 +12,12 @@ type StatusBadgeProps = {
 
 const badgeToneClasses: Record<StatusBadgeTone, string> = {
   amber:
-    'border border-amber-300/20 bg-amber-300/10 text-amber-100 dark:border-amber-300/30 dark:bg-amber-300/15 dark:text-amber-100',
-  dark: 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900',
+    'border border-amber-300/20 bg-amber-300/10 text-amber-100 dark:!border-amber-300/30 dark:!bg-amber-300/15 dark:!text-amber-100',
+  dark: 'bg-slate-900 text-white dark:!bg-slate-100 dark:!text-slate-900',
   emerald:
-    'border border-emerald-200/80 bg-[linear-gradient(135deg,rgba(240,253,250,0.9),rgba(220,252,231,0.92))] text-emerald-700 dark:border-emerald-400/25 dark:bg-emerald-400/15 dark:text-emerald-200',
-  neutral: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200',
-  sky: 'border border-sky-400/30 bg-sky-400/10 text-sky-200 dark:border-sky-300/30 dark:bg-sky-300/15 dark:text-sky-100',
+    'border border-emerald-200/80 bg-[linear-gradient(135deg,rgba(240,253,250,0.9),rgba(220,252,231,0.92))] text-emerald-700 dark:!border-emerald-400/25 dark:!bg-[linear-gradient(135deg,rgba(6,78,59,0.78),rgba(20,83,45,0.88))] dark:!text-emerald-100',
+  neutral: 'bg-slate-100 text-slate-700 dark:!bg-slate-800 dark:!text-slate-200',
+  sky: 'border border-sky-400/30 bg-sky-400/10 text-sky-200 dark:!border-sky-300/30 dark:!bg-sky-300/15 dark:!text-sky-100',
 }
 
 const dotToneClasses: Record<StatusBadgeTone, string> = {

@@ -23,8 +23,8 @@ function LiveUpdatesFeed() {
         </div>
 
         <div className="space-y-2 text-right">
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:!border-emerald-400/25 dark:!bg-[linear-gradient(135deg,rgba(6,78,59,0.78),rgba(20,83,45,0.88))] dark:!text-emerald-100">
+            <span className="h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-300" />
             {connectionStatus}
           </span>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowRight, Zap, BarChart3, Layers, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import BrandMark from '../components/ui/BrandMark'
@@ -7,7 +7,13 @@ export function WelcomePage() {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    setIsLoaded(true)
+    const frameId = window.requestAnimationFrame(() => {
+      setIsLoaded(true)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+    }
   }, [])
 
   const features = [
@@ -70,7 +76,7 @@ export function WelcomePage() {
             </h1>
 
             <p className="mb-8 max-w-2xl text-xl leading-relaxed text-slate-600 dark:text-slate-400">
-              Manage products, track inventory, analyze trends, and collaborate in real-time. 
+              Manage products, track inventory, analyze trends, and collaborate in real-time.
               Built for modern product teams that move fast.
             </p>
 
@@ -150,7 +156,8 @@ export function WelcomePage() {
               return (
                 <div
                   key={index}
-                  className={`transform transition-all duration-700 delay-${index * 100} group rounded-2xl border border-slate-200/50 bg-white/80 p-8 backdrop-blur hover:border-slate-300 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-900/50 dark:hover:border-slate-600 ${
+                  style={{ transitionDelay: `${index * 100}ms` }}
+                  className={`transform transition-all duration-700 group rounded-2xl border border-slate-200/50 bg-white/80 p-8 backdrop-blur hover:border-slate-300 hover:shadow-xl dark:border-slate-700/50 dark:bg-slate-900/50 dark:hover:border-slate-600 ${
                     isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                   }`}
                 >
@@ -232,7 +239,7 @@ export function WelcomePage() {
       <footer className="border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50">
         <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-slate-600 dark:text-slate-400">
-            © 2026 Alpha Dashboard. Built for modern product teams.
+            Copyright 2026 Alpha Dashboard. Built for modern product teams.
           </p>
         </div>
       </footer>
