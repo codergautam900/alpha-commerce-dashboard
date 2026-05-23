@@ -103,6 +103,8 @@ function ProductsPage() {
   }, [filteredProducts])
 
   useEffect(() => {
+    // A tighter filter can leave the current page out of range, so we snap
+    // back to the last valid page instead of rendering an empty table.
     if (paginatedProducts.safePage !== currentPage) {
       changePage(paginatedProducts.safePage)
     }

@@ -1,6 +1,8 @@
 import { RefreshCcw } from 'lucide-react'
 import { useLiveUpdates } from '../../app/useLiveUpdates'
 import { formatTime } from '../../utils/formatters'
+import ChromeButton from './ChromeButton'
+import StatusBadge from './StatusBadge'
 
 type SyncStatusProps = {
   isRefreshing: boolean
@@ -22,13 +24,12 @@ function SyncStatus({
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            <StatusBadge showDot tone="emerald">
               {connectionStatus}
-            </span>
-            <span className="inline-flex items-center rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-white">
+            </StatusBadge>
+            <StatusBadge tone="dark">
               Polling + mock socket
-            </span>
+            </StatusBadge>
           </div>
 
           <p className="mt-3 text-base font-semibold text-slate-950">Live refresh</p>
@@ -49,14 +50,13 @@ function SyncStatus({
           </div>
         </div>
 
-        <button
-          type="button"
+        <ChromeButton
           onClick={onRefresh}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl border-none bg-slate-950 px-4 py-3 text-sm font-medium text-white shadow-none hover:bg-slate-800"
         >
           <RefreshCcw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           Refresh now
-        </button>
+        </ChromeButton>
       </div>
     </div>
   )

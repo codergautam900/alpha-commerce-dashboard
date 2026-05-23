@@ -15,6 +15,8 @@ export function useProductFilters() {
   const [searchInputResetVersion, setSearchInputResetVersion] = useState(0)
   const searchFromUrl = searchParams.get('search') ?? ''
   const appliedSearch = searchFromUrl.trim()
+  // The search field keeps its own debounced draft, so we bump this key when
+  // filters are replaced externally and the input needs a clean reset.
   const searchInputKey = `${location.key}:${searchInputResetVersion}`
 
   const selectedCategories = useMemo(

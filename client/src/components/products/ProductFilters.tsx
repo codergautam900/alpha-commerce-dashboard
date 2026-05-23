@@ -49,6 +49,8 @@ function ProductFilters({
   const debouncedSearch = useDebounce(searchInput, 400)
 
   useEffect(() => {
+    // Typing stays local and responsive here while the URL remains the source
+    // of truth for the actual applied filters.
     if (debouncedSearch === searchValue) {
       return
     }

@@ -27,9 +27,10 @@ function DashboardLayout() {
   return (
     <div className="relative min-h-screen overflow-hidden text-slate-900">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-8rem] top-[-6rem] h-64 w-64 rounded-full bg-sky-300/25 blur-3xl" />
-        <div className="absolute right-[-5rem] top-20 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl" />
-        <div className="absolute bottom-[-8rem] left-1/3 h-80 w-80 rounded-full bg-indigo-200/25 blur-3xl" />
+        <div className="absolute left-[-8rem] top-[-6rem] h-72 w-72 rounded-full bg-sky-300/[0.28] blur-3xl" />
+        <div className="absolute right-[-5rem] top-20 h-80 w-80 rounded-full bg-amber-200/[0.32] blur-3xl" />
+        <div className="absolute bottom-[-8rem] left-1/3 h-96 w-96 rounded-full bg-indigo-200/[0.24] blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),transparent)]" />
       </div>
 
       <div className="relative flex min-h-screen">
@@ -56,7 +57,7 @@ function DashboardLayout() {
             onOpenCommandPalette={() => setCommandPaletteOpen(true)}
           />
           <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-6">
               <Outlet />
             </div>
           </main>

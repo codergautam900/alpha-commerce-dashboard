@@ -1,6 +1,11 @@
 import { Bell, Menu, Search, ShoppingCart } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
 import { useCart } from '../../app/useCart'
 import { useLiveUpdates } from '../../app/useLiveUpdates'
+import { navigationItems } from '../../data/navigation'
+import BrandMark from '../ui/BrandMark'
+import ChromeButton from '../ui/ChromeButton'
+import StatusBadge from '../ui/StatusBadge'
 
 type TopNavBarProps = {
   onMenuClick: () => void
@@ -8,12 +13,16 @@ type TopNavBarProps = {
 }
 
 function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
+  const location = useLocation()
   const { cartSummary, openCart } = useCart()
   const { connectionStatus } = useLiveUpdates()
+  const activeItem =
+    navigationItems.find((item) => location.pathname.startsWith(item.to))?.label ??
+    'Workspace'
 
   return (
-    <header className="sticky top-0 z-20 border-b border-white/60 bg-white/70 backdrop-blur-xl">
-      <div className="flex items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-20 border-b border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,255,255,0.62))] backdrop-blur-2xl">
+      <div className="mx-auto flex max-w-[92rem] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={onMenuClick}
@@ -23,10 +32,20 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
           <Menu className="h-5 w-5" />
         </button>
 
+        <div className="hidden min-w-0 items-center gap-3 xl:flex">
+          <BrandMark size="sm" showWordmark={false} />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-slate-950">Alpha Dashboard</p>
+            <p className="truncate text-xs uppercase tracking-[0.22em] text-slate-500">
+              {activeItem} workspace
+            </p>
+          </div>
+        </div>
+
         <button
           type="button"
           onClick={onOpenCommandPalette}
-          className="hidden flex-1 items-center justify-between rounded-2xl border border-white/70 bg-white/70 px-4 py-3 text-left text-sm text-slate-500 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.45)] transition hover:bg-white md:flex"
+          className="hidden flex-1 items-center justify-between rounded-[24px] border border-white/70 bg-white/75 px-4 py-3 text-left text-sm text-slate-500 shadow-[0_16px_38px_-24px_rgba(15,23,42,0.42)] transition hover:bg-white md:flex"
         >
           <span className="flex items-center gap-3">
             <Search className="h-4 w-4 text-slate-400" />
@@ -38,24 +57,22 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
         </button>
 
         <div className="ml-auto flex items-center gap-3">
-          <button
-            type="button"
+          <ChromeButton
             onClick={onOpenCommandPalette}
-            className="rounded-2xl border border-white/70 bg-white/75 p-2.5 text-slate-700 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] transition hover:bg-slate-100 md:hidden"
+            className="bg-white/75 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] md:hidden"
+            iconOnly
             aria-label="Open command palette"
           >
             <Search className="h-4 w-4" />
-          </button>
+          </ChromeButton>
 
-          <div className="hidden rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 lg:inline-flex lg:items-center lg:gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <StatusBadge className="hidden lg:inline-flex" showDot tone="emerald">
             {connectionStatus}
-          </div>
+          </StatusBadge>
 
-          <button
-            type="button"
+          <ChromeButton
             onClick={openCart}
-            className="relative rounded-2xl border border-white/70 bg-white/75 px-3 py-2.5 text-slate-700 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] transition hover:bg-slate-100"
+            className="relative"
             aria-label="Open cart"
           >
             <span className="flex items-center gap-2">
@@ -69,23 +86,25 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
                 {cartSummary.totalUnits}
               </span>
             ) : null}
-          </button>
+          </ChromeButton>
 
-          <button
-            type="button"
-            className="rounded-2xl border border-white/70 bg-white/75 p-2.5 text-slate-700 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] transition hover:bg-slate-100"
+          <ChromeButton
+            className=""
             aria-label="Notifications"
+            iconOnly
           >
             <Bell className="h-4 w-4" />
-          </button>
+          </ChromeButton>
 
-          <div className="flex items-center gap-3 rounded-2xl border border-white/80 bg-white/80 px-3 py-2 shadow-[0_14px_32px_-24px_rgba(15,23,42,0.5)]">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_100%)] text-sm font-semibold text-white">
+          <div className="flex items-center gap-3 rounded-[22px] border border-white/80 bg-white/80 px-3 py-2 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.5)]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_78%,#60a5fa_100%)] text-sm font-semibold text-white shadow-[0_12px_24px_-16px_rgba(29,78,216,0.85)]">
               GS
             </div>
             <div className="hidden sm:block">
               <p className="text-sm font-semibold text-slate-900">Gautam</p>
-              <p className="text-xs text-slate-500">Product Operations</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                Product Operations
+              </p>
             </div>
           </div>
         </div>

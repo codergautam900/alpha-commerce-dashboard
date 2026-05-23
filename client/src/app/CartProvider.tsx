@@ -46,12 +46,24 @@ export function CartProvider({ children }: CartProviderProps) {
     () => catalogQuery.data?.products ?? [],
     [catalogQuery.data?.products],
   )
+  // We persist the cart as a local snapshot, then reconcile it against the
+  // latest catalog data before rendering totals or applying quantity changes.
   const cartItems = useMemo(
     () =>
       catalogProducts.length > 0
         ? reconcileCartItems(storedCartItems, catalogProducts)
         : storedCartItems,
     [catalogProducts, storedCartItems],
+  )
+  const syncCartItems = useCallback(
+    (cartItemsToSync: CartItem[]) => reconcileCartItems(cartItemsToSync, catalogProducts),
+    [catalogProducts],
+  )
+  const resolveCatalogProduct = useCallback(
+    (product: Product) =>
+      catalogProducts.find((catalogProduct) => catalogProduct.id === product.id) ??
+      product,
+    [catalogProducts],
   )
 
   useEffect(() => {
@@ -62,10 +74,8 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const addToCart = useCallback((product: Product, quantity = 1) => {
     setStoredCartItems((currentItems) => {
-      const syncedItems = reconcileCartItems(currentItems, catalogProducts)
-      const nextProduct =
-        catalogProducts.find((catalogProduct) => catalogProduct.id === product.id) ??
-        product
+      const syncedItems = syncCartItems(currentItems)
+      const nextProduct = resolveCatalogProduct(product)
       const nextQuantity = clampCartQuantity(nextProduct, quantity)
 
       if (nextQuantity === 0) {
@@ -94,7 +104,7 @@ export function CartProvider({ children }: CartProviderProps) {
           : cartItem,
       )
     })
-  }, [catalogProducts])
+  }, [resolveCatalogProduct, syncCartItems])
 
   const buyNow = useCallback((product: Product, quantity = 1) => {
     addToCart(product, quantity)
@@ -103,7 +113,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const updateQuantity = useCallback((productId: number, quantity: number) => {
     setStoredCartItems((currentItems) =>
-      reconcileCartItems(currentItems, catalogProducts).map((cartItem) =>
+      syncCartItems(currentItems).map((cartItem) =>
         cartItem.product.id === productId
           ? {
               ...cartItem,
@@ -112,15 +122,15 @@ export function CartProvider({ children }: CartProviderProps) {
           : cartItem,
       ),
     )
-  }, [catalogProducts])
+  }, [syncCartItems])
 
   const removeFromCart = useCallback((productId: number) => {
     setStoredCartItems((currentItems) =>
-      reconcileCartItems(currentItems, catalogProducts).filter(
+      syncCartItems(currentItems).filter(
         (cartItem) => cartItem.product.id !== productId,
       ),
     )
-  }, [catalogProducts])
+  }, [syncCartItems])
 
   const clearCart = useCallback(() => {
     setStoredCartItems([])
