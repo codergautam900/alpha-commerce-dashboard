@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { ArrowUpDown, Search, X } from 'lucide-react'
+import { useDebounce } from '../../hooks/useDebounce'
 import type {
   ProductCategory,
   ProductSavedView,
@@ -43,6 +45,17 @@ function ProductFilters({
   selectedCategories,
   sortValue,
 }: ProductFiltersProps) {
+  const [searchInput, setSearchInput] = useState(searchValue)
+  const debouncedSearch = useDebounce(searchInput, 400)
+
+  useEffect(() => {
+    if (debouncedSearch === searchValue) {
+      return
+    }
+
+    onSearchChange(debouncedSearch)
+  }, [debouncedSearch, onSearchChange, searchValue])
+
   return (
     <section className="page-reveal rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)]">
       <div className="grid gap-4 xl:grid-cols-[1.5fr_0.8fr]">
@@ -50,8 +63,8 @@ function ProductFilters({
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input
             type="search"
-            value={searchValue}
-            onChange={(event) => onSearchChange(event.target.value)}
+            value={searchInput}
+            onChange={(event) => setSearchInput(event.target.value)}
             placeholder="Search by name, brand, description, or category"
             className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:bg-white focus:ring-4 focus:ring-slate-200"
           />

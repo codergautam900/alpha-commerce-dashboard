@@ -34,6 +34,7 @@ npm run lint
 - Product listing with search, multi-category filters, sorting, and pagination
 - URL-synced filters and search params
 - Product details page with image gallery
+- Quantity-aware cart flow with add-to-cart, buy-now, and live checkout totals
 - Analytics dashboard with category distribution chart
 - Command palette for quick page and catalog navigation
 - Saved product views built on top of URL-synced filters

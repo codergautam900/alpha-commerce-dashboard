@@ -1,8 +1,11 @@
 export function formatCurrency(value: number) {
+  const hasDecimals = Math.round(value * 100) % 100 !== 0
+
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    maximumFractionDigits: 0,
+    minimumFractionDigits: hasDecimals ? 2 : 0,
+    maximumFractionDigits: 2,
   }).format(value)
 }
 

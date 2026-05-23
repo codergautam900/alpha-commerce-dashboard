@@ -1,19 +1,21 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useCallback, useMemo, useState } from 'react'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import type { ProductSortValue } from '../types/product'
-import { useDebounce } from './useDebounce'
 import {
   DEFAULT_PRODUCT_SORT,
+  buildNormalizedQueryString,
   parseCategoriesParam,
   parsePageParam,
   parseSortParam,
 } from '../utils/products'
 
 export function useProductFilters() {
+  const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [searchInputResetVersion, setSearchInputResetVersion] = useState(0)
   const searchFromUrl = searchParams.get('search') ?? ''
-  const [searchInput, setSearchInput] = useState(searchFromUrl)
-  const debouncedSearch = useDebounce(searchInput, 400)
+  const appliedSearch = searchFromUrl.trim()
+  const searchInputKey = `${location.key}:${searchInputResetVersion}`
 
   const selectedCategories = useMemo(
     () => parseCategoriesParam(searchParams.get('categories')),
@@ -55,18 +57,6 @@ export function useProductFilters() {
     [searchParams, setSearchParams],
   )
 
-  useEffect(() => {
-    if (debouncedSearch === searchFromUrl) {
-      return
-    }
-
-    // The URL is the source of truth so filters survive refresh and shared links.
-    updateParams({
-      search: debouncedSearch.trim() || null,
-      page: null,
-    })
-  }, [debouncedSearch, searchFromUrl, updateParams])
-
   const toggleCategory = useCallback(
     (categorySlug: string) => {
       const nextCategories = selectedCategories.includes(categorySlug)
@@ -91,6 +81,16 @@ export function useProductFilters() {
     [updateParams],
   )
 
+  const changeSearch = useCallback(
+    (nextSearchValue: string) => {
+      updateParams({
+        search: nextSearchValue.trim() || null,
+        page: null,
+      })
+    },
+    [updateParams],
+  )
+
   const changePage = useCallback(
     (nextPage: number) => {
       updateParams({
@@ -101,14 +101,14 @@ export function useProductFilters() {
   )
 
   const clearFilters = useCallback(() => {
-    setSearchInput('')
+    setSearchInputResetVersion((currentVersion) => currentVersion + 1)
     setSearchParams(new URLSearchParams())
   }, [setSearchParams])
 
   const applyQueryString = useCallback(
     (queryString: string) => {
+      setSearchInputResetVersion((currentVersion) => currentVersion + 1)
       const nextParams = new URLSearchParams(queryString)
-      setSearchInput(nextParams.get('search') ?? '')
       setSearchParams(nextParams)
     },
     [setSearchParams],
@@ -121,26 +121,18 @@ export function useProductFilters() {
 
   return {
     activeFilterCount,
+    appliedSearch,
     changePage,
+    changeSearch,
     changeSort,
     clearFilters,
     currentPage,
-    debouncedSearch: debouncedSearch.trim(),
     hasActiveFilters: activeFilterCount > 0,
     applyQueryString,
     savedViewQueryString,
-    searchInput,
+    searchInputKey,
     selectedCategories,
-    setSearchInput,
     sortValue,
     toggleCategory,
   }
-}
-
-function buildNormalizedQueryString(searchParams: URLSearchParams) {
-  return new URLSearchParams(
-    Array.from(searchParams.entries()).sort(([firstKey], [secondKey]) =>
-      firstKey.localeCompare(secondKey),
-    ),
-  ).toString()
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import SidebarNav from '../components/layout/SidebarNav'
+import CartDrawer from '../components/ui/CartDrawer'
 import TopNavBar from '../components/layout/TopNavBar'
 import CommandPalette from '../components/ui/CommandPalette'
 
@@ -66,6 +67,7 @@ function DashboardLayout() {
         isOpen={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
       />
+      <CartDrawer />
     </div>
   )
 }

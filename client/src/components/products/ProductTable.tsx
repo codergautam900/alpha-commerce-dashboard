@@ -1,11 +1,13 @@
-import { Star } from 'lucide-react'
+import { ShoppingCart, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useCart } from '../../app/useCart'
 import type { Product, ProductColumnId } from '../../types/product'
 import {
   formatCategoryLabel,
   formatCurrency,
   formatRating,
 } from '../../utils/formatters'
+import { canPurchaseProduct } from '../../utils/cart'
 import {
   PRODUCT_COLUMN_DEFINITIONS,
   type ProductColumnDefinition,
@@ -19,6 +21,7 @@ type ProductTableProps = {
 }
 
 function ProductTable({ products, visibleColumns }: ProductTableProps) {
+  const { addToCart, buyNow, getQuantityForProduct } = useCart()
   const selectedColumnDefinitions = PRODUCT_COLUMN_DEFINITIONS.filter((column) =>
     visibleColumns.includes(column.id),
   )
@@ -40,24 +43,41 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
 
       <div className="divide-y divide-slate-200">
         {products.map((product) => (
-          <Link
+          <div
             key={product.id}
-            to={`/products/${product.id}`}
             className="grid gap-3 px-5 py-4 text-sm transition hover:bg-sky-50/50"
             style={{ gridTemplateColumns }}
           >
             {selectedColumnDefinitions.map((column) => (
-              <div key={column.id}>{renderCell(column, product)}</div>
+              <div key={column.id}>
+                {renderCell(column, product, {
+                  addToCart,
+                  buyNow,
+                  quantityInCart: getQuantityForProduct(product.id),
+                })}
+              </div>
             ))}
-          </Link>
+          </div>
         ))}
       </div>
     </div>
   )
 }
 
-function renderCell(column: ProductColumnDefinition, product: Product) {
+type CartActions = {
+  addToCart: (product: Product, quantity?: number) => void
+  buyNow: (product: Product, quantity?: number) => void
+  quantityInCart: number
+}
+
+function renderCell(
+  column: ProductColumnDefinition,
+  product: Product,
+  cartActions: CartActions,
+) {
   if (column.id === 'product') {
+    const isPurchasable = canPurchaseProduct(product)
+
     return (
       <div className="flex min-w-0 items-center gap-4">
         <img
@@ -65,11 +85,40 @@ function renderCell(column: ProductColumnDefinition, product: Product) {
           alt={product.title}
           className="h-14 w-14 rounded-2xl bg-slate-100 object-cover"
         />
-        <div className="min-w-0">
-          <p className="truncate font-semibold text-slate-950">{product.title}</p>
+        <div className="min-w-0 flex-1">
+          <Link
+            to={`/products/${product.id}`}
+            className="truncate font-semibold text-slate-950 transition hover:text-sky-700"
+          >
+            {product.title}
+          </Link>
           <p className="truncate text-sm text-slate-500">
             {product.brand || 'Independent Brand'}
           </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => cartActions.addToCart(product)}
+              disabled={!isPurchasable}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-950 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <ShoppingCart className="h-3.5 w-3.5" />
+              {isPurchasable ? 'Add' : 'Out'}
+            </button>
+            <button
+              type="button"
+              onClick={() => cartActions.buyNow(product)}
+              disabled={!isPurchasable}
+              className="inline-flex rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Buy
+            </button>
+            {cartActions.quantityInCart > 0 ? (
+              <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-sky-700">
+                {cartActions.quantityInCart} in cart
+              </span>
+            ) : null}
+          </div>
         </div>
       </div>
     )

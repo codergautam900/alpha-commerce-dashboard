@@ -1,4 +1,5 @@
-import { Bell, Menu, Search } from 'lucide-react'
+import { Bell, Menu, Search, ShoppingCart } from 'lucide-react'
+import { useCart } from '../../app/useCart'
 import { useLiveUpdates } from '../../app/useLiveUpdates'
 
 type TopNavBarProps = {
@@ -7,6 +8,7 @@ type TopNavBarProps = {
 }
 
 function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
+  const { cartSummary, openCart } = useCart()
   const { connectionStatus } = useLiveUpdates()
 
   return (
@@ -49,6 +51,25 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
             {connectionStatus}
           </div>
+
+          <button
+            type="button"
+            onClick={openCart}
+            className="relative rounded-2xl border border-white/70 bg-white/75 px-3 py-2.5 text-slate-700 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] transition hover:bg-slate-100"
+            aria-label="Open cart"
+          >
+            <span className="flex items-center gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              <span className="hidden text-sm font-semibold sm:inline">
+                Cart
+              </span>
+            </span>
+            {cartSummary.totalUnits > 0 ? (
+              <span className="absolute -right-2 -top-2 inline-flex min-w-6 items-center justify-center rounded-full bg-slate-950 px-1.5 py-1 text-[11px] font-semibold text-white">
+                {cartSummary.totalUnits}
+              </span>
+            ) : null}
+          </button>
 
           <button
             type="button"

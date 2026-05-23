@@ -27,17 +27,17 @@ function ProductsPage() {
   const [copyStatusLabel, setCopyStatusLabel] = useState('Copy view link')
   const {
     activeFilterCount,
+    appliedSearch,
     applyQueryString,
     changePage,
+    changeSearch,
     changeSort,
     clearFilters,
     currentPage,
-    debouncedSearch,
     hasActiveFilters,
-    searchInput,
     savedViewQueryString,
+    searchInputKey,
     selectedCategories,
-    setSearchInput,
     sortValue,
     toggleCategory,
   } = useProductFilters()
@@ -66,8 +66,8 @@ function ProductsPage() {
 
   // Filtering, sorting, and pagination are memoized so the full catalog is not recalculated on every render.
   const filteredProducts = useMemo(
-    () => filterProducts(products, debouncedSearch, selectedCategories),
-    [products, debouncedSearch, selectedCategories],
+    () => filterProducts(products, appliedSearch, selectedCategories),
+    [products, appliedSearch, selectedCategories],
   )
 
   const sortedProducts = useMemo(
@@ -190,6 +190,7 @@ function ProductsPage() {
       />
 
       <ProductFilters
+        key={searchInputKey}
         activeFilterCount={activeFilterCount}
         activeViewId={activeViewId}
         canSaveCurrentView={hasActiveFilters}
@@ -197,12 +198,12 @@ function ProductsPage() {
         onApplySavedView={applyQueryString}
         onClearFilters={clearFilters}
         onDeleteSavedView={deleteView}
-        onSearchChange={setSearchInput}
+        onSearchChange={changeSearch}
         onSaveCurrentView={saveView}
         onSortChange={changeSort}
         onToggleCategory={toggleCategory}
         savedViews={savedViews}
-        searchValue={searchInput}
+        searchValue={appliedSearch}
         selectedCategories={selectedCategories}
         sortValue={sortValue}
       />
@@ -240,9 +241,7 @@ function ProductsPage() {
           </div>
 
           <div className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
-            {searchInput !== debouncedSearch
-              ? 'Updating search...'
-              : 'Filters in sync with URL'}
+            Filters in sync with URL
           </div>
         </div>
 

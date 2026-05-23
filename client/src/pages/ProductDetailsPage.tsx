@@ -1,17 +1,28 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Package, ShieldCheck, Star, Truck } from 'lucide-react'
+import { Minus, Package, Plus, ShieldCheck, ShoppingCart, Star, Truck } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import { useCart } from '../app/useCart'
 import ProductGallery from '../components/products/ProductGallery'
 import ProductStockBadge from '../components/products/ProductStockBadge'
 import PageLoader from '../components/ui/PageLoader'
 import PageHeader from '../components/ui/PageHeader'
 import StatePanel from '../components/ui/StatePanel'
 import { fetchProductById, productQueryKeys } from '../services/products'
+import type { Product } from '../types/product'
 import {
   formatCategoryLabel,
   formatCurrency,
   formatRating,
 } from '../utils/formatters'
+import {
+  calculateCartSummary,
+  canPurchaseProduct,
+  getDefaultPurchaseQuantity,
+  getMaxCartQuantity,
+  getShippingCopy,
+  normalizePurchaseQuantity,
+} from '../utils/cart'
 import { getStockLabel, getStockTone } from '../utils/products'
 
 function ProductDetailsPage() {
@@ -177,6 +188,10 @@ function ProductDetailsPage() {
             </div>
           </div>
 
+          <div className="mt-6">
+            <ProductPurchasePanel key={product.id} product={product} />
+          </div>
+
           <div className="mt-6 grid gap-4">
             <div className="flex items-start gap-3 rounded-2xl border border-slate-200 p-4">
               <Package className="mt-0.5 h-5 w-5 text-slate-500" />
@@ -255,3 +270,190 @@ function ProductDetailsPage() {
 }
 
 export default ProductDetailsPage
+
+type ProductPurchasePanelProps = {
+  product: Product
+}
+
+function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
+  const { addToCart, buyNow, getQuantityForProduct } = useCart()
+  const maxQuantity = getMaxCartQuantity(product)
+  const minimumQuantity = getDefaultPurchaseQuantity(product)
+  const [desiredPurchaseQuantity, setDesiredPurchaseQuantity] = useState(minimumQuantity)
+  const isPurchasable = canPurchaseProduct(product)
+  const quantityInCart = getQuantityForProduct(product.id)
+  const purchaseQuantity = normalizePurchaseQuantity(product, desiredPurchaseQuantity)
+
+  const singleProductSummary = calculateCartSummary([
+    {
+      product,
+      quantity: purchaseQuantity,
+    },
+  ])
+
+  return (
+    <section className="rounded-[30px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(248,250,252,0.95)_0%,rgba(255,255,255,0.98)_100%)] p-5 shadow-[0_18px_50px_-34px_rgba(15,23,42,0.32)]">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
+            Purchase Planner
+          </p>
+          <h3 className="mt-2 text-xl font-semibold text-slate-950">
+            Build the order before checkout
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            Adjust quantity and see the full payable amount update with discount,
+            shipping, and tax.
+          </p>
+        </div>
+
+        {quantityInCart > 0 ? (
+          <div className="rounded-[22px] border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-medium text-sky-700">
+            {quantityInCart} unit{quantityInCart > 1 ? 's' : ''} already in cart
+          </div>
+        ) : null}
+      </div>
+
+      <div className="mt-5 grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+        <div className="rounded-[24px] border border-slate-200 bg-white p-4">
+          <p className="text-sm font-semibold text-slate-900">Select quantity</p>
+          <div className="mt-4 inline-flex items-center rounded-2xl border border-slate-200 bg-slate-50 p-1">
+            <button
+              type="button"
+              onClick={() =>
+                setDesiredPurchaseQuantity((currentQuantity) => currentQuantity - 1)
+              }
+              disabled={!isPurchasable || purchaseQuantity === minimumQuantity}
+              className="rounded-xl p-2 text-slate-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Decrease purchase quantity"
+            >
+              <Minus className="h-4 w-4" />
+            </button>
+            <span className="min-w-12 px-4 text-center text-base font-semibold text-slate-950">
+              {purchaseQuantity}
+            </span>
+            <button
+              type="button"
+              onClick={() =>
+                setDesiredPurchaseQuantity((currentQuantity) => currentQuantity + 1)
+              }
+              disabled={!isPurchasable || purchaseQuantity >= maxQuantity}
+              className="rounded-xl p-2 text-slate-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Increase purchase quantity"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="mt-4 space-y-2 text-sm text-slate-600">
+            <p>Available stock: {product.stock} units</p>
+            <p>
+              Minimum order:{' '}
+              {isPurchasable ? minimumQuantity : 'Unavailable until restocked'}
+            </p>
+            <p>
+              {isPurchasable
+                ? `You can add up to ${maxQuantity} unit${maxQuantity > 1 ? 's' : ''} in one go.`
+                : 'This product is currently unavailable for purchase.'}
+            </p>
+          </div>
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              onClick={() => addToCart(product, purchaseQuantity)}
+              disabled={!isPurchasable}
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <ShoppingCart className="h-4 w-4" />
+              Add to cart
+            </button>
+            <button
+              type="button"
+              onClick={() => buyNow(product, purchaseQuantity)}
+              disabled={!isPurchasable}
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Buy now
+            </button>
+          </div>
+        </div>
+
+        <div className="rounded-[24px] border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_18px_44px_-28px_rgba(15,23,42,0.7)]">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
+            Calculation
+          </p>
+          <div className="mt-4 space-y-3 text-sm">
+            <DetailSummaryRow
+              label={`Base price x ${purchaseQuantity}`}
+              value={formatCurrency(singleProductSummary.subtotal)}
+            />
+            <DetailSummaryRow
+              label="Discount savings"
+              value={`- ${formatCurrency(singleProductSummary.discountTotal)}`}
+              valueClassName="text-emerald-300"
+            />
+            <DetailSummaryRow
+              label="Subtotal after discount"
+              value={formatCurrency(singleProductSummary.discountedSubtotal)}
+            />
+            <DetailSummaryRow
+              label="Shipping"
+              value={formatCurrency(singleProductSummary.shipping)}
+            />
+            <DetailSummaryRow
+              label="Estimated tax"
+              value={formatCurrency(singleProductSummary.tax)}
+            />
+          </div>
+
+          <div className="mt-5 rounded-[24px] border border-white/10 bg-white/5 p-4">
+            <p className="text-sm font-semibold text-white">Order note</p>
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              {isPurchasable
+                ? getShippingCopy(singleProductSummary.discountedSubtotal)
+                : 'Restock required before this product can be added to the cart.'}
+            </p>
+          </div>
+
+          <div className="mt-5 flex items-end justify-between gap-4 border-t border-white/10 pt-4">
+            <div>
+              <p className="text-sm text-slate-400">Estimated payable</p>
+              <p className="mt-2 text-2xl font-semibold tracking-tight text-white">
+                {formatCurrency(singleProductSummary.grandTotal)}
+              </p>
+            </div>
+
+            <div className="rounded-[22px] bg-white/10 px-4 py-3 text-right">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                Units
+              </p>
+              <p className="mt-1 text-lg font-semibold text-white">
+                {purchaseQuantity}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+type DetailSummaryRowProps = {
+  label: string
+  value: string
+  valueClassName?: string
+}
+
+function DetailSummaryRow({
+  label,
+  value,
+  valueClassName = 'text-white',
+}: DetailSummaryRowProps) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-slate-300">{label}</span>
+      <span className={`font-semibold ${valueClassName}`}>{value}</span>
+    </div>
+  )
+}

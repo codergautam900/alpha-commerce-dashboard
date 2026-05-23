@@ -113,6 +113,14 @@ export function paginateProducts(
   }
 }
 
+export function buildNormalizedQueryString(searchParams: URLSearchParams) {
+  return new URLSearchParams(
+    Array.from(searchParams.entries()).sort(([firstKey], [secondKey]) =>
+      firstKey.localeCompare(secondKey),
+    ),
+  ).toString()
+}
+
 export function getStockLabel(product: Product) {
   if (product.availabilityStatus) {
     return product.availabilityStatus
