@@ -6,8 +6,10 @@ import axios from 'axios'
 import './index.css'
 import App from './App.tsx'
 import { AppErrorBoundary } from './app/AppErrorBoundary'
+import { AuthProvider } from './app/AuthProvider'
 import { CartProvider } from './app/CartProvider'
 import { LiveUpdatesProvider } from './app/LiveUpdatesProvider'
+import { PublicationProvider } from './app/PublicationProvider'
 import { ScrollToTop } from './app/ScrollToTop'
 import { ThemeProvider } from './app/ThemeProvider'
 
@@ -41,14 +43,18 @@ createRoot(document.getElementById('root')!).render(
     <AppErrorBoundary>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <LiveUpdatesProvider>
-            <CartProvider>
-              <BrowserRouter>
-                <ScrollToTop />
-                <App />
-              </BrowserRouter>
-            </CartProvider>
-          </LiveUpdatesProvider>
+          <AuthProvider>
+            <PublicationProvider>
+              <LiveUpdatesProvider>
+                <CartProvider>
+                  <BrowserRouter>
+                    <ScrollToTop />
+                    <App />
+                  </BrowserRouter>
+                </CartProvider>
+              </LiveUpdatesProvider>
+            </PublicationProvider>
+          </AuthProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </AppErrorBoundary>

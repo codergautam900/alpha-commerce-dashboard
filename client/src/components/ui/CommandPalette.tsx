@@ -1,7 +1,8 @@
 import { Search } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { navigationItems } from '../../data/navigation'
+import { useAuth } from '../../app/useAuth'
+import { getNavigationItems } from '../../data/navigation'
 
 type CommandPaletteProps = {
   isOpen: boolean
@@ -20,8 +21,10 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const location = useLocation()
   const navigate = useNavigate()
+  const { session } = useAuth()
   const [query, setQuery] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const navigationItems = getNavigationItems(session?.role ?? 'user')
 
   const actions = useMemo<CommandAction[]>(
     () => [
@@ -54,7 +57,7 @@ function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         to: '/products',
       },
     ],
-    [],
+    [navigationItems],
   )
 
   const filteredActions = useMemo(() => {

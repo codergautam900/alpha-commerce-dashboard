@@ -1,13 +1,13 @@
 import { LayoutDashboard, PackageSearch, type LucideIcon } from 'lucide-react'
+import type { UserRole } from '../types/auth'
 
 export type NavigationItem = {
   label: string
   to: string
   icon: LucideIcon
-  badge?: string
 }
 
-export const navigationItems: NavigationItem[] = [
+const allNavigationItems: NavigationItem[] = [
   {
     label: 'Dashboard',
     to: '/dashboard',
@@ -17,6 +17,13 @@ export const navigationItems: NavigationItem[] = [
     label: 'Products',
     to: '/products',
     icon: PackageSearch,
-    badge: '24',
   },
 ]
+
+export function getNavigationItems(role: UserRole) {
+  if (role === 'admin') {
+    return allNavigationItems
+  }
+
+  return allNavigationItems.filter((item) => item.to !== '/dashboard')
+}

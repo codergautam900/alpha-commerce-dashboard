@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import { PanelLeftClose, Sparkles } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
-import { navigationItems } from '../../data/navigation'
+import { useAuth } from '../../app/useAuth'
+import { getNavigationItems } from '../../data/navigation'
 import BrandMark from '../ui/BrandMark'
 import ChromeButton from '../ui/ChromeButton'
 import StatusBadge from '../ui/StatusBadge'
@@ -11,6 +12,9 @@ type SidebarNavProps = {
 }
 
 function SidebarNav({ onNavigate }: SidebarNavProps) {
+  const { session } = useAuth()
+  const navigationItems = getNavigationItems(session?.role ?? 'user')
+
   return (
     <aside className="relative flex h-full flex-col overflow-hidden border-r border-slate-800/70 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_18rem),radial-gradient(circle_at_bottom_right,rgba(245,158,11,0.12),transparent_20rem),linear-gradient(180deg,#060d1d_0%,#0a1327_42%,#111827_100%)] text-slate-100">
       <div className="pointer-events-none absolute inset-0">
@@ -37,7 +41,7 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
 
       <nav className="relative flex-1 px-3 py-6">
         <ul className="space-y-1.5">
-          {navigationItems.map(({ icon: Icon, label, to, badge }) => (
+          {navigationItems.map(({ icon: Icon, label, to }) => (
             <li key={to}>
               <NavLink
                 to={to}
@@ -64,18 +68,6 @@ function SidebarNav({ onNavigate }: SidebarNavProps) {
                       />
                       {label}
                     </span>
-                    {badge ? (
-                      <span
-                        className={clsx(
-                          'rounded-full px-2 py-0.5 text-xs',
-                          isActive
-                            ? 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200'
-                            : 'bg-slate-800/90 text-slate-300 dark:bg-slate-700/60 dark:text-slate-400',
-                        )}
-                      >
-                        {badge}
-                      </span>
-                    ) : null}
                   </>
                 )}
               </NavLink>

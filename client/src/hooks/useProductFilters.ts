@@ -1,11 +1,15 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
-import type { ProductSortValue } from '../types/product'
+import type {
+  ProductRatingFilterValue,
+  ProductSortValue,
+} from '../types/product'
 import {
   DEFAULT_PRODUCT_SORT,
   buildNormalizedQueryString,
   parseCategoriesParam,
   parsePageParam,
+  parseRatingParam,
   parseSortParam,
 } from '../utils/products'
 
@@ -26,6 +30,11 @@ export function useProductFilters() {
 
   const sortValue = useMemo(
     () => parseSortParam(searchParams.get('sort')),
+    [searchParams],
+  )
+
+  const ratingValue = useMemo(
+    () => parseRatingParam(searchParams.get('rating')),
     [searchParams],
   )
 
@@ -93,6 +102,16 @@ export function useProductFilters() {
     [updateParams],
   )
 
+  const changeRating = useCallback(
+    (nextRatingValue: ProductRatingFilterValue | null) => {
+      updateParams({
+        rating: nextRatingValue ? String(nextRatingValue) : null,
+        page: null,
+      })
+    },
+    [updateParams],
+  )
+
   const changePage = useCallback(
     (nextPage: number) => {
       updateParams({
@@ -119,6 +138,7 @@ export function useProductFilters() {
   const activeFilterCount =
     (searchFromUrl ? 1 : 0) +
     selectedCategories.length +
+    (ratingValue ? 1 : 0) +
     (sortValue !== DEFAULT_PRODUCT_SORT ? 1 : 0)
 
   return {
@@ -126,11 +146,13 @@ export function useProductFilters() {
     appliedSearch,
     changePage,
     changeSearch,
+    changeRating,
     changeSort,
     clearFilters,
     currentPage,
     hasActiveFilters: activeFilterCount > 0,
     applyQueryString,
+    ratingValue,
     savedViewQueryString,
     searchInputKey,
     selectedCategories,

@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Minus, Package, Plus, ShieldCheck, ShoppingCart, Star, Truck } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import { useAuth } from '../app/useAuth'
 import { useCart } from '../app/useCart'
+import { usePublication } from '../app/usePublication'
 import ProductGallery from '../components/products/ProductGallery'
 import ProductStockBadge from '../components/products/ProductStockBadge'
 import PageLoader from '../components/ui/PageLoader'
@@ -28,6 +30,9 @@ import { getStockLabel, getStockTone } from '../utils/products'
 function ProductDetailsPage() {
   const { productId } = useParams()
   const numericProductId = Number(productId)
+  const { session } = useAuth()
+  const { isProductPublished, toggleProductPublished } = usePublication()
+  const isAdmin = session?.role === 'admin'
 
   const productQuery = useQuery({
     queryKey: productQueryKeys.detail(productId ?? 'unknown'),
@@ -114,6 +119,30 @@ function ProductDetailsPage() {
 
   const product = productQuery.data
   const galleryImages = product.images.length > 0 ? product.images : [product.thumbnail]
+  const isPublished = isProductPublished(product.id)
+
+  if (!isAdmin && !isPublished) {
+    return (
+      <>
+        <PageHeader
+          title={product.title}
+          description="This product is currently hidden from the standard user catalog."
+          action={
+            <Link
+              to="/products"
+              className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
+            >
+              Back to products
+            </Link>
+          }
+        />
+        <StatePanel
+          title="Published access only"
+          description="Only products marked as published are visible in the standard user experience. Sign in as admin to change this product's visibility."
+        />
+      </>
+    )
+  }
 
   return (
     <>
@@ -125,14 +154,28 @@ function ProductDetailsPage() {
           { label: 'Category', value: formatCategoryLabel(product.category) },
           { label: 'Rating', value: formatRating(product.rating) },
           { label: 'In stock', value: `${product.stock} units` },
+          ...(isAdmin
+            ? [{ label: 'Visibility', value: isPublished ? 'Published' : 'Hidden' }]
+            : []),
         ]}
         action={
-          <Link
-            to="/products"
-            className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
-          >
-            Back to products
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/products"
+              className="inline-flex rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100 dark:hover:bg-slate-800"
+            >
+              Back to products
+            </Link>
+            {isAdmin ? (
+              <button
+                type="button"
+                onClick={() => toggleProductPublished(product.id)}
+                className="inline-flex rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                {isPublished ? 'Hide from users' : 'Publish for users'}
+              </button>
+            ) : null}
+          </div>
         }
       />
 
@@ -162,6 +205,15 @@ function ProductDetailsPage() {
               label={getStockLabel(product)}
               tone={getStockTone(product)}
             />
+            {isAdmin ? (
+              <span
+                className={`rounded-full px-3 py-1 text-sm font-medium ${
+                  isPublished ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                }`}
+              >
+                {isPublished ? 'Published for user view' : 'Hidden from user view'}
+              </span>
+            ) : null}
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">

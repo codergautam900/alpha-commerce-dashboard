@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../app/useAuth'
+import { usePublication } from '../app/usePublication'
 import ProductCard from '../components/products/ProductCard'
 import ProductColumnCustomizer from '../components/products/ProductColumnCustomizer'
 import ProductFilters from '../components/products/ProductFilters'
@@ -30,17 +32,21 @@ function ProductsPage() {
     appliedSearch,
     applyQueryString,
     changePage,
+    changeRating,
     changeSearch,
     changeSort,
     clearFilters,
     currentPage,
     hasActiveFilters,
+    ratingValue,
     savedViewQueryString,
     searchInputKey,
     selectedCategories,
     sortValue,
     toggleCategory,
   } = useProductFilters()
+  const { session } = useAuth()
+  const { isProductPublished, toggleProductPublished } = usePublication()
   const {
     moveColumn,
     orderedColumns,
@@ -59,15 +65,49 @@ function ProductsPage() {
     lastUpdatedAt,
     products,
     refetchAll,
-    totalProducts,
   } = useProductsCatalog()
   const { activeViewId, deleteView, saveView, savedViews } =
     useSavedProductViews(savedViewQueryString)
+  const isAdmin = session?.role === 'admin'
+
+  const visibleCatalogProducts = useMemo(
+    () =>
+      isAdmin
+        ? products
+        : products.filter((product) => isProductPublished(product.id)),
+    [isAdmin, isProductPublished, products],
+  )
+
+  const availableCategories = useMemo(() => {
+    if (isAdmin) {
+      return categories
+    }
+
+    const visibleCategorySlugs = new Set(
+      visibleCatalogProducts.map((product) => product.category),
+    )
+
+    return categories.filter((category) => visibleCategorySlugs.has(category.slug))
+  }, [categories, isAdmin, visibleCatalogProducts])
+
+  const publicationCounts = useMemo(
+    () => ({
+      hidden: products.filter((product) => !isProductPublished(product.id)).length,
+      published: products.filter((product) => isProductPublished(product.id)).length,
+    }),
+    [isProductPublished, products],
+  )
 
   // Filtering, sorting, and pagination are memoized so the full catalog is not recalculated on every render.
   const filteredProducts = useMemo(
-    () => filterProducts(products, appliedSearch, selectedCategories),
-    [products, appliedSearch, selectedCategories],
+    () =>
+      filterProducts(
+        visibleCatalogProducts,
+        appliedSearch,
+        selectedCategories,
+        ratingValue,
+      ),
+    [visibleCatalogProducts, appliedSearch, selectedCategories, ratingValue],
   )
 
   const sortedProducts = useMemo(
@@ -129,6 +169,8 @@ function ProductsPage() {
     }
   }
 
+  const firstProductId = paginatedProducts.items[0]?.id ?? filteredProducts[0]?.id
+
   if (isLoading) {
     return (
       <>
@@ -174,20 +216,35 @@ function ProductsPage() {
     <>
       <PageHeader
         title="Products"
-        description="This screen now uses the DummyJSON products API with URL-synced search, multi-category filters, sorting, and client-side pagination."
+        description={
+          isAdmin
+            ? 'Admin view of the full DummyJSON catalog with role-aware publish controls, URL-synced filters, and client-side pagination.'
+            : 'User view of published products only, with URL-synced search, category filters, rating filters, and client-side pagination.'
+        }
         eyebrow="Catalog Workspace"
         metaItems={[
-          { label: 'Catalog size', value: `${totalProducts} products` },
-          { label: 'Categories', value: `${categories.length} available` },
+          {
+            label: isAdmin ? 'Catalog size' : 'Published products',
+            value: `${visibleCatalogProducts.length} products`,
+          },
+          { label: 'Categories', value: `${availableCategories.length} available` },
           { label: 'Page size', value: `${PRODUCT_PAGE_SIZE} per page` },
+          ...(isAdmin
+            ? [
+                { label: 'Published', value: `${publicationCounts.published}` },
+                { label: 'Hidden', value: `${publicationCounts.hidden}` },
+              ]
+            : []),
         ]}
         action={
-          <Link
-            to={`/products/${paginatedProducts.items[0]?.id ?? 1}`}
-            className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          >
-            Preview first product
-          </Link>
+          firstProductId ? (
+            <Link
+              to={`/products/${firstProductId}`}
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+              Preview first product
+            </Link>
+          ) : null
         }
       />
 
@@ -196,14 +253,16 @@ function ProductsPage() {
         activeFilterCount={activeFilterCount}
         activeViewId={activeViewId}
         canSaveCurrentView={hasActiveFilters}
-        categories={categories}
+        categories={availableCategories}
         onApplySavedView={applyQueryString}
         onClearFilters={clearFilters}
         onDeleteSavedView={deleteView}
+        onRatingChange={changeRating}
         onSearchChange={changeSearch}
         onSaveCurrentView={saveView}
         onSortChange={changeSort}
         onToggleCategory={toggleCategory}
+        ratingValue={ratingValue}
         savedViews={savedViews}
         searchValue={appliedSearch}
         selectedCategories={selectedCategories}
@@ -238,7 +297,7 @@ function ProductsPage() {
             <h2 className="text-xl font-semibold text-slate-950 dark:text-slate-100">Catalog listing</h2>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
               Showing {paginatedProducts.totalItems} filtered products from a total
-              catalog of {totalProducts}.
+              catalog of {visibleCatalogProducts.length}.
             </p>
           </div>
 
@@ -277,14 +336,23 @@ function ProductsPage() {
           <>
             <div className="mt-5">
               <ProductTable
+                isProductPublished={isProductPublished}
+                onTogglePublished={toggleProductPublished}
                 products={paginatedProducts.items}
+                role={session?.role ?? 'user'}
                 visibleColumns={visibleColumns}
               />
             </div>
 
             <div className="mt-5 grid gap-4 lg:hidden">
               {paginatedProducts.items.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  isProductPublished={isProductPublished(product.id)}
+                  onTogglePublished={() => toggleProductPublished(product.id)}
+                  product={product}
+                  role={session?.role ?? 'user'}
+                />
               ))}
             </div>
 

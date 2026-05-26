@@ -1,9 +1,17 @@
 import { DollarSign, Package2, Star } from 'lucide-react'
+import { useAuth } from '../../app/useAuth'
 import { useLiveUpdates } from '../../app/useLiveUpdates'
+import { usePublication } from '../../app/usePublication'
 import { formatTime } from '../../utils/formatters'
 
 function LiveUpdatesFeed() {
   const { connectionStatus, recentEvents } = useLiveUpdates()
+  const { session } = useAuth()
+  const { isProductPublished } = usePublication()
+  const visibleEvents =
+    session?.role === 'admin'
+      ? recentEvents
+      : recentEvents.filter((event) => isProductPublished(event.productId))
 
   return (
     <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-28px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92)_0%,rgba(2,6,23,0.94)_100%)] dark:shadow-[0_18px_60px_-28px_rgba(2,6,23,0.86)]">
@@ -16,8 +24,8 @@ function LiveUpdatesFeed() {
             Live activity stream
           </h2>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-            {recentEvents.length > 0
-              ? `${recentEvents.length} recent events are being surfaced in real time.`
+            {visibleEvents.length > 0
+              ? `${visibleEvents.length} recent events are being surfaced in real time.`
               : 'The stream will populate as simulated catalog events arrive.'}
           </p>
         </div>
@@ -28,18 +36,18 @@ function LiveUpdatesFeed() {
             {connectionStatus}
           </span>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
-            Buffer {recentEvents.length}/6
+            Buffer {visibleEvents.length}/6
           </p>
         </div>
       </div>
 
       <div className="mt-5 space-y-3">
-        {recentEvents.length === 0 ? (
+        {visibleEvents.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-400">
             Waiting for the first simulated live update event.
           </div>
         ) : (
-          recentEvents.map((event) => (
+          visibleEvents.map((event) => (
             <div
               key={event.id}
               className="flex items-start gap-3 rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-800/70"

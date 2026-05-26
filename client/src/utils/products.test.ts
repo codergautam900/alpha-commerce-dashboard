@@ -23,16 +23,17 @@ function createProduct(overrides: Partial<Product> = {}): Product {
 test('buildNormalizedQueryString keeps saved-view query strings stable across param order changes', () => {
   const searchParams = new URLSearchParams()
   searchParams.set('sort', 'price-desc')
+  searchParams.set('rating', '4')
   searchParams.set('search', 'phone')
   searchParams.set('categories', 'smartphones,laptops')
 
   assert.equal(
     buildNormalizedQueryString(searchParams),
-    'categories=smartphones%2Claptops&search=phone&sort=price-desc',
+    'categories=smartphones%2Claptops&rating=4&search=phone&sort=price-desc',
   )
 })
 
-test('filterProducts matches search across catalog fields and applies OR category filtering', () => {
+test('filterProducts matches search, category, and minimum rating filters', () => {
   const products = [
     createProduct(),
     createProduct({
@@ -48,11 +49,13 @@ test('filterProducts matches search across catalog fields and applies OR categor
       description: 'Warm ambient light',
       category: 'home-decoration',
       brand: 'Glow',
+      rating: 3.2,
     }),
   ]
 
-  const searchResults = filterProducts(products, 'portable', [])
-  const categoryResults = filterProducts(products, '', ['smartphones', 'laptops'])
+  const searchResults = filterProducts(products, 'portable', [], null)
+  const categoryResults = filterProducts(products, '', ['smartphones', 'laptops'], null)
+  const ratingResults = filterProducts(products, '', [], 4)
 
   assert.deepEqual(
     searchResults.map((product) => product.id),
@@ -60,6 +63,10 @@ test('filterProducts matches search across catalog fields and applies OR categor
   )
   assert.deepEqual(
     categoryResults.map((product) => product.id),
+    [1, 2],
+  )
+  assert.deepEqual(
+    ratingResults.map((product) => product.id),
     [1, 2],
   )
 })

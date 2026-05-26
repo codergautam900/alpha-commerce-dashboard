@@ -3,11 +3,15 @@ import { ArrowUpDown, Search, X } from 'lucide-react'
 import { useDebounce } from '../../hooks/useDebounce'
 import type {
   ProductCategory,
+  ProductRatingFilterValue,
   ProductSavedView,
   ProductSortValue,
 } from '../../types/product'
 import { formatCategoryLabel } from '../../utils/formatters'
-import { PRODUCT_SORT_OPTIONS } from '../../utils/products'
+import {
+  PRODUCT_RATING_FILTER_OPTIONS,
+  PRODUCT_SORT_OPTIONS,
+} from '../../utils/products'
 import ProductSavedViewsPanel from './ProductSavedViewsPanel'
 
 type ProductFiltersProps = {
@@ -19,9 +23,11 @@ type ProductFiltersProps = {
   onClearFilters: () => void
   onDeleteSavedView: (viewId: string) => void
   onSearchChange: (value: string) => void
+  onRatingChange: (value: ProductRatingFilterValue | null) => void
   onSaveCurrentView: (name: string) => void
   onSortChange: (value: ProductSortValue) => void
   onToggleCategory: (slug: string) => void
+  ratingValue: ProductRatingFilterValue | null
   savedViews: ProductSavedView[]
   searchValue: string
   selectedCategories: string[]
@@ -37,9 +43,11 @@ function ProductFilters({
   onClearFilters,
   onDeleteSavedView,
   onSearchChange,
+  onRatingChange,
   onSaveCurrentView,
   onSortChange,
   onToggleCategory,
+  ratingValue,
   savedViews,
   searchValue,
   selectedCategories,
@@ -60,7 +68,7 @@ function ProductFilters({
 
   return (
     <section className="page-reveal rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)] dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(2,6,23,0.96))] dark:shadow-[0_18px_60px_-32px_rgba(2,6,23,0.86)]">
-      <div className="grid gap-4 xl:grid-cols-[1.5fr_0.8fr]">
+      <div className="grid gap-4 xl:grid-cols-[1.4fr_0.8fr_0.75fr]">
         <label className="relative block">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input
@@ -81,6 +89,29 @@ function ProductFilters({
           >
             {PRODUCT_SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="relative block">
+          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">
+            ★
+          </span>
+          <select
+            value={ratingValue ? String(ratingValue) : ''}
+            onChange={(event) =>
+              onRatingChange(
+                event.target.value
+                  ? (Number(event.target.value) as ProductRatingFilterValue)
+                  : null,
+              )
+            }
+            className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:bg-white focus:ring-4 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:focus:border-sky-400 dark:focus:bg-slate-900 dark:focus:ring-slate-800"
+          >
+            {PRODUCT_RATING_FILTER_OPTIONS.map((option) => (
+              <option key={option.value || 'all'} value={option.value}>
                 {option.label}
               </option>
             ))}

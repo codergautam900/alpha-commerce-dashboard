@@ -2,6 +2,7 @@ import { ShoppingCart, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../app/useCart'
 import type { Product, ProductColumnId } from '../../types/product'
+import type { UserRole } from '../../types/auth'
 import {
   formatCategoryLabel,
   formatCurrency,
@@ -16,11 +17,20 @@ import { getStockLabel, getStockTone } from '../../utils/products'
 import ProductStockBadge from './ProductStockBadge'
 
 type ProductTableProps = {
+  isProductPublished: (productId: number) => boolean
+  onTogglePublished: (productId: number) => void
   products: Product[]
+  role: UserRole
   visibleColumns: ProductColumnId[]
 }
 
-function ProductTable({ products, visibleColumns }: ProductTableProps) {
+function ProductTable({
+  isProductPublished,
+  onTogglePublished,
+  products,
+  role,
+  visibleColumns,
+}: ProductTableProps) {
   const { addToCart, buyNow, getQuantityForProduct } = useCart()
   const selectedColumnDefinitions = PRODUCT_COLUMN_DEFINITIONS.filter((column) =>
     visibleColumns.includes(column.id),
@@ -53,7 +63,10 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
                 {renderCell(column, product, {
                   addToCart,
                   buyNow,
+                  isPublished: isProductPublished(product.id),
+                  onTogglePublished,
                   quantityInCart: getQuantityForProduct(product.id),
+                  role,
                 })}
               </div>
             ))}
@@ -67,7 +80,10 @@ function ProductTable({ products, visibleColumns }: ProductTableProps) {
 type CartActions = {
   addToCart: (product: Product, quantity?: number) => void
   buyNow: (product: Product, quantity?: number) => void
+  isPublished: boolean
+  onTogglePublished: (productId: number) => void
   quantityInCart: number
+  role: UserRole
 }
 
 function renderCell(
@@ -77,6 +93,7 @@ function renderCell(
 ) {
   if (column.id === 'product') {
     const isPurchasable = canPurchaseProduct(product)
+    const showAdminControls = cartActions.role === 'admin'
 
     return (
       <div className="flex min-w-0 items-center gap-4">
@@ -95,6 +112,26 @@ function renderCell(
           <p className="truncate text-sm text-slate-500 dark:text-slate-400">
             {product.brand || 'Independent Brand'}
           </p>
+          {showAdminControls ? (
+            <div className="mt-2 flex items-center gap-2">
+              <span
+                className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${
+                  cartActions.isPublished
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-amber-50 text-amber-700'
+                }`}
+              >
+                {cartActions.isPublished ? 'Published' : 'Hidden'}
+              </span>
+              <button
+                type="button"
+                onClick={() => cartActions.onTogglePublished(product.id)}
+                className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                {cartActions.isPublished ? 'Hide' : 'Publish'}
+              </button>
+            </div>
+          ) : null}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <button
               type="button"

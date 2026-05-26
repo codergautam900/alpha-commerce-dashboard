@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { ArrowRight, Zap, BarChart3, Layers, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../app/useAuth'
 import BrandMark from '../components/ui/BrandMark'
+import { getHomeRouteForRole } from '../types/auth'
 
 export function WelcomePage() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const { isAuthenticated, session } = useAuth()
 
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
@@ -36,6 +39,7 @@ export function WelcomePage() {
       color: 'from-amber-400 to-orange-600',
     },
   ]
+  const primaryRoute = isAuthenticated && session ? getHomeRouteForRole(session.role) : '/login'
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
@@ -44,7 +48,7 @@ export function WelcomePage() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
           <BrandMark size="sm" subtitle="Premium Ops" />
           <Link
-            to="/dashboard"
+            to={primaryRoute}
             className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:shadow-lg hover:shadow-blue-500/30 dark:shadow-blue-600/20"
           >
             Get Started <ArrowRight className="h-4 w-4" />
@@ -83,7 +87,7 @@ export function WelcomePage() {
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
               <Link
-                to="/dashboard"
+                to={primaryRoute}
                 className="group inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 px-8 py-4 text-lg font-semibold text-white transition-all hover:shadow-xl hover:shadow-blue-500/30 dark:shadow-blue-600/20"
               >
                 Launch Dashboard
@@ -226,7 +230,7 @@ export function WelcomePage() {
             Experience the future of product management today
           </p>
           <Link
-            to="/dashboard"
+            to={primaryRoute}
             className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 px-8 py-4 text-lg font-semibold text-white transition hover:shadow-lg hover:shadow-blue-500/30"
           >
             Launch Now

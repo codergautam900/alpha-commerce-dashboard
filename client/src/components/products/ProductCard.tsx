@@ -2,6 +2,7 @@ import { ShoppingCart, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../app/useCart'
 import type { Product } from '../../types/product'
+import type { UserRole } from '../../types/auth'
 import {
   formatCategoryLabel,
   formatCurrency,
@@ -12,13 +13,22 @@ import { getStockLabel, getStockTone } from '../../utils/products'
 import ProductStockBadge from './ProductStockBadge'
 
 type ProductCardProps = {
+  isProductPublished: boolean
+  onTogglePublished: () => void
   product: Product
+  role: UserRole
 }
 
-function ProductCard({ product }: ProductCardProps) {
+function ProductCard({
+  isProductPublished,
+  onTogglePublished,
+  product,
+  role,
+}: ProductCardProps) {
   const { addToCart, buyNow, getQuantityForProduct } = useCart()
   const quantityInCart = getQuantityForProduct(product.id)
   const isPurchasable = canPurchaseProduct(product)
+  const showAdminControls = role === 'admin'
 
   return (
     <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_26px_80px_-36px_rgba(15,23,42,0.45)] dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-[0_18px_60px_-32px_rgba(2,6,23,0.82)]">
@@ -61,6 +71,30 @@ function ProductCard({ product }: ProductCardProps) {
                 {formatRating(product.rating)}
               </span>
             </div>
+
+            {showAdminControls ? (
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
+                    isProductPublished
+                      ? 'bg-emerald-50 text-emerald-700'
+                      : 'bg-amber-50 text-amber-700'
+                  }`}
+                >
+                  {isProductPublished ? 'Published' : 'Hidden'}
+                </span>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault()
+                    onTogglePublished()
+                  }}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:bg-slate-800"
+                >
+                  {isProductPublished ? 'Hide' : 'Publish'}
+                </button>
+              </div>
+            ) : null}
           </div>
         </div>
       </Link>

@@ -205,7 +205,12 @@ function summarizeSavedView(
     parts.push(sortLabelMap.get(sort) ?? sort)
   }
 
-  return parts.length > 0 ? parts.join(' • ') : 'Default catalog view'
+  const rating = searchParams.get('rating')
+  if (rating) {
+    parts.push(`${rating}.0+ stars`)
+  }
+
+  return parts.length > 0 ? parts.join(' | ') : 'Default catalog view'
 }
 
 export default ProductSavedViewsPanel

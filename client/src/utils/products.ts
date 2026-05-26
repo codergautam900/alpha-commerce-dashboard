@@ -1,7 +1,22 @@
-import type { Product, ProductSortValue } from '../types/product'
+import type {
+  Product,
+  ProductRatingFilterValue,
+  ProductSortValue,
+} from '../types/product'
 
 export const PRODUCT_PAGE_SIZE = 12
 export const DEFAULT_PRODUCT_SORT: ProductSortValue = 'title-asc'
+export const PRODUCT_RATING_FILTER_OPTIONS: Array<{
+  label: string
+  value: '' | `${ProductRatingFilterValue}`
+}> = [
+  { label: 'All ratings', value: '' },
+  { label: '1.0+ stars', value: '1' },
+  { label: '2.0+ stars', value: '2' },
+  { label: '3.0+ stars', value: '3' },
+  { label: '4.0+ stars', value: '4' },
+  { label: '5.0 stars only', value: '5' },
+]
 
 export const PRODUCT_SORT_OPTIONS: Array<{
   label: string
@@ -33,6 +48,20 @@ export function parseSortParam(value: string | null): ProductSortValue {
   return DEFAULT_PRODUCT_SORT
 }
 
+export function parseRatingParam(value: string | null): ProductRatingFilterValue | null {
+  const ratingValue = Number(value)
+
+  if (
+    !Number.isFinite(ratingValue) ||
+    ratingValue < 1 ||
+    ratingValue > 5
+  ) {
+    return null
+  }
+
+  return Math.floor(ratingValue) as ProductRatingFilterValue
+}
+
 export function parsePageParam(value: string | null) {
   const pageNumber = Number(value)
 
@@ -47,6 +76,7 @@ export function filterProducts(
   products: Product[],
   search: string,
   selectedCategories: string[],
+  minimumRating: ProductRatingFilterValue | null,
 ) {
   const normalizedSearch = search.trim().toLowerCase()
 
@@ -63,7 +93,9 @@ export function filterProducts(
       selectedCategories.length === 0 ||
       selectedCategories.includes(product.category)
 
-    return matchesSearch && matchesCategory
+    const matchesRating = minimumRating === null || product.rating >= minimumRating
+
+    return matchesSearch && matchesCategory && matchesRating
   })
 }
 

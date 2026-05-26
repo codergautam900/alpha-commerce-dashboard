@@ -1,9 +1,10 @@
-import { Bell, Menu, MoonStar, Search, ShoppingCart, SunMedium } from 'lucide-react'
+import { Bell, LogOut, Menu, MoonStar, Search, ShoppingCart, SunMedium } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
+import { useAuth } from '../../app/useAuth'
 import { useCart } from '../../app/useCart'
 import { useTheme } from '../../app/useTheme'
 import { useLiveUpdates } from '../../app/useLiveUpdates'
-import { navigationItems } from '../../data/navigation'
+import { getNavigationItems } from '../../data/navigation'
 import BrandMark from '../ui/BrandMark'
 import ChromeButton from '../ui/ChromeButton'
 import StatusBadge from '../ui/StatusBadge'
@@ -15,12 +16,21 @@ type TopNavBarProps = {
 
 function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
   const location = useLocation()
+  const { session, signOut } = useAuth()
   const { cartSummary, openCart } = useCart()
   const { isDarkMode, toggleTheme } = useTheme()
   const { connectionStatus } = useLiveUpdates()
+  const navigationItems = getNavigationItems(session?.role ?? 'user')
   const activeItem =
     navigationItems.find((item) => location.pathname.startsWith(item.to))?.label ??
     'Workspace'
+  const initials =
+    session?.displayName
+      .split(' ')
+      .map((part) => part[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase() ?? 'AA'
 
   return (
     <header className="sticky top-0 z-20 border-b border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,255,255,0.62))] backdrop-blur-2xl dark:border-slate-800/70 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.88),rgba(15,23,42,0.76))]">
@@ -109,6 +119,16 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
           </ChromeButton>
 
           <ChromeButton
+            onClick={signOut}
+            aria-label="Sign out"
+          >
+            <span className="flex items-center gap-2">
+              <LogOut className="h-4 w-4" />
+              <span className="hidden text-sm font-semibold sm:inline">Logout</span>
+            </span>
+          </ChromeButton>
+
+          <ChromeButton
             className=""
             aria-label="Notifications"
             iconOnly
@@ -118,12 +138,14 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
 
           <div className="flex items-center gap-3 rounded-[22px] border border-white/80 bg-white/80 px-3 py-2 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.5)] dark:border-slate-800 dark:bg-slate-950/65 dark:shadow-[0_18px_38px_-30px_rgba(2,6,23,0.88)]">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_78%,#60a5fa_100%)] text-sm font-semibold text-white shadow-[0_12px_24px_-16px_rgba(29,78,216,0.85)]">
-              GS
+              {initials}
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Gautam</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                {session?.displayName ?? 'Alpha User'}
+              </p>
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-                Product Operations
+                {session?.title ?? 'Workspace'}
               </p>
             </div>
           </div>
