@@ -65,7 +65,7 @@ function OperationsPulsePanel({ analytics }: OperationsPulsePanelProps) {
           <p className="mt-2 text-sm text-slate-300">
             Tracking {recentEvents.length} recent simulated catalog events.
           </p>
-          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-500">
+          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">
             {lastEventAt > 0
               ? `Last signal ${formatTime(lastEventAt)}`
               : 'Waiting for first signal'}

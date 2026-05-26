@@ -119,8 +119,8 @@ function renderCell(
               <span
                 className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${
                   cartActions.isPublished
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'bg-amber-50 text-amber-700'
+                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-100 dark:ring-1 dark:ring-emerald-400/30'
+                    : 'bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-100 dark:ring-1 dark:ring-amber-400/30'
                 }`}
               >
                 {cartActions.isPublished ? 'Published' : 'Hidden'}

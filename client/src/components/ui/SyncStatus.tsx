@@ -33,10 +33,10 @@ function SyncStatus({
           </div>
 
           <p className="mt-3 text-base font-semibold text-slate-950 dark:text-slate-100">Live refresh</p>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
             {isRefreshing ? 'Refreshing catalog data...' : syncLabel}
           </p>
-          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400">
+          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-400 dark:text-slate-300">
             {lastEventAt > 0
               ? `Last live event at ${formatTime(lastEventAt)}`
               : 'Waiting for the first simulated event'}
