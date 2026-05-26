@@ -4,122 +4,142 @@ Premium product operations dashboard built with React, TypeScript, Vite, and Tai
 
 [Live Demo](https://alpha-commerce-dashboard.vercel.app/) | [GitHub Repository](https://github.com/codergautam900/alpha-commerce-dashboard)
 
-## Project Status
+## Reviewer Snapshot
 
-This project is review-ready and covers a complete frontend dashboard workflow:
+Alpha Dashboard is a frontend-first SaaS-style admin workspace created for the internship assignment.
 
-- Public landing page
-- Demo login with role-based access
-- Admin-only analytics dashboard
-- Product catalog with filters, sorting, pagination, and saved views
-- Product detail page with purchase planner
-- Persistent shopping cart
-- Responsive layouts, dark mode, and error/loading states
+- No backend setup is required for review.
+- The app includes a public landing page, demo login, analytics dashboard, product management workspace, product detail page, and cart flow.
+- The review flow is intentionally simple for HR and interview panels.
 
-## HR Quick Review
-
-If someone wants to review the project quickly, this is the easiest flow:
+## Quick Review Flow
 
 1. Open the live demo.
-2. Click `Get Started` or go to `/login`.
-3. Sign in as `Admin View` to test the full dashboard.
-4. Check `/dashboard` for analytics cards, chart, live updates, and refresh state.
-5. Open `/products` and test search, category filters, rating filter, sorting, pagination, saved views, CSV export, column controls, and copy-view-link.
-6. Open any product detail page and test quantity controls, purchase calculations, add-to-cart, and buy-now flow.
-7. Sign in as `User View` and confirm that only published products are visible.
+2. Click `Get Started` or open `/login`.
+3. Choose `Admin View` to review the full dashboard experience.
+4. Check `/dashboard` for analytics cards, category chart, live updates, and sync state.
+5. Check `/products` for search, category filters, rating filter, sorting, pagination, saved views, CSV export, and column controls.
+6. Open any product detail page and test the gallery, stock-aware purchase flow, quantity controls, and cart updates.
+7. Switch to `User View` and confirm that only published products are visible.
 
-## Demo Profiles
+## Demo Access
 
-The app uses client-side demo entry so HR can review everything without backend setup.
+The login page provides role-based demo entry points for easy assessment review.
 
 | Role | Access |
 | --- | --- |
-| Admin View | Dashboard, full catalog, publish/hide controls |
+| Admin View | Dashboard, full catalog, publish or hide controls |
 | User View | Published products only |
-
-Use the role buttons on the login screen to enter the app.
 
 Note: a few products are intentionally hidden by default so the admin and user experiences differ immediately during review.
 
-## What Is Implemented
+## Assignment Coverage
 
-### Core Product Workflow
+| Requirement | Delivered |
+| --- | --- |
+| Responsive dashboard layout | Sidebar, top bar, main content area, and profile section |
+| Product listing module | Product image, name, category, price, stock status, and rating |
+| Search and filters | Debounced search, multi-category filters, rating filter |
+| Sorting and pagination | Sort by name, price, and rating with client-side pagination |
+| Product detail page | Gallery, description, category, stock, metadata, and purchase panel |
+| Analytics dashboard | Total products, average rating, inventory value, category distribution |
+| Performance optimization | Debounced search, `useMemo`, `useCallback`, lazy loading, query caching |
+| URL state synchronization | Search, filters, sort, and page state reflected in the URL |
+| Bonus features | Simulated live updates, saved views, column customization, role-aware catalog access |
 
-- Product listing from DummyJSON API
-- Search with debounced input
+## Implemented Features
+
+### Product Management
+
+- Product catalog powered by the DummyJSON Products API
+- Search across title, brand, description, and category
 - Multi-category filtering
 - Minimum rating filter
 - Sorting by name, price, and rating
 - Client-side pagination
 - Saved views with localStorage persistence
-- Shareable URL query state
-- CSV export for the current filtered view
-- Column show/hide and reorder controls
+- Shareable URL-synced catalog state
+- CSV export for filtered results
+- Show, hide, and reorder desktop table columns
 
-### Admin and User Experience
+### Role-Based Review Flow
 
-- Role-based route guards
-- Admin-only analytics route
-- Published-only catalog access for standard users
-- Product visibility toggle for admins
-- Login flow designed for recruiter/demo review
+- Demo login with admin and user entry points
+- Route guards for protected screens
+- Admin-only analytics dashboard
+- Published-only product access for standard users
+- Admin publish or hide toggle from listing and detail views
 
 ### Dashboard and Insights
 
-- Overview cards for catalog metrics
+- Overview cards for core catalog metrics
 - Category distribution chart
 - Inventory value and rating insights
 - Simulated live updates feed
-- Manual refresh and sync status
+- Manual refresh and sync status indicators
 
-### Product Detail and Commerce Flow
+### Product Detail and Purchase Flow
 
-- Product gallery
-- Detailed metadata, tags, shipping, and warranty info
+- Product image gallery
+- Description, tags, shipping, warranty, and metadata
 - Stock-aware status badges
-- Quantity selector with min/max rules
+- Quantity controls with min and max logic
 - Real-time pricing summary with discount, shipping, tax, and total
-- Persistent cart drawer with update/remove actions
+- Persistent cart drawer with update and remove actions
 
 ### UX and Quality
 
 - Public landing page
 - Dark mode with persistence
 - Command palette shortcut
-- Responsive desktop and mobile layouts
+- Responsive desktop, tablet, and mobile layouts
 - Loading, empty, and error states
 - Error boundary protection
-- Utility-level automated tests for cart and product logic
+- Utility-level tests for product and cart logic
 
 ## Screenshots
 
 ### Demo Login
 
-This new screen helps HR instantly understand the two review modes.
+HR can understand the two review paths immediately from the login screen.
 
 ![Demo login and role selection](docs/screenshots/login-demo-access-redacted.png)
 
 ### Dashboard Overview
 
+Admin dashboard with analytics, control-room presentation, and quick product access.
+
 ![Dashboard overview](docs/screenshots/dashboard-overview.png)
 
-### Product Catalog
+### Product Catalog Workspace
+
+Role-aware product workspace with filters, URL sync, and review-friendly controls.
 
 ![Product catalog workspace](docs/screenshots/products-table.png)
 
 ### Product Insights
 
+Filtered catalog insights with export and share actions.
+
 ![Product insights](docs/screenshots/products-insights.png)
 
 ### Cart Drawer
 
+Persistent order summary with live totals and checkout math.
+
 ![Cart drawer](docs/screenshots/cart-drawer.png)
 
-### Mobile Experience
+### Mobile Catalog
+
+Responsive mobile layout for the product workspace.
+
+![Mobile products workspace](docs/screenshots/mobile-products.png)
+
+### Mobile Sidebar
+
+Responsive mobile navigation drawer.
 
 ![Mobile sidebar](docs/screenshots/mobile-sidebar.png)
-
-![Mobile products](docs/screenshots/mobile-products.png)
 
 ## Tech Stack
 
@@ -146,7 +166,7 @@ alpha-dashboard/
 `-- client/
     |-- public/
     |-- src/
-    |   |-- app/          # providers, route guards, app setup
+    |   |-- app/          # providers, auth, theme, cart, route guards
     |   |-- components/   # analytics, layout, products, shared UI
     |   |-- hooks/        # reusable state and data hooks
     |   |-- pages/        # route-level screens
@@ -196,16 +216,14 @@ The project already includes [client/.env.example](client/.env.example).
 VITE_API_BASE_URL=https://dummyjson.com
 ```
 
-## Available Scripts
+## Verification
 
 Run these commands inside `client/`.
 
 ```bash
-npm run dev
 npm run test
 npm run lint
 npm run build
-npm run preview
 ```
 
 ## Deployment
@@ -213,15 +231,15 @@ npm run preview
 The project is configured for Vercel deployment from the `client` directory.
 
 - SPA routing is handled through `vercel.json`
-- Basic security headers are already configured
+- Security headers are already configured
 - Product detail routes such as `/products/12` work after deployment
 
 ## Notes for Reviewers
 
-- No backend setup is required.
 - Authentication is demo-mode and handled on the client for easy assessment review.
 - Product data comes from the public DummyJSON API.
-- Current automated tests focus on utility logic such as cart math and product filtering.
+- Filter state is stored in the URL so views are shareable and review-friendly.
+- Current automated tests focus on business logic such as cart math and product filtering.
 
 ## License
 
