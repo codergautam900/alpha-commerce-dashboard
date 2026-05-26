@@ -4,12 +4,15 @@ import { Minus, Package, Plus, ShieldCheck, ShoppingCart, Star, Truck } from 'lu
 import { Link, useParams } from 'react-router-dom'
 import { useAuth } from '../app/useAuth'
 import { useCart } from '../app/useCart'
+import { useComparison } from '../app/useComparison'
 import { usePublication } from '../app/usePublication'
+import ComparisonCheckbox from '../components/products/ComparisonCheckbox'
 import ProductGallery from '../components/products/ProductGallery'
 import ProductStockBadge from '../components/products/ProductStockBadge'
 import PageLoader from '../components/ui/PageLoader'
 import PageHeader from '../components/ui/PageHeader'
 import StatePanel from '../components/ui/StatePanel'
+import Breadcrumb from '../components/ui/Breadcrumb'
 import { fetchProductById, productQueryKeys } from '../services/products'
 import type { Product } from '../types/product'
 import {
@@ -31,6 +34,7 @@ function ProductDetailsPage() {
   const { productId } = useParams()
   const numericProductId = Number(productId)
   const { session } = useAuth()
+  const { selectedProducts, toggleProduct } = useComparison()
   const { isProductPublished, toggleProductPublished } = usePublication()
   const isAdmin = session?.role === 'admin'
 
@@ -120,6 +124,9 @@ function ProductDetailsPage() {
   const product = productQuery.data
   const galleryImages = product.images.length > 0 ? product.images : [product.thumbnail]
   const isPublished = isProductPublished(product.id)
+  const isComparisonSelected = selectedProducts.some(
+    (selectedProduct) => selectedProduct.id === product.id,
+  )
 
   if (!isAdmin && !isPublished) {
     return (
@@ -179,6 +186,21 @@ function ProductDetailsPage() {
         }
       />
 
+      <div className="px-1">
+        <Breadcrumb
+          homeLabel={isAdmin ? 'Dashboard' : 'Products'}
+          homePath={isAdmin ? '/dashboard' : '/products'}
+          items={
+            isAdmin
+              ? [
+                  { label: 'Products', path: '/products' },
+                  { label: product.title },
+                ]
+              : [{ label: product.title }]
+          }
+        />
+      </div>
+
       <section className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-white/90 p-6 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-[0_18px_60px_-30px_rgba(2,6,23,0.82)]">
           <ProductGallery
@@ -204,6 +226,12 @@ function ProductDetailsPage() {
             <ProductStockBadge
               label={getStockLabel(product)}
               tone={getStockTone(product)}
+            />
+            <ComparisonCheckbox
+              isSelected={isComparisonSelected}
+              product={product}
+              onToggle={toggleProduct}
+              showText
             />
             {isAdmin ? (
               <span

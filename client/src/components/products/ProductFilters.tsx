@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { ArrowUpDown, Search, Star, X } from 'lucide-react'
+import { ArrowUpDown, History, Search, Star, X } from 'lucide-react'
 import { useDebounce } from '../../hooks/useDebounce'
+import { useRecentSearches } from '../../hooks/useRecentSearches'
 import type {
   ProductCategory,
   ProductRatingFilterValue,
@@ -55,30 +56,84 @@ function ProductFilters({
 }: ProductFiltersProps) {
   const [searchInput, setSearchInput] = useState(searchValue)
   const debouncedSearch = useDebounce(searchInput, 400)
+  const { addSearch, clearSearches, recentSearches } = useRecentSearches()
 
   useEffect(() => {
     // Typing stays local and responsive here while the URL remains the source
     // of truth for the actual applied filters.
-    if (debouncedSearch === searchValue) {
+    const normalizedSearch = debouncedSearch.trim()
+
+    if (normalizedSearch === searchValue) {
       return
     }
 
-    onSearchChange(debouncedSearch)
-  }, [debouncedSearch, onSearchChange, searchValue])
+    onSearchChange(normalizedSearch)
+
+    if (normalizedSearch) {
+      addSearch(normalizedSearch)
+    }
+  }, [addSearch, debouncedSearch, onSearchChange, searchValue])
+
+  const applyRecentSearch = (search: string) => {
+    setSearchInput(search)
+    onSearchChange(search)
+    addSearch(search)
+  }
 
   return (
     <section className="page-reveal rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)] dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(2,6,23,0.96))] dark:shadow-[0_18px_60px_-32px_rgba(2,6,23,0.86)]">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_0.8fr_0.75fr]">
-        <label className="relative block md:col-span-2 xl:col-span-1">
-          <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <input
-            type="search"
-            value={searchInput}
-            onChange={(event) => setSearchInput(event.target.value)}
-            placeholder="Search by name, brand, description, or category"
-            className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:bg-white focus:ring-4 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:focus:border-sky-400 dark:focus:bg-slate-900 dark:focus:ring-slate-800"
-          />
-        </label>
+        <div className="md:col-span-2 xl:col-span-1">
+          <label className="relative block">
+            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <input
+              type="search"
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key !== 'Enter') {
+                  return
+                }
+
+                const normalizedSearch = searchInput.trim()
+
+                onSearchChange(normalizedSearch)
+
+                if (normalizedSearch) {
+                  addSearch(normalizedSearch)
+                }
+              }}
+              placeholder="Search by name, brand, description, or category"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition focus:border-slate-900 focus:bg-white focus:ring-4 focus:ring-slate-200 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:focus:border-sky-400 dark:focus:bg-slate-900 dark:focus:ring-slate-800"
+            />
+          </label>
+
+          {recentSearches.length > 0 ? (
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                <History className="h-3.5 w-3.5" />
+                Recent
+              </span>
+              {recentSearches.slice(0, 5).map((search) => (
+                <button
+                  key={search}
+                  type="button"
+                  onClick={() => applyRecentSearch(search)}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 transition hover:border-sky-300 hover:text-sky-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:border-sky-400 dark:hover:text-sky-300"
+                >
+                  {search}
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={clearSearches}
+                className="text-xs font-medium text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+              >
+                Clear history
+              </button>
+            </div>
+          ) : null}
+        </div>
 
         <label className="relative block">
           <ArrowUpDown className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />

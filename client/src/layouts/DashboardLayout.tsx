@@ -5,6 +5,8 @@ import SidebarNav from '../components/layout/SidebarNav'
 import CartDrawer from '../components/ui/CartDrawer'
 import TopNavBar from '../components/layout/TopNavBar'
 import CommandPalette from '../components/ui/CommandPalette'
+import ScrollToTop from '../components/ui/ScrollToTop'
+import ProductComparisonPanel from '../components/products/ProductComparisonPanel'
 
 function DashboardLayout() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
@@ -101,6 +103,8 @@ function DashboardLayout() {
         onClose={() => setCommandPaletteOpen(false)}
       />
       <CartDrawer />
+      <ScrollToTop />
+      <ProductComparisonPanel />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { ShoppingCart, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../app/useCart'
+import { useComparison } from '../../app/useComparison'
 import type { Product } from '../../types/product'
 import type { UserRole } from '../../types/auth'
 import {
@@ -11,6 +12,7 @@ import {
 import { canPurchaseProduct } from '../../utils/cart'
 import { getStockLabel, getStockTone } from '../../utils/products'
 import ProductStockBadge from './ProductStockBadge'
+import ComparisonCheckbox from './ComparisonCheckbox'
 
 type ProductCardProps = {
   isProductPublished: boolean
@@ -26,9 +28,11 @@ function ProductCard({
   role,
 }: ProductCardProps) {
   const { addToCart, buyNow, getQuantityForProduct } = useCart()
+  const { selectedProducts, toggleProduct } = useComparison()
   const quantityInCart = getQuantityForProduct(product.id)
   const isPurchasable = canPurchaseProduct(product)
   const showAdminControls = role === 'admin'
+  const isComparisonSelected = selectedProducts.some((p) => p.id === product.id)
 
   return (
     <article className="page-reveal rounded-[28px] border border-slate-200/80 bg-white/90 p-4 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.35)] transition hover:-translate-y-1 hover:shadow-[0_26px_80px_-36px_rgba(15,23,42,0.45)] dark:border-slate-700/80 dark:bg-slate-900/75 dark:shadow-[0_18px_60px_-32px_rgba(2,6,23,0.82)]">
@@ -51,9 +55,23 @@ function ProductCard({
                 </h3>
               </div>
 
-              <p className="w-fit max-w-full rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold tabular-nums text-slate-950 dark:bg-slate-800 dark:text-slate-100 sm:text-base">
-                {formatCurrency(product.price)}
-              </p>
+              <div className="flex flex-col gap-2">
+                <p className="w-fit max-w-full rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold tabular-nums text-slate-950 dark:bg-slate-800 dark:text-slate-100 sm:text-base">
+                  {formatCurrency(product.price)}
+                </p>
+                <div
+                  onClick={(event) => {
+                    event.preventDefault()
+                    event.stopPropagation()
+                  }}
+                >
+                  <ComparisonCheckbox
+                    isSelected={isComparisonSelected}
+                    product={product}
+                    onToggle={toggleProduct}
+                  />
+                </div>
+              </div>
             </div>
 
             <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-400">

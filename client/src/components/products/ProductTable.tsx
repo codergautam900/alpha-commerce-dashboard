@@ -1,6 +1,7 @@
 import { ShoppingCart, Star } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../../app/useCart'
+import { useComparison } from '../../app/useComparison'
 import type { Product, ProductColumnId } from '../../types/product'
 import type { UserRole } from '../../types/auth'
 import {
@@ -14,6 +15,7 @@ import {
   type ProductColumnDefinition,
 } from '../../utils/productColumns'
 import { getStockLabel, getStockTone } from '../../utils/products'
+import ComparisonCheckbox from './ComparisonCheckbox'
 import ProductStockBadge from './ProductStockBadge'
 
 type ProductTableProps = {
@@ -32,9 +34,11 @@ function ProductTable({
   visibleColumns,
 }: ProductTableProps) {
   const { addToCart, buyNow, getQuantityForProduct } = useCart()
+  const { selectedProducts, toggleProduct } = useComparison()
   const selectedColumnDefinitions = PRODUCT_COLUMN_DEFINITIONS.filter((column) =>
     visibleColumns.includes(column.id),
   )
+  const selectedProductIds = new Set(selectedProducts.map((product) => product.id))
 
   const gridTemplateColumns = selectedColumnDefinitions
     .map((column) => column.width)
@@ -60,11 +64,13 @@ function ProductTable({
               style={{ gridTemplateColumns }}
             >
               {selectedColumnDefinitions.map((column) => (
-              <div key={column.id} className="min-w-0">
-                {renderCell(column, product, {
+                <div key={column.id} className="min-w-0">
+                  {renderCell(column, product, {
                     addToCart,
                     buyNow,
+                    isCompared: selectedProductIds.has(product.id),
                     isPublished: isProductPublished(product.id),
+                    onToggleComparison: toggleProduct,
                     onTogglePublished,
                     quantityInCart: getQuantityForProduct(product.id),
                     role,
@@ -82,7 +88,9 @@ function ProductTable({
 type CartActions = {
   addToCart: (product: Product, quantity?: number) => void
   buyNow: (product: Product, quantity?: number) => void
+  isCompared: boolean
   isPublished: boolean
+  onToggleComparison: (product: Product) => void
   onTogglePublished: (productId: number) => void
   quantityInCart: number
   role: UserRole
@@ -135,6 +143,11 @@ function renderCell(
             </div>
           ) : null}
           <div className="mt-3 flex flex-wrap items-center gap-2">
+            <ComparisonCheckbox
+              isSelected={cartActions.isCompared}
+              product={product}
+              onToggle={cartActions.onToggleComparison}
+            />
             <button
               type="button"
               onClick={() => cartActions.addToCart(product)}
