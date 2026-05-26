@@ -34,7 +34,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
 
   return (
     <header className="sticky top-0 z-20 border-b border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(255,255,255,0.62))] backdrop-blur-2xl dark:border-slate-800/70 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.88),rgba(15,23,42,0.76))]">
-      <div className="mx-auto flex max-w-[92rem] items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[92rem] flex-wrap items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
         <button
           type="button"
           onClick={onMenuClick}
@@ -44,14 +44,14 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="hidden min-w-0 items-center gap-3 xl:flex">
+        <div className="hidden min-w-0 items-center gap-3 sm:flex">
           <BrandMark size="sm" showWordmark={false} />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-slate-950 dark:text-slate-100">
-              Alpha Dashboard
+              {activeItem}
             </p>
             <p className="truncate text-xs uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
-              {activeItem} workspace
+              Alpha workspace
             </p>
           </div>
         </div>
@@ -59,7 +59,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
         <button
           type="button"
           onClick={onOpenCommandPalette}
-          className="hidden flex-1 items-center justify-between rounded-[24px] border border-white/70 bg-white/75 px-4 py-3 text-left text-sm text-slate-500 shadow-[0_16px_38px_-24px_rgba(15,23,42,0.42)] transition hover:bg-white dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-300 dark:shadow-[0_18px_40px_-30px_rgba(2,6,23,0.9)] dark:hover:bg-slate-900 md:flex"
+          className="hidden min-w-0 flex-1 items-center justify-between rounded-[24px] border border-white/70 bg-white/75 px-4 py-3 text-left text-sm text-slate-500 shadow-[0_16px_38px_-24px_rgba(15,23,42,0.42)] transition hover:bg-white dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-300 dark:shadow-[0_18px_40px_-30px_rgba(2,6,23,0.9)] dark:hover:bg-slate-900 xl:flex"
         >
           <span className="flex items-center gap-3">
             <Search className="h-4 w-4 text-slate-400 dark:text-slate-500" />
@@ -70,7 +70,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
           </span>
         </button>
 
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex flex-wrap items-center justify-end gap-2 sm:gap-3">
           <ChromeButton
             onClick={toggleTheme}
             aria-label={`Switch to ${isDarkMode ? 'light' : 'dark'} mode`}
@@ -81,7 +81,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
               ) : (
                 <MoonStar className="h-4 w-4" />
               )}
-              <span className="hidden text-sm font-semibold sm:inline">
+              <span className="hidden text-sm font-semibold xl:inline">
                 {isDarkMode ? 'Light' : 'Dark'}
               </span>
             </span>
@@ -89,14 +89,14 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
 
           <ChromeButton
             onClick={onOpenCommandPalette}
-            className="bg-white/75 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] md:hidden"
+            className="bg-white/75 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)] xl:hidden"
             iconOnly
             aria-label="Open command palette"
           >
             <Search className="h-4 w-4" />
           </ChromeButton>
 
-          <StatusBadge className="hidden lg:inline-flex" showDot tone="emerald">
+          <StatusBadge className="hidden xl:inline-flex" showDot tone="emerald">
             {connectionStatus}
           </StatusBadge>
 
@@ -107,7 +107,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
           >
             <span className="flex items-center gap-2">
               <ShoppingCart className="h-4 w-4" />
-              <span className="hidden text-sm font-semibold sm:inline">
+              <span className="hidden text-sm font-semibold xl:inline">
                 Cart
               </span>
             </span>
@@ -124,7 +124,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
           >
             <span className="flex items-center gap-2">
               <LogOut className="h-4 w-4" />
-              <span className="hidden text-sm font-semibold sm:inline">Logout</span>
+              <span className="hidden text-sm font-semibold xl:inline">Logout</span>
             </span>
           </ChromeButton>
 
@@ -140,7 +140,7 @@ function TopNavBar({ onMenuClick, onOpenCommandPalette }: TopNavBarProps) {
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_78%,#60a5fa_100%)] text-sm font-semibold text-white shadow-[0_12px_24px_-16px_rgba(29,78,216,0.85)]">
               {initials}
             </div>
-            <div className="hidden sm:block">
+            <div className="hidden xl:block">
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 {session?.displayName ?? 'Alpha User'}
               </p>

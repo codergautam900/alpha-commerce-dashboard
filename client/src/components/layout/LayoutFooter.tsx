@@ -25,31 +25,29 @@ function LayoutFooter() {
   ]
 
   const socialLinks = [
-    { label: 'Twitter', href: '#twitter', icon: '𝕏' },
-    { label: 'GitHub', href: '#github', icon: '⚙' },
-    { label: 'LinkedIn', href: '#linkedin', icon: '💼' },
-    { label: 'Discord', href: '#discord', icon: '💬' },
+    { label: 'Twitter', href: '#twitter', icon: 'X' },
+    { label: 'GitHub', href: '#github', icon: 'GH' },
+    { label: 'LinkedIn', href: '#linkedin', icon: 'IN' },
+    { label: 'Discord', href: '#discord', icon: 'DS' },
   ]
 
   return (
     <footer className="border-t border-slate-200 bg-gradient-to-b from-white to-slate-50 dark:border-slate-800 dark:from-slate-950 dark:to-slate-900">
-      {/* Main Footer Content */}
       <div className="mx-auto max-w-[92rem] px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5">
-          {/* Brand Section */}
           <div className="lg:col-span-2">
             <BrandMark size="md" subtitle="Premium Ops" />
             <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-              Modern product operations platform designed for high-performance teams. 
+              Modern product operations platform designed for high-performance teams.
               Real-time analytics, catalog management, and live-ready dashboards.
             </p>
-            <div className="mt-6 flex gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   title={social.label}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-lg transition-all duration-200 hover:border-slate-400 hover:bg-slate-100 dark:border-slate-700 dark:hover:border-slate-600 dark:hover:bg-slate-800"
+                  className="inline-flex h-10 min-w-10 items-center justify-center rounded-lg border border-slate-200 px-2 text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-200 hover:border-slate-400 hover:bg-slate-100 dark:border-slate-700 dark:hover:border-slate-600 dark:hover:bg-slate-800"
                 >
                   {social.icon}
                 </a>
@@ -57,7 +55,6 @@ function LayoutFooter() {
             </div>
           </div>
 
-          {/* Product Links */}
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-950 dark:text-slate-100">
               Product
@@ -76,7 +73,6 @@ function LayoutFooter() {
             </ul>
           </div>
 
-          {/* Company Links */}
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-950 dark:text-slate-100">
               Company
@@ -95,7 +91,6 @@ function LayoutFooter() {
             </ul>
           </div>
 
-          {/* Legal Links */}
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-950 dark:text-slate-100">
               Legal
@@ -115,7 +110,6 @@ function LayoutFooter() {
           </div>
         </div>
 
-        {/* Tech Stack */}
         <div className="mt-12 border-t border-slate-200 pt-8 dark:border-slate-800">
           <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400">
             Built with
@@ -131,15 +125,14 @@ function LayoutFooter() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="border-t border-slate-200 bg-slate-50/50 dark:border-slate-800 dark:bg-slate-900/50">
         <div className="mx-auto max-w-[92rem] px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              © {currentYear} Alpha Dashboard. All rights reserved.
+              Copyright {currentYear} Alpha Dashboard. All rights reserved.
             </p>
             <p className="text-xs text-slate-600 dark:text-slate-400">
-              Made with <span className="text-red-500">❤</span> for Product Teams
+              Made for product teams.
             </p>
           </div>
         </div>

@@ -39,7 +39,7 @@ function OperationsPulsePanel({ analytics }: OperationsPulsePanelProps) {
 
   return (
     <article className="page-reveal rounded-[32px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(15,23,42,0.98)_0%,rgba(15,23,42,0.92)_55%,rgba(30,41,59,0.95)_100%)] p-6 text-slate-100 shadow-[0_24px_70px_-34px_rgba(15,23,42,0.7)]">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-sky-200">
             <Activity className="h-3.5 w-3.5" />

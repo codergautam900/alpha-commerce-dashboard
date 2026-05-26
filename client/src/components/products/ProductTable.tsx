@@ -41,37 +41,39 @@ function ProductTable({
     .join(' ')
 
   return (
-    <div className="page-reveal hidden overflow-hidden rounded-[28px] border border-slate-200/80 lg:block dark:border-slate-700/80">
-      <div
-        className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:bg-[linear-gradient(180deg,rgba(30,41,59,0.92)_0%,rgba(15,23,42,0.98)_100%)] dark:text-slate-400"
-        style={{ gridTemplateColumns }}
-      >
-        {selectedColumnDefinitions.map((column) => (
-          <span key={column.id}>{column.label}</span>
-        ))}
-      </div>
+    <div className="page-reveal hidden overflow-x-auto rounded-[28px] border border-slate-200/80 xl:block dark:border-slate-700/80">
+      <div className="min-w-[960px]">
+        <div
+          className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:bg-[linear-gradient(180deg,rgba(30,41,59,0.92)_0%,rgba(15,23,42,0.98)_100%)] dark:text-slate-400"
+          style={{ gridTemplateColumns }}
+        >
+          {selectedColumnDefinitions.map((column) => (
+            <span key={column.id}>{column.label}</span>
+          ))}
+        </div>
 
-      <div className="divide-y divide-slate-200 dark:divide-slate-700/80">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="grid gap-3 px-5 py-4 text-sm transition hover:bg-sky-50/50 dark:hover:bg-slate-800/50"
-            style={{ gridTemplateColumns }}
-          >
-            {selectedColumnDefinitions.map((column) => (
-              <div key={column.id}>
-                {renderCell(column, product, {
-                  addToCart,
-                  buyNow,
-                  isPublished: isProductPublished(product.id),
-                  onTogglePublished,
-                  quantityInCart: getQuantityForProduct(product.id),
-                  role,
-                })}
-              </div>
-            ))}
-          </div>
-        ))}
+        <div className="divide-y divide-slate-200 dark:divide-slate-700/80">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="grid gap-3 px-5 py-4 text-sm transition hover:bg-sky-50/50 dark:hover:bg-slate-800/50"
+              style={{ gridTemplateColumns }}
+            >
+              {selectedColumnDefinitions.map((column) => (
+                <div key={column.id}>
+                  {renderCell(column, product, {
+                    addToCart,
+                    buyNow,
+                    isPublished: isProductPublished(product.id),
+                    onTogglePublished,
+                    quantityInCart: getQuantityForProduct(product.id),
+                    role,
+                  })}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

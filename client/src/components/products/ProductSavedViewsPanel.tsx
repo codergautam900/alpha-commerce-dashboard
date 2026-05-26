@@ -42,7 +42,7 @@ function ProductSavedViewsPanel({
 
   return (
     <div className="rounded-[28px] border border-slate-200/80 bg-white/80 p-4 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/70 dark:shadow-[0_18px_44px_-34px_rgba(2,6,23,0.82)]">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+      <div className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
             Saved Views
@@ -68,7 +68,7 @@ function ProductSavedViewsPanel({
 
       {isComposerOpen ? (
         <div className="mt-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-950/60">
-          <div className="flex flex-col gap-3 lg:flex-row">
+          <div className="flex flex-col gap-3 xl:flex-row">
             <input
               type="text"
               value={draftName}
@@ -101,9 +101,9 @@ function ProductSavedViewsPanel({
         </div>
       ) : null}
 
-      <div className="mt-4 grid gap-3 xl:grid-cols-3">
+      <div className="mt-4 grid gap-3 md:grid-cols-2 2xl:grid-cols-3">
         {savedViews.length === 0 ? (
-          <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-600 xl:col-span-3 dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-400">
+          <div className="rounded-[24px] border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-sm text-slate-600 md:col-span-2 2xl:col-span-3 dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-400">
             Save one or two smart filter combinations here so reviewers can see
             thoughtful workflows, not just a raw table.
           </div>

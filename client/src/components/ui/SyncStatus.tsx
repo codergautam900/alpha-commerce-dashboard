@@ -21,7 +21,7 @@ function SyncStatus({
 
   return (
     <div className="page-reveal rounded-[28px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.94)_0%,rgba(236,253,245,0.96)_100%)] p-5 shadow-[0_18px_50px_-32px_rgba(15,23,42,0.45)] dark:border-slate-700/80 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.94)_0%,rgba(2,6,23,0.96)_100%)] dark:shadow-[0_18px_50px_-32px_rgba(2,6,23,0.86)]">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <StatusBadge showDot tone="emerald">
@@ -52,7 +52,7 @@ function SyncStatus({
 
         <ChromeButton
           onClick={onRefresh}
-          className="inline-flex items-center justify-center gap-2 rounded-2xl border-none bg-slate-950 px-4 py-3 text-sm font-medium text-white shadow-none hover:bg-slate-800"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border-none bg-slate-950 px-4 py-3 text-sm font-medium text-white shadow-none hover:bg-slate-800 sm:w-auto"
         >
           <RefreshCcw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
           Refresh now

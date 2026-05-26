@@ -292,7 +292,7 @@ function ProductsPage() {
       />
 
       <section className="rounded-[32px] border border-slate-200/80 bg-white/90 p-5 shadow-[0_18px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.92)_0%,rgba(2,6,23,0.94)_100%)] dark:shadow-[0_18px_60px_-30px_rgba(2,6,23,0.86)]">
-        <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 lg:flex-row lg:items-end lg:justify-between dark:border-slate-700/80">
+        <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 xl:flex-row xl:items-end xl:justify-between dark:border-slate-700/80">
           <div>
             <h2 className="text-xl font-semibold text-slate-950 dark:text-slate-100">Catalog listing</h2>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
@@ -306,7 +306,7 @@ function ProductsPage() {
           </div>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 hidden xl:block">
           <ProductColumnCustomizer
             onMoveColumn={moveColumn}
             onReset={resetColumns}
@@ -344,7 +344,7 @@ function ProductsPage() {
               />
             </div>
 
-            <div className="mt-5 grid gap-4 lg:hidden">
+            <div className="mt-5 grid gap-4 xl:hidden">
               {paginatedProducts.items.map((product) => (
                 <ProductCard
                   key={product.id}

@@ -19,7 +19,7 @@ function ProductColumnCustomizer({
 }: ProductColumnCustomizerProps) {
   return (
     <div className="page-reveal rounded-[28px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.95))] p-5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.4)] dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.9),rgba(2,6,23,0.94))] dark:shadow-[0_18px_40px_-30px_rgba(2,6,23,0.86)]">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-sky-700">
             Table Controls
@@ -41,7 +41,7 @@ function ProductColumnCustomizer({
         </button>
       </div>
 
-      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+      <div className="mt-5 grid gap-3 2xl:grid-cols-2">
         {orderedColumns.map((columnId, index) => {
           const column = PRODUCT_COLUMN_DEFINITIONS.find(
             (currentColumn) => currentColumn.id === columnId,

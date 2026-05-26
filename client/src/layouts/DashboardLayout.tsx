@@ -66,7 +66,7 @@ function DashboardLayout() {
 
       <div className="relative flex min-h-screen">
         <div
-          className={`fixed inset-y-0 left-0 z-40 w-72 transform transition duration-300 md:translate-x-0 ${
+          className={`fixed inset-y-0 left-0 z-40 w-[min(18rem,calc(100vw-1.25rem))] max-w-full transform transition duration-300 md:w-72 md:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
@@ -82,13 +82,13 @@ function DashboardLayout() {
           />
         ) : null}
 
-        <div className="flex min-h-screen flex-1 flex-col md:pl-72">
+        <div className="flex min-h-screen min-w-0 flex-1 flex-col md:pl-72">
           <TopNavBar
             onMenuClick={() => setSidebarOpen(true)}
             onOpenCommandPalette={() => setCommandPaletteOpen(true)}
           />
           <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto flex w-full max-w-[92rem] flex-col gap-6">
+            <div className="mx-auto flex min-w-0 w-full max-w-[92rem] flex-col gap-6">
               <Outlet />
             </div>
           </main>

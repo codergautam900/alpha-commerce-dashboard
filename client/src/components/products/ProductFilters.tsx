@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ArrowUpDown, Search, X } from 'lucide-react'
+import { ArrowUpDown, Search, Star, X } from 'lucide-react'
 import { useDebounce } from '../../hooks/useDebounce'
 import type {
   ProductCategory,
@@ -68,8 +68,8 @@ function ProductFilters({
 
   return (
     <section className="page-reveal rounded-[32px] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.96))] p-5 shadow-[0_18px_60px_-32px_rgba(15,23,42,0.4)] dark:border-slate-700/80 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.94),rgba(2,6,23,0.96))] dark:shadow-[0_18px_60px_-32px_rgba(2,6,23,0.86)]">
-      <div className="grid gap-4 xl:grid-cols-[1.4fr_0.8fr_0.75fr]">
-        <label className="relative block">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.4fr_0.8fr_0.75fr]">
+        <label className="relative block md:col-span-2 xl:col-span-1">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input
             type="search"
@@ -96,9 +96,7 @@ function ProductFilters({
         </label>
 
         <label className="relative block">
-          <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-slate-400">
-            ★
-          </span>
+          <Star className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-amber-400" />
           <select
             value={ratingValue ? String(ratingValue) : ''}
             onChange={(event) =>
@@ -120,18 +118,20 @@ function ProductFilters({
       </div>
 
       <div className="mt-5 flex flex-col gap-4 border-t border-slate-200 pt-5 dark:border-slate-700/80">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
               Filter Studio
             </p>
-            <h2 className="mt-2 text-lg font-semibold text-slate-950 dark:text-slate-100">Category filters</h2>
+            <h2 className="mt-2 text-lg font-semibold text-slate-950 dark:text-slate-100">
+              Category filters
+            </h2>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
               Select one or more categories to narrow the list.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
               {activeFilterCount} active
             </span>
@@ -165,7 +165,7 @@ function ProductFilters({
           )}
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {categories.map((category) => {
             const checked = selectedCategories.includes(category.slug)
 
