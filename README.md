@@ -3,7 +3,7 @@
 Premium product operations dashboard built with React, TypeScript, Vite, and Tailwind CSS.
 
 [![React](https://img.shields.io/badge/React-19-111827?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-111827?style=flat-square&logo=typescript&logoColor=3178C6)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6-111827?style=flat-square&logo=typescript&logoColor=3178C6)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8-111827?style=flat-square&logo=vite&logoColor=646CFF)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-111827?style=flat-square&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
 ![RBAC](https://img.shields.io/badge/RBAC-Demo%20Enabled-111827?style=flat-square)
@@ -26,8 +26,8 @@ Alpha Dashboard is a frontend-first SaaS-style admin workspace created for the i
 2. Click `Get Started` or open `/login`.
 3. Choose `Admin View` to review the full dashboard experience.
 4. Check `/dashboard` for analytics cards, category chart, live updates, and sync state.
-5. Check `/products` for search, category filters, rating filter, sorting, pagination, saved views, CSV export, and column controls.
-6. Open any product detail page and test the gallery, stock-aware purchase flow, quantity controls, and cart updates.
+5. Check `/products` for debounced search, recent searches, category filters, rating filter, sorting, pagination, saved views, CSV export, comparison, and column controls.
+6. Open any product detail page and test breadcrumbs, gallery, comparison toggle, stock-aware purchase flow, quantity controls, and cart updates.
 7. Switch to `User View` and confirm that only published products are visible.
 
 ## Demo Access
@@ -49,13 +49,13 @@ Note: a few products are intentionally hidden by default so the admin and user e
 | --- | --- |
 | Responsive dashboard layout | Sidebar, top bar, main content area, and profile section |
 | Product listing module | Product image, name, category, price, stock status, and rating |
-| Search and filters | Debounced search, multi-category filters, rating filter |
+| Search and filters | Debounced search, recent search history, multi-category filters, rating filter |
 | Sorting and pagination | Sort by name, price, and rating with client-side pagination |
-| Product detail page | Gallery, description, category, stock, metadata, and purchase panel |
+| Product detail page | Breadcrumbs, gallery, description, category, stock, metadata, comparison, and purchase panel |
 | Analytics dashboard | Total products, average rating, inventory value, category distribution |
 | Performance optimization | Debounced search, `useMemo`, `useCallback`, lazy loading, query caching |
 | URL state synchronization | Search, filters, sort, and page state reflected in the URL |
-| Bonus features | Simulated live updates, saved views, column customization, role-aware catalog access |
+| Bonus features | Simulated live updates, saved views, product comparison, keyboard shortcuts, scroll-to-top, column customization, and role-aware catalog access |
 
 ## Implemented Features
 
@@ -63,6 +63,7 @@ Note: a few products are intentionally hidden by default so the admin and user e
 
 - Product catalog powered by the DummyJSON Products API
 - Search across title, brand, description, and category
+- Recent search history with localStorage persistence
 - Multi-category filtering
 - Minimum rating filter
 - Sorting by name, price, and rating
@@ -70,6 +71,8 @@ Note: a few products are intentionally hidden by default so the admin and user e
 - Saved views with localStorage persistence
 - Shareable URL-synced catalog state
 - CSV export for filtered results
+- Compare up to three products from cards, table rows, or the detail page
+- Floating comparison panel for side-by-side spec review
 - Show, hide, and reorder desktop table columns
 
 ### Role-Based Review Flow
@@ -116,7 +119,9 @@ flowchart LR
 ### Product Detail and Purchase Flow
 
 - Product image gallery
+- Breadcrumb navigation for detail pages
 - Description, tags, shipping, warranty, and metadata
+- Product comparison toggle from the detail view
 - Stock-aware status badges
 - Quantity controls with min and max logic
 - Real-time pricing summary with discount, shipping, tax, and total
@@ -127,6 +132,8 @@ flowchart LR
 - Public landing page
 - Dark mode with persistence
 - Command palette shortcut
+- Keyboard shortcuts help dialog with `?`
+- Scroll-to-top button plus `Home` key shortcut
 - Responsive desktop, tablet, and mobile layouts
 - Loading, empty, and error states
 - Error boundary protection
@@ -168,8 +175,10 @@ Persistent order summary with live totals and checkout math.
 
 The product detail page is available at `/products/:productId` and includes:
 
+- breadcrumb navigation
 - product image gallery
 - rating, stock, and category metadata
+- product comparison toggle
 - publish or hide control for admin users
 - quantity selector with purchase math
 - shipping, warranty, tags, and live cart integration
@@ -308,6 +317,23 @@ The project is configured for Vercel deployment from the `client` directory.
 - Filter state is stored in the URL so views are shareable and review-friendly.
 - Current automated tests focus on business logic such as cart math and product filtering.
 - A short live walkthrough can be provided during review if needed.
+
+### Self-Review Setup
+
+No external setup required — reviewers can complete the entire assessment independently:
+
+1. **Visit the live demo** at [https://alpha-commerce-dashboard.vercel.app/](https://alpha-commerce-dashboard.vercel.app/)
+2. **Test both roles** using the quick-access buttons on `/login`:
+   - **Admin View** → Full catalog, analytics dashboard, publish/hide controls
+   - **User View** → Published products only (visibility filtering works immediately)
+3. **Verify the flow**:
+   - Check `/dashboard` for analytics (admin only)
+   - Explore `/products` with search, filters, saved views, and CSV export
+   - Test product details at `/products/:productId`
+   - Add items to cart and verify purchase math
+4. **Run local tests** to validate business logic (cart math, product filtering, URL normalization)
+
+Everything is self-contained — no API keys, databases, or backend setup needed.
 
 ## Known Limitations
 
