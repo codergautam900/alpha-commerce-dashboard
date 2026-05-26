@@ -2,6 +2,13 @@
 
 Premium product operations dashboard built with React, TypeScript, Vite, and Tailwind CSS.
 
+[![React](https://img.shields.io/badge/React-19-111827?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-111827?style=flat-square&logo=typescript&logoColor=3178C6)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8-111827?style=flat-square&logo=vite&logoColor=646CFF)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-111827?style=flat-square&logo=tailwindcss&logoColor=38B2AC)](https://tailwindcss.com/)
+![RBAC](https://img.shields.io/badge/RBAC-Demo%20Enabled-111827?style=flat-square)
+![Responsive UI](https://img.shields.io/badge/Responsive-Desktop%20%7C%20Tablet%20%7C%20Mobile-111827?style=flat-square)
+
 [Live Demo](https://alpha-commerce-dashboard.vercel.app/) | [GitHub Repository](https://github.com/codergautam900/alpha-commerce-dashboard)
 
 ## Reviewer Snapshot
@@ -9,6 +16,7 @@ Premium product operations dashboard built with React, TypeScript, Vite, and Tai
 Alpha Dashboard is a frontend-first SaaS-style admin workspace created for the internship assignment.
 
 - No backend setup is required for review.
+- Client-side demo authentication is built in for reviewer-friendly access.
 - The app includes a public landing page, demo login, analytics dashboard, product management workspace, product detail page, and cart flow.
 - The review flow is intentionally simple for HR and interview panels.
 
@@ -24,12 +32,14 @@ Alpha Dashboard is a frontend-first SaaS-style admin workspace created for the i
 
 ## Demo Access
 
-The login page provides role-based demo entry points for easy assessment review.
+The login page provides client-side demo authentication and role-based entry points for easy assessment review.
 
-| Role | Access |
-| --- | --- |
-| Admin View | Dashboard, full catalog, publish or hide controls |
-| User View | Published products only |
+| Role | Access | Demo Email | Demo Password |
+| --- | --- | --- | --- |
+| Admin View | Dashboard, full catalog, publish or hide controls | `admin@alpha.test` | `alpha-admin` |
+| User View | Published products only | `user@alpha.test` | `alpha-user` |
+
+Reviewers can either use the role buttons on `/login` or enter the demo credentials shown above.
 
 Note: a few products are intentionally hidden by default so the admin and user experiences differ immediately during review.
 
@@ -64,11 +74,36 @@ Note: a few products are intentionally hidden by default so the admin and user e
 
 ### Role-Based Review Flow
 
-- Demo login with admin and user entry points
+- Client-side demo authentication with admin and user entry points
 - Route guards for protected screens
 - Admin-only analytics dashboard
 - Published-only product access for standard users
 - Admin publish or hide toggle from listing and detail views
+
+## Access Control Flow
+
+### Protected Routes
+
+```mermaid
+flowchart LR
+  A[Open App Route] --> B{Authenticated?}
+  B -- No --> C[Redirect to /login]
+  B -- Yes --> D{Requested Route}
+  D -- /dashboard --> E{Role = admin?}
+  E -- Yes --> F[Open analytics dashboard]
+  E -- No --> G[Redirect to /products]
+  D -- /products or /products/:productId --> H[Open catalog flow]
+```
+
+### Publish or Hide Visibility Logic
+
+```mermaid
+flowchart LR
+  A[Admin opens product listing or detail page] --> B[Toggle Published / Hidden]
+  B --> C[Publication state stored locally for demo review]
+  C --> D[Admin continues to see full catalog]
+  C --> E[User sees published products only]
+```
 
 ### Dashboard and Insights
 
@@ -129,9 +164,21 @@ Persistent order summary with live totals and checkout math.
 
 ![Cart drawer](docs/screenshots/cart-drawer.png)
 
+### Product Detail Coverage
+
+The product detail page is available at `/products/:productId` and includes:
+
+- product image gallery
+- rating, stock, and category metadata
+- publish or hide control for admin users
+- quantity selector with purchase math
+- shipping, warranty, tags, and live cart integration
+
 ### Mobile Catalog
 
 Responsive mobile layout for the product workspace.
+
+![Responsive across devices](https://img.shields.io/badge/Responsive%20Across%20Devices-Desktop%20%7C%20Tablet%20%7C%20Mobile-111827?style=flat-square)
 
 ![Mobile products workspace](docs/screenshots/mobile-products.png)
 
@@ -154,6 +201,15 @@ Responsive mobile navigation drawer.
 | Icons | Lucide React |
 | Persistence | localStorage |
 | Quality | ESLint, TypeScript strict mode, Node test runner |
+
+## Performance Optimizations Used
+
+- Debounced search input to avoid running filter updates on every keystroke
+- `useMemo` for derived catalog views, analytics, and filtered results
+- `useCallback` for stable event handlers tied to filters and navigation actions
+- `React.memo` for lightweight reusable presentation components used across the dashboard
+- Route-level lazy loading for dashboard, products, login, and detail pages
+- TanStack Query caching and background refresh for catalog data
 
 ## Architecture Summary
 
@@ -226,10 +282,21 @@ npm run lint
 npm run build
 ```
 
+## Testing Coverage
+
+Current automated tests cover the most important pure business logic:
+
+- cart reconciliation and quantity clamping against live stock
+- default purchase quantity and minimum-order behavior
+- stable saved-view URL normalization
+- product filtering by search, category, and rating
+
 ## Deployment
 
 The project is configured for Vercel deployment from the `client` directory.
 
+- No signup or backend login setup is required for reviewers.
+- Reviewers can use the built-in demo roles directly from `/login`.
 - SPA routing is handled through `vercel.json`
 - Security headers are already configured
 - Product detail routes such as `/products/12` work after deployment
@@ -240,6 +307,13 @@ The project is configured for Vercel deployment from the `client` directory.
 - Product data comes from the public DummyJSON API.
 - Filter state is stored in the URL so views are shareable and review-friendly.
 - Current automated tests focus on business logic such as cart math and product filtering.
+- A short live walkthrough can be provided during review if needed.
+
+## Known Limitations
+
+- Authentication is frontend-only because this project is designed as an assessment demo, not a production auth system.
+- Product data comes from the public DummyJSON API for assignment simplicity.
+- Publication state is stored locally to keep the review flow fast and self-contained.
 
 ## License
 

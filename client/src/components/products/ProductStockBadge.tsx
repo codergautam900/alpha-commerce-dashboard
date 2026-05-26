@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import clsx from 'clsx'
 
 type ProductStockBadgeProps = {
@@ -23,4 +24,4 @@ function ProductStockBadge({ label, tone }: ProductStockBadgeProps) {
   )
 }
 
-export default ProductStockBadge
+export default memo(ProductStockBadge)

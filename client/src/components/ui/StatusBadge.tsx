@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { memo } from 'react'
 import type { ReactNode } from 'react'
 
 type StatusBadgeTone = 'amber' | 'dark' | 'emerald' | 'neutral' | 'sky'
@@ -50,4 +51,4 @@ function StatusBadge({
   )
 }
 
-export default StatusBadge
+export default memo(StatusBadge)
