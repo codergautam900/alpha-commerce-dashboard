@@ -9,7 +9,7 @@ function ProductStockBadge({ label, tone }: ProductStockBadgeProps) {
   return (
     <span
       className={clsx(
-        'inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold',
+        'inline-flex whitespace-nowrap rounded-full border px-2.5 py-1 text-center text-xs font-semibold',
         tone === 'success' &&
           'border-emerald-200 bg-emerald-100 text-emerald-700 dark:!border-emerald-400/30 dark:!bg-emerald-500/15 dark:!text-emerald-100',
         tone === 'warning' &&

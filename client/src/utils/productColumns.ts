@@ -11,31 +11,31 @@ export const PRODUCT_COLUMN_DEFINITIONS: ProductColumnDefinition[] = [
   {
     id: 'product',
     label: 'Product',
-    width: '2.2fr',
+    width: 'minmax(18rem, 2.25fr)',
     hideable: false,
   },
   {
     id: 'category',
     label: 'Category',
-    width: '1fr',
+    width: 'minmax(10rem, 1fr)',
     hideable: true,
   },
   {
     id: 'price',
     label: 'Price',
-    width: '0.9fr',
+    width: 'minmax(8rem, 0.95fr)',
     hideable: true,
   },
   {
     id: 'stock',
     label: 'Stock',
-    width: '1fr',
+    width: 'minmax(8rem, 0.95fr)',
     hideable: true,
   },
   {
     id: 'rating',
     label: 'Rating',
-    width: '0.8fr',
+    width: 'minmax(6.5rem, 0.8fr)',
     hideable: true,
   },
 ]

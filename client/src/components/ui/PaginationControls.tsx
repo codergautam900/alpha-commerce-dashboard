@@ -27,7 +27,7 @@ function PaginationControls({
   )
 
   return (
-    <div className="flex flex-col gap-4 border-t border-slate-200 pt-5 lg:flex-row lg:items-center lg:justify-between dark:border-slate-700/80">
+    <div className="flex flex-col gap-4 border-t border-slate-200 pt-5 xl:flex-row xl:items-center xl:justify-between dark:border-slate-700/80">
       <p className="text-sm text-slate-600 dark:text-slate-400">
         Showing {startItem} to {endItem} of {totalItems} products
       </p>

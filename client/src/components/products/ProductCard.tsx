@@ -41,8 +41,8 @@ function ProductCard({
           />
 
           <div className="min-w-0 flex-1">
-            <div className="flex items-start justify-between gap-3">
-              <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
                   {formatCategoryLabel(product.category)}
                 </p>
@@ -51,7 +51,7 @@ function ProductCard({
                 </h3>
               </div>
 
-              <p className="rounded-full bg-slate-100 px-3 py-1 text-base font-semibold text-slate-950 dark:bg-slate-800 dark:text-slate-100">
+              <p className="w-fit max-w-full rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold tabular-nums text-slate-950 dark:bg-slate-800 dark:text-slate-100 sm:text-base">
                 {formatCurrency(product.price)}
               </p>
             </div>
@@ -60,13 +60,13 @@ function ProductCard({
               {product.description}
             </p>
 
-            <div className="mt-4 flex items-center justify-between gap-3">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
               <ProductStockBadge
                 label={getStockLabel(product)}
                 tone={getStockTone(product)}
               />
 
-              <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <span className="inline-flex whitespace-nowrap items-center gap-1 text-sm font-medium tabular-nums text-slate-700 dark:text-slate-300">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                 {formatRating(product.rating)}
               </span>

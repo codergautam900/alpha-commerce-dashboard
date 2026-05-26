@@ -216,25 +216,25 @@ function ProductDetailsPage() {
             ) : null}
           </div>
 
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="min-w-0 rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
               <p className="text-sm text-slate-500">Price</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-950 dark:text-slate-100">
+              <p className="mt-2 break-words text-xl font-semibold tabular-nums text-slate-950 dark:text-slate-100 lg:text-2xl">
                 {formatCurrency(product.price)}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
+            <div className="min-w-0 rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
               <p className="text-sm text-slate-500">Rating</p>
-              <p className="mt-2 inline-flex items-center gap-2 text-2xl font-semibold text-slate-950 dark:text-slate-100">
+              <p className="mt-2 inline-flex max-w-full items-center gap-2 break-words text-xl font-semibold tabular-nums text-slate-950 dark:text-slate-100 lg:text-2xl">
                 <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
                 {formatRating(product.rating)}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
+            <div className="min-w-0 rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/70">
               <p className="text-sm text-slate-500">Discount</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-950 dark:text-slate-100">
+              <p className="mt-2 break-words text-xl font-semibold tabular-nums text-slate-950 dark:text-slate-100 lg:text-2xl">
                 {formatRating(product.discountPercentage)}%
               </p>
             </div>
@@ -345,7 +345,7 @@ function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
 
   return (
     <section className="rounded-[30px] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(248,250,252,0.95)_0%,rgba(255,255,255,0.98)_100%)] p-5 shadow-[0_18px_50px_-34px_rgba(15,23,42,0.32)] dark:border-slate-700/80 dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.94)_0%,rgba(2,6,23,0.96)_100%)] dark:shadow-[0_18px_50px_-34px_rgba(2,6,23,0.86)]">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-sky-700">
             Purchase Planner
@@ -468,10 +468,10 @@ function ProductPurchasePanel({ product }: ProductPurchasePanelProps) {
             </p>
           </div>
 
-          <div className="mt-5 flex items-end justify-between gap-4 border-t border-white/10 pt-4">
-            <div>
+          <div className="mt-5 flex flex-col gap-4 border-t border-white/10 pt-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="min-w-0">
               <p className="text-sm text-slate-400">Estimated payable</p>
-              <p className="mt-2 text-2xl font-semibold tracking-tight text-white">
+              <p className="mt-2 break-words text-2xl font-semibold tracking-tight tabular-nums text-white">
                 {formatCurrency(singleProductSummary.grandTotal)}
               </p>
             </div>
@@ -503,9 +503,11 @@ function DetailSummaryRow({
   valueClassName = 'text-white',
 }: DetailSummaryRowProps) {
   return (
-    <div className="flex items-center justify-between gap-3">
-      <span className="text-slate-300">{label}</span>
-      <span className={`font-semibold ${valueClassName}`}>{value}</span>
+    <div className="flex items-start justify-between gap-3">
+      <span className="min-w-0 flex-1 text-slate-300">{label}</span>
+      <span className={`shrink-0 whitespace-nowrap text-right font-semibold tabular-nums ${valueClassName}`}>
+        {value}
+      </span>
     </div>
   )
 }

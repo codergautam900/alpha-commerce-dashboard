@@ -42,7 +42,7 @@ function ProductTable({
 
   return (
     <div className="page-reveal hidden overflow-x-auto rounded-[28px] border border-slate-200/80 xl:block dark:border-slate-700/80">
-      <div className="min-w-[960px]">
+      <div className="min-w-[1080px]">
         <div
           className="grid gap-3 bg-[linear-gradient(180deg,#eff6ff_0%,#f8fafc_100%)] px-5 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:bg-[linear-gradient(180deg,rgba(30,41,59,0.92)_0%,rgba(15,23,42,0.98)_100%)] dark:text-slate-400"
           style={{ gridTemplateColumns }}
@@ -60,8 +60,8 @@ function ProductTable({
               style={{ gridTemplateColumns }}
             >
               {selectedColumnDefinitions.map((column) => (
-                <div key={column.id}>
-                  {renderCell(column, product, {
+              <div key={column.id} className="min-w-0">
+                {renderCell(column, product, {
                     addToCart,
                     buyNow,
                     isPublished: isProductPublished(product.id),
@@ -165,7 +165,7 @@ function renderCell(
 
   if (column.id === 'category') {
     return (
-      <span className="self-center text-slate-600 dark:text-slate-400">
+      <span className="self-center break-words text-slate-600 dark:text-slate-400">
         {formatCategoryLabel(product.category)}
       </span>
     )
@@ -173,7 +173,7 @@ function renderCell(
 
   if (column.id === 'price') {
     return (
-      <span className="self-center font-medium text-slate-950 dark:text-slate-100">
+      <span className="self-center whitespace-nowrap font-medium tabular-nums text-slate-950 dark:text-slate-100">
         {formatCurrency(product.price)}
       </span>
     )
@@ -191,7 +191,7 @@ function renderCell(
   }
 
   return (
-    <span className="inline-flex items-center gap-1 self-center text-slate-700 dark:text-slate-300">
+    <span className="inline-flex whitespace-nowrap items-center gap-1 self-center tabular-nums text-slate-700 dark:text-slate-300">
       <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
       {formatRating(product.rating)}
     </span>
